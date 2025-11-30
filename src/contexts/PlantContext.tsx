@@ -1,10 +1,9 @@
-// src/contexts/PlantContext.tsx
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import type { ReactNode } from 'react';
 import { Alert } from 'react-native';
 import { PlantDAO, Plant } from '../database/PlantDAO';
 import { TaskDAO, Task } from '../database/TaskDAO';
-import { executeSql } from '../database/db'; // Import direto para fotos
+import { executeSql } from '../database/db';
 import { NotificationService } from '../services/NotificationService';
 
 interface PlantData extends Plant {
@@ -20,13 +19,15 @@ interface PlantContextData {
   removePlant: (id: number) => Promise<void>;
   completeTask: (taskId: number, frequency: number, plantName?: string) => Promise<void>;
   snoozeTask: (taskId: number, days: number, plantName?: string) => Promise<void>;
-  anticipateTask: (taskId: number, frequency: number, plantName?: string) => Promise<void>; // Nova
+  anticipateTask: (taskId: number, frequency: number, plantName?: string) => Promise<void>;
   completeAllInRoom: (room: string) => Promise<void>;
   addTaskToPlant: (task: Task) => Promise<void>;
   getPlantTasks: (plantId: number) => Promise<any[]>;
   getHistory: () => Promise<any[]>;
-  addPlantPhoto: (plantId: number, uri: string) => Promise<void>; // Nova
-  getPlantPhotos: (plantId: number) => Promise<any[]>; // Nova
+  getPlantHistory: (plantId: number) => Promise<any[]>; // Correção: Função exposta
+  addPlantPhoto: (plantId: number, uri: string) => Promise<void>;
+  removePlantPhoto: (photoId: number) => Promise<void>;
+  getPlantPhotos: (plantId: number) => Promise<any[]>;
 }
 
 const PlantContext = createContext<PlantContextData>({} as PlantContextData);
@@ -73,6 +74,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
           next_due: nextDueDate.toISOString()
         });
 
+        // Agenda notificação (com tratamento de erro interno)
         const secondsUntilNotify = plantData.frequencyDays * 24 * 60 * 60; 
         await NotificationService.scheduleWateringReminder(plantData.name, secondsUntilNotify);
       }
@@ -95,6 +97,15 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
   const addTaskToPlant = async (task: Task) => {
     try {
       await TaskDAO.addTask(task);
+      if (task.next_due) {
+          const now = new Date().getTime();
+          const due = new Date(task.next_due).getTime();
+          const diffSeconds = (due - now) / 1000;
+          if (diffSeconds > 0) {
+             const plant = plants.find(p => p.id === task.plant_id);
+             if(plant) await NotificationService.scheduleWateringReminder(plant.name, diffSeconds);
+          }
+      }
       await loadData();
     } catch (error) {
       console.error(error);
@@ -127,7 +138,6 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
 
   const completeAllInRoom = async (room: string) => {
     try {
-      // Busca todas as tarefas pendentes daquele quarto
       const tasksInRoom = dueTasks.filter(t => t.room === room);
       const promises = tasksInRoom.map(t => 
         completeTask(t.id, t.frequency_days, t.plant_name)
@@ -143,7 +153,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
   const completeTask = async (taskId: number, frequency: number, plantName?: string) => {
     try {
       await TaskDAO.completeTask(taskId, frequency);
-      if (plantName) {
+      if (plantName && frequency > 0) {
           const secondsUntilNext = frequency * 24 * 60 * 60;
           await NotificationService.scheduleWateringReminder(plantName, secondsUntilNext);
       }
@@ -153,9 +163,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // ANTECIPAR: Funciona igual completar, mas semanticamente diferente para o usuário
   const anticipateTask = async (taskId: number, frequency: number, plantName?: string) => {
-      // Ao antecipar, resetamos o ciclo a partir de HOJE
       await completeTask(taskId, frequency, plantName);
   };
 
@@ -169,7 +177,17 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // --- FOTOS ---
+  // Correção: Buscando histórico específico
+  const getPlantHistory = async (plantId: number) => {
+    try {
+      const result: any = await TaskDAO.getHistoryByPlantId(plantId);
+      return result.rows?._array || [];
+    } catch (error) {
+      console.error("Erro ao buscar histórico da planta:", error);
+      return [];
+    }
+  };
+
   const addPlantPhoto = async (plantId: number, uri: string) => {
     try {
       await executeSql(
@@ -178,6 +196,14 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       );
     } catch (error) {
       console.error("Erro ao salvar foto", error);
+    }
+  };
+
+  const removePlantPhoto = async (photoId: number) => {
+    try {
+      await executeSql(`DELETE FROM plant_photos WHERE id = ?`, [photoId]);
+    } catch (error) {
+      console.error("Erro ao excluir foto", error);
     }
   };
 
@@ -196,6 +222,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     loadData();
+    // Tentativa segura de pedir permissão
     NotificationService.requestPermissions();
   }, []);
 
@@ -203,8 +230,8 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     <PlantContext.Provider value={{ 
       plants, dueTasks, loading, loadData, addNewPlant, removePlant,
       completeTask, snoozeTask, anticipateTask, completeAllInRoom,
-      addTaskToPlant, getPlantTasks, getHistory,
-      addPlantPhoto, getPlantPhotos
+      addTaskToPlant, getPlantTasks, getHistory, getPlantHistory,
+      addPlantPhoto, removePlantPhoto, getPlantPhotos
     }}>
       {children}
     </PlantContext.Provider>

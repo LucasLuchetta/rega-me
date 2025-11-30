@@ -39,9 +39,8 @@ export const TaskDAO = {
     return await executeSql(sql, [today]);
   },
 
-  // --- NOVAS FUNÇÕES ---
   getTasksByPlantId: async (plantId: number) => {
-    const sql = `SELECT * FROM tasks WHERE plant_id = ?`;
+    const sql = `SELECT * FROM tasks WHERE plant_id = ? ORDER BY next_due ASC`;
     return await executeSql(sql, [plantId]);
   },
 
@@ -51,7 +50,6 @@ export const TaskDAO = {
     const sql = `UPDATE tasks SET next_due = ? WHERE id = ?`;
     return await executeSql(sql, [newDate.toISOString(), taskId]);
   },
-  // ---------------------
 
   getFutureTasks: async (days = 7) => {
     const today = new Date();
@@ -84,10 +82,27 @@ export const TaskDAO = {
     );
   },
 
-
+  // Histórico Global (Perfil)
   getHistory: async () => {
-    const sql = `SELECT * FROM history ORDER BY date_performed DESC`;
+    const sql = `
+      SELECT h.id, h.date_performed, t.type, p.name as plant_name
+      FROM history h
+      JOIN tasks t ON h.task_id = t.id
+      JOIN plants p ON t.plant_id = p.id
+      ORDER BY h.date_performed DESC
+    `;
     return await executeSql(sql);
-  }
+  },
 
+  // CORREÇÃO DO BUG: Histórico filtrado EXCLUSIVAMENTE pela planta atual
+  getHistoryByPlantId: async (plantId: number) => {
+    const sql = `
+      SELECT h.id, h.date_performed, t.type
+      FROM history h
+      JOIN tasks t ON h.task_id = t.id
+      WHERE t.plant_id = ?
+      ORDER BY h.date_performed DESC
+    `;
+    return await executeSql(sql, [plantId]);
+  }
 };

@@ -61,7 +61,7 @@ export default function AppNavigator() {
         }}
       />
       <Tab.Screen 
-        name="Orakul" 
+        name="Calendário" 
         component={Orakul} 
         options={{
           tabBarIcon: ({ color, size }) => <Calendar color={color} size={size} />,
