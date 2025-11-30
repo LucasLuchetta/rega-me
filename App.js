@@ -5,7 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { initDB } from './src/database/db';
 import { PlantProvider } from './src/contexts/PlantContext';
 import AppNavigator from './src/navigation/AppNavigator';
-import './global.css'; // Importante para o NativeWind se estiver usando a versão mais recente
+
+// A LINHA DO IMPORT GLOBAL.CSS FOI REMOVIDA AQUI
 
 export default function App() {
   const [dbInitialized, setDbInitialized] = useState(false);

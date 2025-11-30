@@ -82,5 +82,12 @@ export const TaskDAO = {
       `INSERT INTO history (task_id, date_performed) VALUES (?, ?)`,
       [taskId, now.toISOString()]
     );
+  },
+
+
+  getHistory: async () => {
+    const sql = `SELECT * FROM history ORDER BY date_performed DESC`;
+    return await executeSql(sql);
   }
+
 };
