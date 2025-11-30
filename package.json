@@ -29,6 +29,11 @@
   },
   "private": true,
   "devDependencies": {
-    "tailwindcss": "^3.3.2"
+    "@types/jest": "^30.0.0",
+    "@types/react": "~19.1.10",
+    "@types/react-native": "^0.72.8",
+    "@types/react-test-renderer": "^19.1.0",
+    "tailwindcss": "^3.3.2",
+    "typescript": "~5.9.2"
   }
 }
