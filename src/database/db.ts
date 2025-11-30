@@ -7,7 +7,7 @@ export const initDB = async () => {
   try {
     db.execSync(`
       PRAGMA journal_mode = WAL;
-
+      PRAGMA foreign_keys = ON;
       CREATE TABLE IF NOT EXISTS plants (
         id INTEGER PRIMARY KEY NOT NULL,
         name TEXT NOT NULL,
