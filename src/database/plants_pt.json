@@ -1,0 +1,6584 @@
+[
+    {
+        "id": 0,
+        "latin": "Aeschynanthus lobianus",
+        "family": "Gesneriaceae",
+        "common": [
+            "Flor-batom",
+            "Columéia-batom"
+        ],
+        "category": "Pendente",
+        "origin": "Java",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 32,
+            "fahrenheit": 89.6
+        },
+        "tempmin": {
+            "celsius": 14,
+            "fahrenheit": 57.2
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Luz solar direta",
+        "watering": "Mantenha úmido entre as regas. Pode secar um pouco entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Pulgão",
+            "Tripes"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Flor",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 1,
+        "latin": "Adiantum raddianum",
+        "family": "Polypodiaceae",
+        "common": [
+            "Avenca",
+            "Avenca-delta"
+        ],
+        "category": "Samambaia",
+        "origin": "Brasil",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 86
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Pulgão",
+            "Caracol"
+        ],
+        "diseases": "Bolor cinzento",
+        "use": [
+            "Planta de vaso",
+            "Forração",
+            "Mesa/Bancada"
+        ]
+    },
+    {
+        "id": 2,
+        "latin": "Aechmea fatsiata",
+        "family": "Bromeliaceae",
+        "common": [
+            "Vaso-prateado",
+            "Aequemea"
+        ],
+        "category": "Bromélia",
+        "origin": "Brasil",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Troque a água do vaso regularmente.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Flor",
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 3,
+        "latin": "Agave angustilolia Marginata",
+        "family": "Amaryllidaceae",
+        "common": [
+            "Agave-caribenho variegata",
+            "Piteira"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "Índia",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": [
+            "Cochonilha de escama",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 4,
+        "latin": "Aechmea ramosa",
+        "family": "Bromeliaceae",
+        "common": [
+            "Bromélia-coral"
+        ],
+        "category": "Bromélia",
+        "origin": "Brasil",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Troque a água do vaso regularmente.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Flor",
+            "Mesa/Bancada",
+            "Primário"
+        ]
+    },
+    {
+        "id": 5,
+        "latin": "Aechmea fasciata",
+        "family": "Bromeliaceae",
+        "common": [
+            "Vaso-prateado",
+            "Aequemea"
+        ],
+        "category": "Bromélia",
+        "origin": "Híbrido",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Troque a água do vaso regularmente.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Flor",
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 6,
+        "latin": "Agave filifera",
+        "family": "Amaryllidaceae",
+        "common": [
+            "Agave-filifera",
+            "Piteira"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "México",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": [
+            "Cochonilha de escama",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 7,
+        "latin": "Adiantum hispidulum",
+        "family": "Polypodiaceae",
+        "common": [
+            "Avenca-rosa",
+            "Avenca-australiana"
+        ],
+        "category": "Samambaia",
+        "origin": "Austrália e Nova Guiné",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Pulgão",
+            "Caracol"
+        ],
+        "diseases": "Bolor cinzento",
+        "use": [
+            "Mesa/Bancada",
+            "Forração",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 8,
+        "latin": "Agave attenuata",
+        "family": "Amaryllidaceae",
+        "common": [
+            "Agave-dragão",
+            "Tromba-de-elefante",
+            "Piteira"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "México",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": [
+            "Cochonilha de escama",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 9,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Amelia"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 10,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Painted Princess"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 11,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Queen of Siam"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 12,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Jewel of India"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Mesa/Bancada",
+            "Forração",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 13,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Patricia"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 14,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Green Lady"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 15,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Black Lance"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 16,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Silver Queen"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 17,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Rapsody in Green"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Primário",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 18,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Manila Pride"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 19,
+        "latin": "Agave verschaffeltii",
+        "family": "Amaryllidaceae",
+        "common": [
+            "Agave-azul",
+            "Piteira"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "México",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": [
+            "Cochonilha de escama",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 20,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Emerald Beauty"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Mesa/Bancada",
+            "Forração",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 21,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Jubilee"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 22,
+        "latin": "Agave striata",
+        "family": "Amaryllidaceae",
+        "common": [
+            "Agave-lilliput",
+            "Piteira",
+            "Nana"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "México",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": [
+            "Cochonilha de escama",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 23,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Abidjan"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 24,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Maria Chirstina"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Forração",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 25,
+        "latin": "Alocasia nebula Imperialis",
+        "family": "Araceae",
+        "common": [
+            "Orelha-de-elefante"
+        ],
+        "category": "Outros",
+        "origin": "Cultivar",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Cores / Formas",
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 26,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Emerald Isle"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 27,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Mary Ann"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 28,
+        "latin": "Allamanda nerifolia",
+        "family": "Apocynaceae",
+        "common": [
+            "Alamanda-amarela",
+            "Alamanda-arbustiva"
+        ],
+        "category": "Flor",
+        "origin": "Brasil",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama",
+            "Ácaro-aranha"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Flor"
+        ]
+    },
+    {
+        "id": 29,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "BJ Freeman"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Primário",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 30,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Marguerita"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Primário",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 31,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Emerald Star"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 32,
+        "latin": "Aglaonema",
+        "family": "Araceae",
+        "common": [
+            "Aglaonema",
+            "Silver Bay"
+        ],
+        "category": "Aglaonema",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 33,
+        "latin": "Aspidistra elatior",
+        "family": "Liliaceae",
+        "common": [
+            "Aspidistra"
+        ],
+        "category": "Folhagem",
+        "origin": "China",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 8,
+            "fahrenheit": 46.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Forração",
+            "Planta de vaso"
+        ]
+    },
+    {
+        "id": 34,
+        "latin": "Anthurium superbum",
+        "family": "Araceae",
+        "common": [
+            "Antúrio-bronze"
+        ],
+        "category": "Antúrio",
+        "origin": "Equador",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Cores / Formas",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 35,
+        "latin": "Caryota mitis",
+        "family": "Palmae",
+        "common": [
+            "Palmeira-rabo-de-peixe"
+        ],
+        "category": "Palmeira",
+        "origin": "Índia",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 25,
+            "fahrenheit": 77
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 36,
+        "latin": "Codiaeum petra",
+        "family": "Euphorbiaceae",
+        "common": [
+            "Cróton"
+        ],
+        "category": "Folhagem",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 37,
+        "latin": "Cereus peruvianus",
+        "family": "Cactaceae",
+        "common": [
+            "Mandacaru",
+            "Cacto-colunar"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "Brasil",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando estiver seco ou quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha de escama",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 38,
+        "latin": "Blechnum gibbum",
+        "family": "Polypodiaceae",
+        "common": [
+            "Samambaia-blecno",
+            "Samambaia-crespa"
+        ],
+        "category": "Samambaia",
+        "origin": "Nova Caledônia",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 39,
+        "latin": "Chamaedorea elegans",
+        "family": "Arecaceae",
+        "common": [
+            "Palmeira-bambu",
+            "Palmeira-de-salão",
+            "Camedórea-elegante"
+        ],
+        "category": "Palmeira",
+        "origin": "México",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 40,
+        "latin": "Calathea veitchiana",
+        "family": "Marantaceae",
+        "common": [
+            "Calateia-medalhão"
+        ],
+        "category": "Folhagem",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 25,
+            "fahrenheit": 77
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Forração"
+        ]
+    },
+    {
+        "id": 41,
+        "latin": "Calathea pictura Argentea",
+        "family": "Marantaceae",
+        "common": [
+            "Calateia-prateada"
+        ],
+        "category": "Folhagem",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 25,
+            "fahrenheit": 77
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Forração",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 42,
+        "latin": "Bougainvillea",
+        "family": "Nyctaginaceae",
+        "common": [
+            "Buganvília",
+            "Primavera",
+            "Três-marias"
+        ],
+        "category": "Flor",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 32,
+            "fahrenheit": 89.6
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Cores / Formas",
+            "Primário"
+        ]
+    },
+    {
+        "id": 43,
+        "latin": " Chamaedorea seifrizii",
+        "family": "Arecaceae",
+        "common": [
+            "Palmeira-bambu"
+        ],
+        "category": "Palmeira",
+        "origin": "México",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 44,
+        "latin": " Alocasia X amazonica",
+        "family": "Araceae",
+        "common": [
+            "Orelha-de-elefante",
+            "Alocasia-amazônica"
+        ],
+        "category": "Outros",
+        "origin": "Híbrido",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Cores / Formas",
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 45,
+        "latin": "Anthurium X",
+        "family": "Araceae",
+        "common": [
+            "Antúrio",
+            "Flor-de-jorge-tadeu"
+        ],
+        "category": "Antúrio",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 22,
+            "fahrenheit": 71.6
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Pulgão"
+        ],
+        "diseases": [
+            "Erwinia",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Flor",
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 46,
+        "latin": "Anthurium hookeri",
+        "family": "Araceae",
+        "common": [
+            "Antúrio-ninho-de-pássaro"
+        ],
+        "category": "Antúrio",
+        "origin": "Guiana",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Caracol",
+            "Pulgão"
+        ],
+        "diseases": [
+            "Erwinia",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 47,
+        "latin": "Cissus rhombifolia",
+        "family": "Vitaceae",
+        "common": [
+            "Cisso",
+            "Uva-do-mato"
+        ],
+        "category": "Pendente",
+        "origin": "Cultivar",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": [
+            "Míldio",
+            "Oídio"
+        ],
+        "use": [
+            "Pendente",
+            "Forração"
+        ]
+    },
+    {
+        "id": 48,
+        "latin": "Cereus peruvianus Monstrosus",
+        "family": "Cactaceae",
+        "common": [
+            "Cacto-monstro"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "Brasil",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando estiver seco ou quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha de escama",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 49,
+        "latin": "Chamaedorea erumpens",
+        "family": "Arecaceae",
+        "common": [
+            "Palmeira-bambu"
+        ],
+        "category": "Palmeira",
+        "origin": "Honduras",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 50,
+        "latin": "Calathea stromata",
+        "family": "Marantaceae",
+        "common": [
+            "Maranta-zebra",
+            "Stromante"
+        ],
+        "category": "Folhagem",
+        "origin": "Brasil",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 25,
+            "fahrenheit": 77
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Forração"
+        ]
+    },
+    {
+        "id": 51,
+        "latin": "Codiaeum",
+        "family": "Euphorbiaceae",
+        "common": [
+            "Cróton"
+        ],
+        "category": "Folhagem",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Secundário",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 52,
+        "latin": "Calathea rufibarba",
+        "family": "Marantaceae",
+        "common": [
+            "Calateia-veludo"
+        ],
+        "category": "Folhagem",
+        "origin": "Brasil",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 25,
+            "fahrenheit": 77
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Forração"
+        ]
+    },
+    {
+        "id": 53,
+        "latin": "Alocasias X Amazonica var",
+        "family": "Araceae",
+        "common": [
+            "Orelha-de-elefante",
+            "Alocasia-amazônica"
+        ],
+        "category": "Outros",
+        "origin": "Híbrido",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Cores / Formas",
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 54,
+        "latin": "Crassula argentea",
+        "family": "Crasssulaceae",
+        "common": [
+            "Planta-jade",
+            "Bálsamo"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "África do Sul",
+        "climate": "Subtropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 55
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 55,
+        "latin": "Alocasias X Amazonica",
+        "family": "Araceae",
+        "common": [
+            "Orelha-de-elefante",
+            "Alocasia-amazônica"
+        ],
+        "category": "Outros",
+        "origin": "Híbrido",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": [
+            "Fitóftora",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Cores / Formas",
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 56,
+        "latin": "Cissus rhombifolia",
+        "family": "Vitaceae",
+        "common": [
+            "Cisso",
+            "Uva-do-mato"
+        ],
+        "category": "Pendente",
+        "origin": "América Central e América do Sul",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": [
+            "Míldio",
+            "Oídio"
+        ],
+        "use": [
+            "Pendente",
+            "Forração"
+        ]
+    },
+    {
+        "id": 57,
+        "latin": "Anthurium schlechtendalii",
+        "family": "Araceae",
+        "common": [
+            "Antúrio-ninho-de-pássaro"
+        ],
+        "category": "Antúrio",
+        "origin": "Costa Rica",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Pulgão"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Cores / Formas",
+            "Primário"
+        ]
+    },
+    {
+        "id": 58,
+        "latin": "Chamaedorea metallica",
+        "family": "Arecaceae",
+        "common": [
+            "Palmeira-metálica"
+        ],
+        "category": "Palmeira",
+        "origin": "México",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 59,
+        "latin": "Aspidistra elatior Minor",
+        "family": "Liliaceae",
+        "common": [
+            "Aspidistra",
+            "Aspidistra Milky Way"
+        ],
+        "category": "Folhagem",
+        "origin": "Japão",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 8,
+            "fahrenheit": 46.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Forração",
+            "Planta de vaso"
+        ]
+    },
+    {
+        "id": 60,
+        "latin": "Calathea ornata Rosea lineata",
+        "family": "Marantaceae",
+        "common": [
+            "Calateia-zebra"
+        ],
+        "category": "Folhagem",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 25,
+            "fahrenheit": 77
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Forração",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 61,
+        "latin": "Asplenium nidus",
+        "family": "Aspleniaceae",
+        "common": [
+            "Asplênio",
+            "Ninho-de-passarinho"
+        ],
+        "category": "Samambaia",
+        "origin": "Ásia",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 62,
+        "latin": "Anthurium hookeri",
+        "family": "Araceae",
+        "common": [
+            "Antúrio-ninho-de-pássaro"
+        ],
+        "category": "Antúrio",
+        "origin": "Guiana",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Caracol",
+            "Pulgão"
+        ],
+        "diseases": [
+            "Erwinia",
+            "Podridão da coroa"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 63,
+        "latin": "Chlorophytum comosum",
+        "family": "Liliaceae",
+        "common": [
+            "Clorofito",
+            "Paulistinha"
+        ],
+        "category": "Pendente",
+        "origin": "África Central",
+        "climate": "Tropical a subtropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Forração"
+        ]
+    },
+    {
+        "id": 64,
+        "latin": "Didymochlaena truncatula",
+        "family": "Dryopteridaceae",
+        "common": [
+            "Avencão"
+        ],
+        "category": "Samambaia",
+        "origin": "América do Sul",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 65,
+        "latin": "Dieffenbachia",
+        "family": "Araceae",
+        "common": [
+            "Comigo-ninguém-pode",
+            "Tropic Mary Ann"
+        ],
+        "category": "Comigo-ninguém-pode",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": [
+            "Fusariose",
+            "Erwinia"
+        ],
+        "use": [
+            "Mesa/Bancada",
+            "Planta de vaso"
+        ]
+    },
+    {
+        "id": 66,
+        "latin": "Dieffenbachia",
+        "family": "Araceae",
+        "common": [
+            "Comigo-ninguém-pode",
+            "Star Bright"
+        ],
+        "category": "Comigo-ninguém-pode",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": [
+            "Fusariose",
+            "Erwinia"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 67,
+        "latin": "Dracaena marginata",
+        "family": "Liliaceae",
+        "common": [
+            "Dracena-de-madagascar",
+            "Tricolor"
+        ],
+        "category": "Dracena",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama",
+            "Ácaro-aranha"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 68,
+        "latin": "Dracaena fragrans Massangeana",
+        "family": "Liliaceae",
+        "common": [
+            "Pau-d'água",
+            "Dracena-de-milho"
+        ],
+        "category": "Dracena",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 69,
+        "latin": "Dracaena deremensis",
+        "family": "Liliaceae",
+        "common": [
+            "Dracena-janet-craig"
+        ],
+        "category": "Dracena",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 70,
+        "latin": "Cryptanthus Rose Eliane",
+        "family": "Bromeliaceae",
+        "common": [
+            "Estrela-da-terra"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Luz solar direta",
+        "watering": "Pode secar entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Primário"
+        ]
+    },
+    {
+        "id": 71,
+        "latin": "Dracaena reflexa",
+        "family": "Liliaceae",
+        "common": [
+            "Pleomele-amarela",
+            "Canção-da-índia"
+        ],
+        "category": "Dracena",
+        "origin": "Índia",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 72,
+        "latin": "Dieffenbachia maculata",
+        "family": "Araceae",
+        "common": [
+            "Comigo-ninguém-pode",
+            "Carina"
+        ],
+        "category": "Comigo-ninguém-pode",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": [
+            "Fusariose",
+            "Erwinia"
+        ],
+        "use": [
+            "Mesa/Bancada",
+            "Planta de vaso"
+        ]
+    },
+    {
+        "id": 73,
+        "latin": "Dracaena reflexa",
+        "family": "Liliaceae",
+        "common": [
+            "Pleomele",
+            "Canção-da-jamaica"
+        ],
+        "category": "Dracena",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 74,
+        "latin": "Cycas revoluta",
+        "family": "Cycadaceae",
+        "common": [
+            "Sagu",
+            "Palmeira-sagu"
+        ],
+        "category": "Palmeira",
+        "origin": "Japão",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 8,
+            "fahrenheit": 46.4
+        },
+        "ideallight": "Prefere luz solar intensa e indireta.",
+        "toleratedlight": "/",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Cochonilha de escama",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 75,
+        "latin": "Crassula argentea",
+        "family": "Crasssulaceae",
+        "common": [
+            "Planta-jade",
+            "Bálsamo"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "África do Sul",
+        "climate": "Subtropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 55
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 76,
+        "latin": "Ctenanthe lubbersiana",
+        "family": "Marantaceae",
+        "common": [
+            "Ctenante",
+            "Maranta-variegada"
+        ],
+        "category": "Folhagem",
+        "origin": "Brasil",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 25,
+            "fahrenheit": 77
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 77,
+        "latin": "Dracaena reflexa",
+        "family": "Liliaceae",
+        "common": [
+            "Pleomele"
+        ],
+        "category": "Dracena",
+        "origin": "Madagascar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 78,
+        "latin": "Dracaena deremensis",
+        "family": "Liliaceae",
+        "common": [
+            "Dracena-listrada",
+            "Gold Star"
+        ],
+        "category": "Dracena",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 79,
+        "latin": "Cyrtomium falcatum",
+        "family": "Dryopteridaceae",
+        "common": [
+            "Samambaia-azevinho"
+        ],
+        "category": "Samambaia",
+        "origin": "Ásia",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha de escama",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Forração"
+        ]
+    },
+    {
+        "id": 80,
+        "latin": "Dracaena deremensis",
+        "family": "Liliaceae",
+        "common": [
+            "Dracena-compacta",
+            "Calypso Queen",
+            "Janet Craig Compacta"
+        ],
+        "category": "Dracena",
+        "origin": "África",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 81,
+        "latin": "Davallia trichomannoides",
+        "family": "Davalliaceae",
+        "common": [
+            "Samambaia-pé-de-coelho"
+        ],
+        "category": "Samambaia",
+        "origin": "Canárias",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 25,
+            "fahrenheit": 77
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Planta de vaso"
+        ]
+    },
+    {
+        "id": 82,
+        "latin": "Dracaena deremensis",
+        "family": "Liliaceae",
+        "common": [
+            "Dracena-lisa",
+            "Lisa"
+        ],
+        "category": "Dracena",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 83,
+        "latin": "Dracaena marginata",
+        "family": "Liliaceae",
+        "common": [
+            "Dracena-de-madagascar"
+        ],
+        "category": "Dracena",
+        "origin": "Madagascar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama",
+            "Ácaro-aranha"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 84,
+        "latin": "Dracaena deremensis",
+        "family": "Liliaceae",
+        "common": [
+            "Dracena-listrada",
+            "Warneckei"
+        ],
+        "category": "Dracena",
+        "origin": "África",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 85,
+        "latin": "Dracaena deremensis",
+        "family": "Liliaceae",
+        "common": [
+            "Dracena-listrada",
+            "Lemon Lime"
+        ],
+        "category": "Dracena",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 86,
+        "latin": "Dieffenbachia maculata",
+        "family": "Araceae",
+        "common": [
+            "Comigo-ninguém-pode",
+            "Camille"
+        ],
+        "category": "Comigo-ninguém-pode",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": [
+            "Fusariose",
+            "Erwinia"
+        ],
+        "use": [
+            "Mesa/Bancada",
+            "Planta de vaso"
+        ]
+    },
+    {
+        "id": 87,
+        "latin": "Dieffenbachia amoena",
+        "family": "Araceae",
+        "common": [
+            "Comigo-ninguém-pode",
+            "Tropic Snow"
+        ],
+        "category": "Comigo-ninguém-pode",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": [
+            "Fusariose",
+            "Erwinia"
+        ],
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 88,
+        "latin": "Ficus elastica",
+        "family": "Moraceae",
+        "common": [
+            "Falsa-seringueira",
+            "Tineke"
+        ],
+        "category": "Ficus",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 89,
+        "latin": "Dypsis lutescens",
+        "family": "Arecaceae",
+        "common": [
+            "Palmeira-areca",
+            "Areca-bambu"
+        ],
+        "category": "Palmeira",
+        "origin": "Madagascar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 90,
+        "latin": "Epiphyllum",
+        "family": "Cactaceae",
+        "common": [
+            "Cacto-orquídea"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 32,
+            "fahrenheit": 89.6
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Luz solar direta",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 91,
+        "latin": "Echinocactus grusonii",
+        "family": "Cactaceae",
+        "common": [
+            "Cadeira-de-sogra",
+            "Poltrona-de-sogra"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "México Central",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 40,
+            "fahrenheit": 104
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "/",
+        "watering": "Regue apenas quando seco. Deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama",
+            "Ácaro-aranha"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 92,
+        "latin": "Euphorbia milii",
+        "family": "Euphorbiaceae",
+        "common": [
+            "Coroa-de-cristo"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "Madagascar",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Mosca-branca"
+        ],
+        "diseases": [
+            "Míldio",
+            "Bolor cinzento"
+        ],
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 93,
+        "latin": "Epipremnum aureum",
+        "family": "Araceae",
+        "common": [
+            "Jiboia-branca",
+            "Jiboia-mármore"
+        ],
+        "category": "Pendente",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": [
+            "Pítio"
+        ],
+        "use": [
+            "Pendente",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 94,
+        "latin": "Guzmania",
+        "family": "Bromeliaceae",
+        "common": [
+            "Gusmânia",
+            "Guzmania Sunnytime"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Troque a água do vaso regularmente.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 95,
+        "latin": "Ficus maclellandii",
+        "family": "Moraceae",
+        "common": [
+            "Ficus-salgueiro",
+            "Amstel King"
+        ],
+        "category": "Ficus",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 96,
+        "latin": "Guzmania",
+        "family": "Bromeliaceae",
+        "common": [
+            "Gusmânia",
+            "Guzmania Empire"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Troque a água do vaso regularmente.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 97,
+        "latin": "Ficus benjamina",
+        "family": "Moraceae",
+        "common": [
+            "Ficus-benjamina",
+            "Figueira-chorona"
+        ],
+        "category": "Ficus",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 98,
+        "latin": "Fatsia japonica",
+        "family": "Araliaceae",
+        "common": [
+            "Fátsia",
+            "Aralia-japonesa"
+        ],
+        "category": "Aralia",
+        "origin": "Japão",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 8,
+            "fahrenheit": 46.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Luz solar direta",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Planta de vaso"
+        ]
+    },
+    {
+        "id": 99,
+        "latin": "Euphorbia ammack",
+        "family": "Euphorbiaceae",
+        "common": [
+            "Candelabro-africano variegata"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "África",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Deve secar entre as regas. Regue apenas quando seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Mosca-branca"
+        ],
+        "diseases": "Míldio",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 100,
+        "latin": "Ficus pumila",
+        "family": "Moraceae",
+        "common": [
+            "Unha-de-gato",
+            "Hera-japonesa"
+        ],
+        "category": "Ficus",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Forração"
+        ]
+    },
+    {
+        "id": 101,
+        "latin": "Guzmania",
+        "family": "Bromeliaceae",
+        "common": [
+            "Gusmânia",
+            "Claret"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Troque a água do vaso regularmente.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 102,
+        "latin": "Ficus elastica",
+        "family": "Moraceae",
+        "common": [
+            "Falsa-seringueira",
+            "Robusta"
+        ],
+        "category": "Ficus",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 103,
+        "latin": "Hedera canariensis",
+        "family": "Araliaceae",
+        "common": [
+            "Hera-da-algéria",
+            "Hera-das-canárias"
+        ],
+        "category": "Pendente",
+        "origin": "Canárias",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Forração"
+        ]
+    },
+    {
+        "id": 104,
+        "latin": "Epipremnum aureum",
+        "family": "Araceae",
+        "common": [
+            "Jiboia"
+        ],
+        "category": "Pendente",
+        "origin": "Pacífico Sul",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": [
+            "Pítio"
+        ],
+        "use": [
+            "Pendente",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 105,
+        "latin": "Ficus lyrata",
+        "family": "Moraceae",
+        "common": [
+            "Ficus-lira",
+            "Figueira-lira"
+        ],
+        "category": "Ficus",
+        "origin": "África Ocidental",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 106,
+        "latin": "Euphorbia ingens",
+        "family": "Euphorbiaceae",
+        "common": [
+            "Candelabro-africano"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "África do Sul",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "Míldio",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 107,
+        "latin": "Ficus benjamina",
+        "family": "Moraceae",
+        "common": [
+            "Ficus-benjamina",
+            "Monique"
+        ],
+        "category": "Ficus",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 108,
+        "latin": "Guzmania",
+        "family": "Bromeliaceae",
+        "common": [
+            "Gusmânia",
+            "Mariposa"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Troque a água do vaso regularmente.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 109,
+        "latin": "Ficus maclellandii Alii",
+        "family": "Moraceae",
+        "common": [
+            "Ficus-salgueiro"
+        ],
+        "category": "Ficus",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 110,
+        "latin": "Guzmania",
+        "family": "Bromeliaceae",
+        "common": [
+            "Gusmânia",
+            "Marjan"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Troque a água do vaso regularmente.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 111,
+        "latin": "Ficus benjamina",
+        "family": "Moraceae",
+        "common": [
+            "Ficus-benjamina",
+            "Midnight"
+        ],
+        "category": "Ficus",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 112,
+        "latin": "Guzmania",
+        "family": "Bromeliaceae",
+        "common": [
+            "Gusmânia",
+            "Rana"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Troque a água do vaso regularmente.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 113,
+        "latin": "Ficus elastica",
+        "family": "Moraceae",
+        "common": [
+            "Falsa-seringueira",
+            "Burgandy"
+        ],
+        "category": "Ficus",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 114,
+        "latin": "Euphorbia drupifera",
+        "family": "Euphorbiaceae",
+        "common": [
+            "Avelós-de-árvore"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "Guiné",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "Míldio",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 115,
+        "latin": "Hedera helix",
+        "family": "Araliaceae",
+        "common": [
+            "Hera-inglesa",
+            "Gold Baby"
+        ],
+        "category": "Pendente",
+        "origin": "Cultivar",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Forração"
+        ]
+    },
+    {
+        "id": 116,
+        "latin": "Maranta leuconeura erythroneura",
+        "family": "Marantaceae",
+        "common": [
+            "Maranta-tricolor",
+            "Planta-reco-reco"
+        ],
+        "category": "Pendente",
+        "origin": "Brasil",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Mesa/Bancada"
+        ]
+    },
+    {
+        "id": 117,
+        "latin": "Hedera helix",
+        "family": "Araliaceae",
+        "common": [
+            "Hera-inglesa",
+            "Hermania"
+        ],
+        "category": "Pendente",
+        "origin": "Cultivar",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Forração"
+        ]
+    },
+    {
+        "id": 118,
+        "latin": "Monstera deliciosa",
+        "family": "Araceae",
+        "common": [
+            "Costela-de-adão"
+        ],
+        "category": "Filodendro",
+        "origin": "América Central",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 32,
+            "fahrenheit": 89.6
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 119,
+        "latin": "Mandevilla X",
+        "family": "Apocynaceae",
+        "common": [
+            "Mandevila",
+            "Dipladênia"
+        ],
+        "category": "Flor",
+        "origin": "Híbrido",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Pulgão"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Flor",
+            "Planta de vaso"
+        ]
+    },
+    {
+        "id": 120,
+        "latin": "Peperomia obtusifolia",
+        "family": "Piperaceae",
+        "common": [
+            "Peperômia-verde",
+            "Peperômia-limão"
+        ],
+        "category": "Outros",
+        "origin": "Venezuela",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 32,
+            "fahrenheit": 89.6
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "/",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Forração",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 121,
+        "latin": "Ophiopogon japonicus",
+        "family": "Liliaceae",
+        "common": [
+            "Grama-preta"
+        ],
+        "category": "Grama",
+        "origin": "Japão",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Luz solar direta",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Forração",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 122,
+        "latin": "Hedychium coronarium",
+        "family": "Zingiberaceae",
+        "common": [
+            "Lírio-do-brejo",
+            "Gengibre-branco"
+        ],
+        "category": "Flor",
+        "origin": "China",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Flor",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 123,
+        "latin": "Hedera helix variegata",
+        "family": "Araliaceae",
+        "common": [
+            "Hera-inglesa variegata"
+        ],
+        "category": "Pendente",
+        "origin": "Cultivar",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Forração"
+        ]
+    },
+    {
+        "id": 124,
+        "latin": "Pellaea falcata",
+        "family": "Sinopteridaceae",
+        "common": [
+            "Samambaia-botão"
+        ],
+        "category": "Samambaia",
+        "origin": "Austrália e Nova Guiné",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 25,
+            "fahrenheit": 77
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Forração",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 125,
+        "latin": "Hedera helix",
+        "family": "Araliaceae",
+        "common": [
+            "Hera-inglesa",
+            "Garland"
+        ],
+        "category": "Pendente",
+        "origin": "Cultivar",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Forração"
+        ]
+    },
+    {
+        "id": 126,
+        "latin": "Hoya carnosa Exotica",
+        "family": "Asclepiadaceae",
+        "common": [
+            "Flor-de-cera"
+        ],
+        "category": "Pendente",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Tripes"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Mesa/Bancada"
+        ]
+    },
+    {
+        "id": 127,
+        "latin": "Nerium oleander",
+        "family": "Apocynaceae",
+        "common": [
+            "Espirradeira",
+            "Oleandro"
+        ],
+        "category": "Flor",
+        "origin": "Mediterrâneo",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "/",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha de escama",
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 128,
+        "latin": "Pachypodium geayi",
+        "family": "Apocynaceae",
+        "common": [
+            "Palmeira-de-madagascar"
+        ],
+        "category": "Cacto e Suculenta",
+        "origin": "Madagascar",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 8,
+            "fahrenheit": 46.4
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 129,
+        "latin": "Licuala spinosa",
+        "family": "Arecaceae",
+        "common": [
+            "Palmeira-leque-de-espinho",
+            "Licuala-de-mangue"
+        ],
+        "category": "Palmeira",
+        "origin": "Malásia",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Luz solar direta",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 130,
+        "latin": "Philodendron",
+        "family": "Araceae",
+        "common": [
+            "Filodendro-vermelho",
+            "Imperial Red"
+        ],
+        "category": "Filodendro",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "Erwinia",
+        "use": [
+            "Mesa/Bancada",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 131,
+        "latin": "Neoregelia Flandria",
+        "family": "Bromeliaceae",
+        "common": [
+            "Neoregelia"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Troque a água do vaso regularmente. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Cores / Formas"
+        ]
+    },
+    {
+        "id": 132,
+        "latin": "Liriope muscari Variegata",
+        "family": "Liliaceae",
+        "common": [
+            "Barba-de-serpente variegata"
+        ],
+        "category": "Folhagem",
+        "origin": "Japão",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 8,
+            "fahrenheit": 46.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Luz solar direta",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Forração",
+            "Mesa/Bancada"
+        ]
+    },
+    {
+        "id": 133,
+        "latin": "Philodendron micans",
+        "family": "Araceae",
+        "common": [
+            "Filodendro-veludo"
+        ],
+        "category": "Filodendro",
+        "origin": "Dominica",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "Erwinia",
+        "use": [
+            "Pendente",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 134,
+        "latin": "Maranta leuconeura kerchoveana",
+        "family": "Marantaceae",
+        "common": [
+            "Maranta-pena-de-pavão"
+        ],
+        "category": "Pendente",
+        "origin": "Brasil",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Mesa/Bancada"
+        ]
+    },
+    {
+        "id": 135,
+        "latin": "Neoregelia Victoria Pink",
+        "family": "Bromeliaceae",
+        "common": [
+            "Neoregelia"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Troque a água do vaso regularmente. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Cores / Formas"
+        ]
+    },
+    {
+        "id": 136,
+        "latin": "Nolina recurvata",
+        "family": "Agavaceae",
+        "common": [
+            "Pata-de-elefante"
+        ],
+        "category": "Folhagem",
+        "origin": "México",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 32,
+            "fahrenheit": 89.6
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Cochonilha de escama",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Primário",
+            "Planta de vaso"
+        ]
+    },
+    {
+        "id": 137,
+        "latin": "Philodendron",
+        "family": "Araceae",
+        "common": [
+            "Filodendro-limão",
+            "Moonlight"
+        ],
+        "category": "Filodendro",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "Erwinia",
+        "use": [
+            "Mesa/Bancada",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 138,
+        "latin": "Phalaenopsis X",
+        "family": "Orchidaceae",
+        "common": [
+            "Orquídea-borboleta",
+            "Falenópsis"
+        ],
+        "category": "Flor",
+        "origin": "Híbrido",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Tripes",
+            "Pulgão"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 139,
+        "latin": "Hyophorbe verschaffeltii",
+        "family": "Arecaceae",
+        "common": [
+            "Palmeira-fuso"
+        ],
+        "category": "Palmeira",
+        "origin": "Ilha Rodrigues",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 140,
+        "latin": "Hedera helix",
+        "family": "Araliaceae",
+        "common": [
+            "Hera-inglesa"
+        ],
+        "category": "Topiaria",
+        "origin": "Cultivar",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Forração"
+        ]
+    },
+    {
+        "id": 141,
+        "latin": "Nolina guatemalensis",
+        "family": "Agavaceae",
+        "common": [
+            "Pata-de-elefante-da-guatemala"
+        ],
+        "category": "Folhagem",
+        "origin": "México",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 32,
+            "fahrenheit": 89.6
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": [
+            "Cochonilha de escama",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Primário",
+            "Planta de vaso"
+        ]
+    },
+    {
+        "id": 142,
+        "latin": "Medinilla magnifica",
+        "family": "Melastomataceae",
+        "common": [
+            "Medinila",
+            "Uva-rosa"
+        ],
+        "category": "Flor",
+        "origin": "Filipinas",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Flor"
+        ]
+    },
+    {
+        "id": 143,
+        "latin": "Hibiscus rosa sinensis",
+        "family": "Malvaceae",
+        "common": [
+            "Hibisco",
+            "Mimo-de-vênus"
+        ],
+        "category": "Flor",
+        "origin": "Ásia",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Pulgão",
+            "Mosca-branca"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Flor",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 144,
+        "latin": "Nephrolepis exaltata var",
+        "family": "Nephrolepidaceae",
+        "common": [
+            "Samambaia-americana",
+            "Samambaia-de-boston"
+        ],
+        "category": "Samambaia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 145,
+        "latin": "Howea forsteriana",
+        "family": "Arecaceae",
+        "common": [
+            "Quência",
+            "Palmeira-quência"
+        ],
+        "category": "Palmeira",
+        "origin": "Pacífico Sul",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 146,
+        "latin": "Philodendron",
+        "family": "Araceae",
+        "common": [
+            "Filodendro",
+            "Emerald Prince"
+        ],
+        "category": "Filodendro",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "Erwinia",
+        "use": [
+            "Mesa/Bancada",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 147,
+        "latin": "Homalomena",
+        "family": "Araceae",
+        "common": [
+            "Homalomena",
+            "Emerald Gem"
+        ],
+        "category": "Folhagem",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 148,
+        "latin": "Peperomia clusiifolia",
+        "family": "Piperaceae",
+        "common": [
+            "Peperômia-tricolor"
+        ],
+        "category": "Outros",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 32,
+            "fahrenheit": 89.6
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "/",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Forração",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 149,
+        "latin": "Pandorea jasminoides",
+        "family": "Bignoniaceae",
+        "common": [
+            "Trepadeira-de-arco",
+            "Pandorea"
+        ],
+        "category": "Flor",
+        "origin": "Austrália",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 8,
+            "fahrenheit": 46.4
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 150,
+        "latin": "Neoregelia carolinae var.",
+        "family": "Bromeliaceae",
+        "common": [
+            "Neoregelia"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Troque a água do vaso regularmente. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Cores / Formas"
+        ]
+    },
+    {
+        "id": 151,
+        "latin": "Radermachera sinica",
+        "family": "Bignoniaceae",
+        "common": [
+            "Árvore-de-esmeralda",
+            "China doll"
+        ],
+        "category": "Outros",
+        "origin": "China",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 8,
+            "fahrenheit": 46.4
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 152,
+        "latin": "Pteris cretica Parkeri",
+        "family": "Pteridaceae",
+        "common": [
+            "Samambaia-prata"
+        ],
+        "category": "Samambaia",
+        "origin": "Cultivar",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "/",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 153,
+        "latin": "Polystichum tsus simense",
+        "family": "Dryopteridaceae",
+        "common": [
+            "Samambaia-da-rocha-coreana"
+        ],
+        "category": "Samambaia",
+        "origin": "Coreia",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": -5,
+            "fahrenheit": 23
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "/",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 154,
+        "latin": "Polystichum polyblepharum",
+        "family": "Dryopteridaceae",
+        "common": [
+            "Samambaia-japonesa"
+        ],
+        "category": "Samambaia",
+        "origin": "Japão",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": -5,
+            "fahrenheit": 23
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "/",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 155,
+        "latin": "Ravenea rivularis",
+        "family": "Arecaceae",
+        "common": [
+            "Palmeira-majestosa"
+        ],
+        "category": "Palmeira",
+        "origin": "Madagascar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 8,
+            "fahrenheit": 46.4
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 156,
+        "latin": "Polyscias scutellaria",
+        "family": "Araliaceae",
+        "common": [
+            "Árvore-da-felicidade-fêmea"
+        ],
+        "category": "Aralia",
+        "origin": "Ásia",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 157,
+        "latin": "Pteris cretica Albo lineata",
+        "family": "Pteridaceae",
+        "common": [
+            "Samambaia-prata"
+        ],
+        "category": "Samambaia",
+        "origin": "Cultivar",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "/",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 158,
+        "latin": "Platycerium bifurcatum",
+        "family": "Polypodiaceae",
+        "common": [
+            "Chifre-de-veado"
+        ],
+        "category": "Samambaia",
+        "origin": "Austrália",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 5,
+            "fahrenheit": 41
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 159,
+        "latin": "Philodendron Xanadu",
+        "family": "Araceae",
+        "common": [
+            "Filodendro-xanadu"
+        ],
+        "category": "Filodendro",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "Erwinia",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 160,
+        "latin": "Polyscias pinnatta",
+        "family": "Araliaceae",
+        "common": [
+            "Aralia-bala",
+            "Árvore-da-felicidade",
+            "Lemon Lime"
+        ],
+        "category": "Aralia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 161,
+        "latin": "Philodendron Tatei Congo",
+        "family": "Araceae",
+        "common": [
+            "Filodendro-congo"
+        ],
+        "category": "Filodendro",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "Erwinia",
+        "use": [
+            "Mesa/Bancada",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 162,
+        "latin": "Sansevieria trifasciata Laurentii",
+        "family": "Liliaceae",
+        "common": [
+            "Espada-de-são-jorge"
+        ],
+        "category": "Sansevieria",
+        "origin": "África do Sul",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 163,
+        "latin": "Philodendron pinnatifidum",
+        "family": "Araceae",
+        "common": [
+            "Filodendro-folha-de-samambaia"
+        ],
+        "category": "Filodendro",
+        "origin": "Venezuela",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "Erwinia",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 164,
+        "latin": "Podocarpus gracilior",
+        "family": "Podocarpaceae",
+        "common": [
+            "Podocarpo",
+            "Pinheiro-de-buda"
+        ],
+        "category": "Folhagem",
+        "origin": "África Central",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 165,
+        "latin": "Sansevieria trifasciata Hahnii",
+        "family": "Liliaceae",
+        "common": [
+            "Espada-de-são-jorge-anã",
+            "Mini-espada-de-são-jorge"
+        ],
+        "category": "Sansevieria",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 166,
+        "latin": "Sansevieria trifasciata",
+        "family": "Liliaceae",
+        "common": [
+            "Espada-de-são-jorge"
+        ],
+        "category": "Sansevieria",
+        "origin": "África do Sul",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 167,
+        "latin": "Polyscias crispata",
+        "family": "Araliaceae",
+        "common": [
+            "Aralia-crespa"
+        ],
+        "category": "Aralia",
+        "origin": "Malásia",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 168,
+        "latin": "Phoenix roebellinii",
+        "family": "Palmae",
+        "common": [
+            "Tamareira-de-jardim",
+            "Fênix"
+        ],
+        "category": "Palmeira",
+        "origin": "Vietnã",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 8,
+            "fahrenheit": 46.4
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "/",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 169,
+        "latin": "Polyscias pinnata Marginata",
+        "family": "Araliaceae",
+        "common": [
+            "Aralia-bala variegata"
+        ],
+        "category": "Aralia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 170,
+        "latin": "Polyscias fruticosa Elegans",
+        "family": "Araliaceae",
+        "common": [
+            "Árvore-da-felicidade-macho"
+        ],
+        "category": "Aralia",
+        "origin": "Malásia",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 171,
+        "latin": "Philodendron selloum",
+        "family": "Araceae",
+        "common": [
+            "Guaimbê",
+            "Banana-de-macaco"
+        ],
+        "category": "Filodendro",
+        "origin": "Brasil",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "Erwinia",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 172,
+        "latin": "Pteris ensiformis Evergemiensis",
+        "family": "Pteridaceae",
+        "common": [
+            "Samambaia-prata"
+        ],
+        "category": "Samambaia",
+        "origin": "Ásia",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "/",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 173,
+        "latin": "Rhapis excelsa",
+        "family": "Arecaceae",
+        "common": [
+            "Palmeira-ráfia",
+            "Ráfis"
+        ],
+        "category": "Palmeira",
+        "origin": "China",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 8,
+            "fahrenheit": 46.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 174,
+        "latin": "Polyscias fruticosa",
+        "family": "Araliaceae",
+        "common": [
+            "Árvore-da-felicidade-macho"
+        ],
+        "category": "Aralia",
+        "origin": "Malásia",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 175,
+        "latin": "Philodendron scandens oxycardium",
+        "family": "Araceae",
+        "common": [
+            "Filodendro-cordato",
+            "Filodendro-scandens"
+        ],
+        "category": "Filodendro",
+        "origin": "América Central",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 18,
+            "fahrenheit": 64.4
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "Erwinia",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 176,
+        "latin": "Veitchia merrillii",
+        "family": "Arecaceae",
+        "common": [
+            "Palmeira-de-manila",
+            "Adonídia"
+        ],
+        "category": "Palmeira",
+        "origin": "Filipinas",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 177,
+        "latin": "Spathiphyllum Lynise",
+        "family": "Araceae",
+        "common": [
+            "Lírio-da-paz"
+        ],
+        "category": "Lírio-da-paz",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Tripes"
+        ],
+        "diseases": "Fitóftora",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 178,
+        "latin": "Spathiphyllum Ceres",
+        "family": "Araceae",
+        "common": [
+            "Lírio-da-paz"
+        ],
+        "category": "Lírio-da-paz",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Tripes"
+        ],
+        "diseases": "Fitóftora",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 179,
+        "latin": "Vriesea splendens",
+        "family": "Bromeliaceae",
+        "common": [
+            "Espada-de-fogo"
+        ],
+        "category": "Bromélia",
+        "origin": "Venezuela",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Troque a água do vaso regularmente. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 180,
+        "latin": "Trichilia dregei",
+        "family": "Miliaceae",
+        "common": [
+            "Mogno-do-cabo"
+        ],
+        "category": "Outros",
+        "origin": "Zimbábue",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 181,
+        "latin": "Vriesea Ginger",
+        "family": "Bromeliaceae",
+        "common": [
+            "Vriesea"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Troque a água do vaso regularmente. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 182,
+        "latin": "Vriesea Charlotte",
+        "family": "Bromeliaceae",
+        "common": [
+            "Vriesea"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Troque a água do vaso regularmente. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 183,
+        "latin": "Syngonium podophyllum",
+        "family": "Araceae",
+        "common": [
+            "Singônio",
+            "Pé-de-ganso"
+        ],
+        "category": "Pendente",
+        "origin": "Cultivar",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": [
+            "Podridão da coroa",
+            "Erwinia"
+        ],
+        "use": [
+            "Pendente",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 184,
+        "latin": "Syagrus schizophylla",
+        "family": "Arecaceae",
+        "common": [
+            "Palmeira-ariri"
+        ],
+        "category": "Palmeira",
+        "origin": "Brasil",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 185,
+        "latin": "Tillandsia cyanea",
+        "family": "Bromeliaceae",
+        "common": [
+            "Tilândsia-azul"
+        ],
+        "category": "Bromélia",
+        "origin": "Equador",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Troque a água do vaso regularmente. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 186,
+        "latin": "Vriesea Christiane",
+        "family": "Bromeliaceae",
+        "common": [
+            "Vriesea"
+        ],
+        "category": "Bromélia",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Troque a água do vaso regularmente. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 187,
+        "latin": "Tillandsia Creation",
+        "family": "Bromeliaceae",
+        "common": [
+            "Tilândsia"
+        ],
+        "category": "Bromélia",
+        "origin": "Híbrido",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Troque a água do vaso regularmente. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 188,
+        "latin": "Xanthosoma lindenii",
+        "family": "Araceae",
+        "common": [
+            "Taioba-branca"
+        ],
+        "category": "Folhagem",
+        "origin": "Colômbia",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 189,
+        "latin": "Schefflera elegantissima",
+        "family": "Araliaceae",
+        "common": [
+            "Falsa-aralia"
+        ],
+        "category": "Aralia",
+        "origin": "Nova Caledônia",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Pode secar entre as regas",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta",
+            "Cochonilha de escama"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 190,
+        "latin": "Spathiphyllum Sensation",
+        "family": "Araceae",
+        "common": [
+            "Lírio-da-paz-gigante"
+        ],
+        "category": "Lírio-da-paz",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Tripes"
+        ],
+        "diseases": "Fitóftora",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 191,
+        "latin": "Spathiphyllum Starlight",
+        "family": "Liliaceae",
+        "common": [
+            "Lírio-da-paz"
+        ],
+        "category": "Lírio-da-paz",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Tripes"
+        ],
+        "diseases": "Fitóftora",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 192,
+        "latin": "Sedum morganianum",
+        "family": "Crasssulaceae",
+        "common": [
+            "Dedo-de-moça"
+        ],
+        "category": "Pendente",
+        "origin": "México",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 8,
+            "fahrenheit": 46.4
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 193,
+        "latin": "Spathiphyllum Domino",
+        "family": "Araceae",
+        "common": [
+            "Lírio-da-paz"
+        ],
+        "category": "Lírio-da-paz",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Tripes"
+        ],
+        "diseases": "Fitóftora",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 194,
+        "latin": "Syngonium podophyllum",
+        "family": "Araceae",
+        "common": [
+            "Singônio",
+            "Pé-de-ganso",
+            "Pink Allusion"
+        ],
+        "category": "Pendente",
+        "origin": "Cultivar",
+        "climate": "Tropical úmido",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": [
+            "Podridão da coroa",
+            "Erwinia"
+        ],
+        "use": [
+            "Pendente",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 195,
+        "latin": "Scindapsus pictus argyraeus",
+        "family": "Araceae",
+        "common": [
+            "Jiboia-prateada",
+            "Hera-do-diabo"
+        ],
+        "category": "Pendente",
+        "origin": "Indonésia",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": "Cochonilha-farinhenta",
+        "diseases": "N/A",
+        "use": [
+            "Pendente",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 196,
+        "latin": "Xanthorrhoea arborea",
+        "family": "Liliaceae",
+        "common": [
+            "Árvore-grama"
+        ],
+        "category": "Outros",
+        "origin": "Austrália",
+        "climate": "Tropical Árido",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "/",
+        "watering": "Regue apenas quando o solo estiver seco. Deve secar entre as regas",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Primário"
+        ]
+    },
+    {
+        "id": 197,
+        "latin": "Schefflera arboricola Trinette",
+        "family": "Araliaceae",
+        "common": [
+            "Cheflera-pequena variegata"
+        ],
+        "category": "Cheflera",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 198,
+        "latin": "Schefflera actinophylla Amate",
+        "family": "Araliaceae",
+        "common": [
+            "Cheflera-guarda-chuva"
+        ],
+        "category": "Cheflera",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 199,
+        "latin": "Schefflera actinophylla Renegade",
+        "family": "Araliaceae",
+        "common": [
+            "Cheflera-guarda-chuva"
+        ],
+        "category": "Cheflera",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 200,
+        "latin": "Sansevieria trifasciata var",
+        "family": "Liliaceae",
+        "common": [
+            "Espada-de-são-jorge"
+        ],
+        "category": "Sansevieria",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 35,
+            "fahrenheit": 95
+        },
+        "tempmin": {
+            "celsius": 10,
+            "fahrenheit": 50
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Regue quando o solo estiver meio seco. Pode secar entre as regas.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 201,
+        "latin": "Spathiphyllum Supreme",
+        "family": "Liliaceae",
+        "common": [
+            "Lírio-da-paz"
+        ],
+        "category": "Lírio-da-paz",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Tripes"
+        ],
+        "diseases": "Fitóftora",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 202,
+        "latin": "Schefflera arboricola",
+        "family": "Araliaceae",
+        "common": [
+            "Cheflera-pequena"
+        ],
+        "category": "Cheflera",
+        "origin": "Taiwan",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 203,
+        "latin": "Spathiphyllum",
+        "family": "Araceae",
+        "common": [
+            "Lírio-da-paz",
+            "Emerald Swirl"
+        ],
+        "category": "Lírio-da-paz",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Tripes"
+        ],
+        "diseases": "Fitóftora",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 204,
+        "latin": "Spathiphyllum Starlight",
+        "family": "Araceae",
+        "common": [
+            "Lírio-da-paz"
+        ],
+        "category": "Lírio-da-paz",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 28,
+            "fahrenheit": 82.4
+        },
+        "tempmin": {
+            "celsius": 15,
+            "fahrenheit": 59
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Não deve secar entre as regas",
+        "insects": [
+            "Cochonilha-farinhenta",
+            "Tripes"
+        ],
+        "diseases": "Fitóftora",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 205,
+        "latin": "Schefflera arboricola",
+        "family": "Araliaceae",
+        "common": [
+            "Cheflera-pequena",
+            "Gold Cappela"
+        ],
+        "category": "Cheflera",
+        "origin": "Cultivar",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Pulgão",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 206,
+        "latin": "Strelitzia nicolai",
+        "family": "Strelitziaceae",
+        "common": [
+            "Estrelítzia-branca"
+        ],
+        "category": "Folhagem",
+        "origin": "África do Sul",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": [
+            "Ácaro-aranha",
+            "Cochonilha-farinhenta"
+        ],
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Terciário"
+        ]
+    },
+    {
+        "id": 207,
+        "latin": "Zamioculcas zamifolia",
+        "family": "Araceae",
+        "common": [
+            "Zamioculca"
+        ],
+        "category": "Folhagem",
+        "origin": "África do Sul",
+        "climate": "Tropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "Luz intensa indireta",
+        "toleratedlight": "Difusa",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "N/A",
+        "use": [
+            "Mesa/Bancada",
+            "Secundário"
+        ]
+    },
+    {
+        "id": 208,
+        "latin": "Yucca elephantipes",
+        "family": "Liliaceae",
+        "common": [
+            "Iuca-mansa"
+        ],
+        "category": "Dracena",
+        "origin": "México",
+        "climate": "Subtropical",
+        "tempmax": {
+            "celsius": 30,
+            "fahrenheit": 20
+        },
+        "tempmin": {
+            "celsius": 12,
+            "fahrenheit": 53.6
+        },
+        "ideallight": "6 ou mais horas de luz solar direta por dia.",
+        "toleratedlight": "Luz solar direta.",
+        "watering": "Mantenha úmido entre as regas. Regue quando o solo estiver meio seco.",
+        "insects": "N/A",
+        "diseases": "Míldio",
+        "use": [
+            "Planta de vaso",
+            "Secundário"
+        ]
+    }
+]

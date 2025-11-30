@@ -1,127 +1,96 @@
-import React, { useState } from 'react';
-import { View, Text, SectionList, TouchableOpacity, SafeAreaView, ActivityIndicator, Alert } from 'react-native';
+import React from 'react';
+import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context'; // CORREÇÃO AQUI
 import { usePlants } from '../../contexts/PlantContext';
-import { Plus, Check, Clock, Droplets } from 'lucide-react-native';
+import { Plus, Droplets, Home, ChevronRight } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
-import tw from '../../utils/tw'; // Importe do nosso utilitário
+import tw from '../../utils/tw';
 
 export default function Dashboard() {
-  const { dueTasks, completeTask, snoozeTask, completeAllInRoom, loading } = usePlants();
+  const { plants, dueTasks, completeAllInRoom } = usePlants();
   const navigation = useNavigation<any>();
 
-  const groupedTasks = dueTasks.reduce((acc: any, task) => {
-    const room = task.room || 'Sem local';
-    if (!acc[room]) acc[room] = [];
-    acc[room].push(task);
-    return acc;
-  }, {});
+  // Agrupa plantas por cômodo
+  const rooms = Array.from(new Set(plants.map(p => p.room))).sort();
 
-  const sections = Object.keys(groupedTasks).map(room => ({
-    title: room,
-    data: groupedTasks[room]
-  }));
-
-  const handleComplete = (taskId: number, frequency: number, name: string) => {
-    completeTask(taskId, frequency, name);
+  // Conta tarefas pendentes no cômodo
+  const getPendingCount = (room: string) => {
+    return dueTasks.filter(t => t.room === room).length;
   };
 
-  const handleSnooze = (taskId: number, name: string) => {
-    Alert.alert("Adiar Tarefa", `Adiar cuidado com ${name} por quanto tempo?`, [
-      { text: "Cancelar", style: "cancel" },
-      { text: "1 Dia", onPress: () => snoozeTask(taskId, 1, name) },
-      { text: "2 Dias", onPress: () => snoozeTask(taskId, 2, name) }
+  const handleWaterRoom = (room: string) => {
+    Alert.alert("Regar Cômodo", `Marcar todas as plantas da ${room} como cuidadas?`, [
+        { text: "Cancelar", style: "cancel" },
+        { text: "Sim, Regar Tudo", onPress: () => completeAllInRoom(room) }
     ]);
   };
 
-  const renderTask = ({ item }: { item: any }) => (
-    <TouchableOpacity 
-      onPress={() => navigation.navigate('PlantDetails', { plant: { 
-        id: item.plant_id, 
-        name: item.plant_name, 
-        room: item.room,
-      }})}
-      style={tw`bg-white p-4 rounded-xl mb-3 flex-row items-center justify-between shadow-sm border border-gray-100`}
-    >
-      <View style={tw`flex-row items-center flex-1`}>
-        <View style={tw`p-3 rounded-full mr-4 ${item.type === 'water' ? 'bg-blue-100' : 'bg-yellow-100'}`}>
-          <Droplets color={item.type === 'water' ? "#3b82f6" : "#eab308"} size={24} />
-        </View>
-        <View>
-          <Text style={tw`text-lg font-bold text-gray-800`}>{item.plant_name}</Text>
-          <Text style={tw`text-gray-500 text-sm`}>
-            {item.type === 'water' ? 'Regar' : 'Cuidar'} • {item.frequency_days}d
-          </Text>
-        </View>
-      </View>
-      
-      <View style={tw`flex-row gap-2`}>
-        <TouchableOpacity 
-          onPress={() => handleSnooze(item.id, item.plant_name)}
-          style={tw`bg-gray-100 p-3 rounded-full`}
-        >
-          <Clock color="#6b7280" size={20} />
-        </TouchableOpacity>
+  const renderRoom = ({ item: room }: { item: string }) => {
+    const pendingCount = getPendingCount(room);
+    const roomPlants = plants.filter(p => p.room === room);
 
-        <TouchableOpacity 
-          onPress={() => handleComplete(item.id, item.frequency_days, item.plant_name)}
-          style={tw`bg-green-500 p-3 rounded-full`}
-        >
-          <Check color="white" size={20} />
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
-  );
-
-  const renderSectionHeader = ({ section: { title } }: any) => (
-    <View style={tw`flex-row justify-between items-center mt-6 mb-3 px-1`}>
-      <Text style={tw`text-xl font-bold text-gray-700 capitalize`}>{title}</Text>
-      <TouchableOpacity 
-        onPress={() => completeAllInRoom(title)}
-        style={tw`flex-row items-center bg-green-light px-3 py-1 rounded-full`}
-      >
-        <Check size={14} color="#166534" />
-        <Text style={tw`text-green-dark text-xs font-bold ml-1`}>Feito em Tudo</Text>
-      </TouchableOpacity>
-    </View>
-  );
-
-  if (loading) {
     return (
-      <View style={tw`flex-1 justify-center items-center bg-gray-50`}>
-        <ActivityIndicator size="large" color="#4ade80" />
+      <View style={tw`bg-white rounded-2xl mb-4 shadow-sm border border-gray-100 overflow-hidden`}>
+        {/* Cabeçalho do Cômodo */}
+        <View style={tw`p-4 bg-gray-50 flex-row justify-between items-center border-b border-gray-100`}>
+            <View style={tw`flex-row items-center`}>
+                <Home size={20} color="#4b5563" style={tw`mr-2`} />
+                <Text style={tw`text-lg font-bold text-gray-800`}>{room}</Text>
+            </View>
+            
+            {/* Botão de Regar Tudo (só aparece se houver pendências) */}
+            {pendingCount > 0 && (
+                <TouchableOpacity 
+                    onPress={() => handleWaterRoom(room)}
+                    style={tw`bg-blue-100 px-3 py-1 rounded-full flex-row items-center`}
+                >
+                    <Droplets size={14} color="#1d4ed8" />
+                    <Text style={tw`text-blue-800 text-xs font-bold ml-1`}>Regar Tudo ({pendingCount})</Text>
+                </TouchableOpacity>
+            )}
+        </View>
+
+        {/* Lista de Plantas do Cômodo */}
+        <View style={tw`px-4`}>
+            {roomPlants.map(plant => {
+                // Verifica se essa planta tem tarefa pendente
+                const isDue = dueTasks.some(t => t.plant_id === plant.id);
+                return (
+                    <TouchableOpacity 
+                        key={plant.id}
+                        onPress={() => navigation.navigate('PlantDetails', { plant })}
+                        style={tw`py-4 border-b border-gray-100 flex-row justify-between items-center last:border-0`}
+                    >
+                        <View style={tw`flex-row items-center`}>
+                            {isDue && <View style={tw`w-2 h-2 bg-red-500 rounded-full mr-2`} />}
+                            <Text style={tw`text-gray-700 font-medium`}>{plant.name}</Text>
+                        </View>
+                        <ChevronRight size={16} color="#d1d5db" />
+                    </TouchableOpacity>
+                );
+            })}
+        </View>
       </View>
     );
-  }
+  };
 
   return (
     <SafeAreaView style={tw`flex-1 bg-gray-50`}>
       <View style={tw`flex-1 px-5 pt-5`}>
-        <View style={tw`flex-row justify-between items-center mb-2 mt-4`}>
-          <View>
-            <Text style={tw`text-3xl font-bold text-gray-800`}>Hoje 🌿</Text>
-            <Text style={tw`text-gray-500`}>
-              {dueTasks.length} tarefas pendentes
-            </Text>
-          </View>
-        </View>
-
-        {dueTasks.length === 0 ? (
-          <View style={tw`flex-1 justify-center items-center pb-20`}>
-            <Text style={tw`text-gray-400 text-lg text-center`}>
-              Tudo limpo por hoje! ☀️
-            </Text>
-          </View>
-        ) : (
-          <SectionList
-            sections={sections}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={renderTask}
-            renderSectionHeader={renderSectionHeader}
-            showsVerticalScrollIndicator={false}
+        <Text style={tw`text-3xl font-bold text-gray-800 mb-6 mt-4`}>Meus Ambientes 🏡</Text>
+        
+        <FlatList 
+            data={rooms}
+            renderItem={renderRoom}
+            keyExtractor={item => item}
             contentContainerStyle={{ paddingBottom: 100 }}
-            stickySectionHeadersEnabled={false}
-          />
-        )}
+            ListEmptyComponent={
+                <View style={tw`items-center mt-20`}>
+                    <Text style={tw`text-gray-400 text-lg`}>Nenhum ambiente ainda.</Text>
+                    <Text style={tw`text-gray-400 text-sm`}>Adicione sua primeira planta!</Text>
+                </View>
+            }
+        />
 
         <TouchableOpacity 
           onPress={() => navigation.navigate('AddPlant')}

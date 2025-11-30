@@ -1,15 +1,13 @@
+// src/database/db.ts
 import * as SQLite from 'expo-sqlite';
 
-// Abre o banco de dados usando a nova API Síncrona (mais rápida e moderna)
 const db = SQLite.openDatabaseSync('plantcare.db');
 
 export const initDB = async () => {
   try {
-    // Executa os comandos SQL em lote (batch) de forma síncrona
     db.execSync(`
       PRAGMA journal_mode = WAL;
 
-      -- 1. Tabela de Plantas
       CREATE TABLE IF NOT EXISTS plants (
         id INTEGER PRIMARY KEY NOT NULL,
         name TEXT NOT NULL,
@@ -22,7 +20,6 @@ export const initDB = async () => {
         created_at TEXT
       );
 
-      -- 2. Tabela de Tarefas
       CREATE TABLE IF NOT EXISTS tasks (
         id INTEGER PRIMARY KEY NOT NULL,
         plant_id INTEGER NOT NULL,
@@ -33,12 +30,20 @@ export const initDB = async () => {
         FOREIGN KEY (plant_id) REFERENCES plants (id) ON DELETE CASCADE
       );
 
-      -- 3. Tabela de Histórico
       CREATE TABLE IF NOT EXISTS history (
         id INTEGER PRIMARY KEY NOT NULL,
         task_id INTEGER NOT NULL,
         date_performed TEXT NOT NULL,
         FOREIGN KEY (task_id) REFERENCES tasks (id) ON DELETE CASCADE
+      );
+
+      -- NOVA TABELA DE FOTOS
+      CREATE TABLE IF NOT EXISTS plant_photos (
+        id INTEGER PRIMARY KEY NOT NULL,
+        plant_id INTEGER NOT NULL,
+        photo_uri TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        FOREIGN KEY (plant_id) REFERENCES plants (id) ON DELETE CASCADE
       );
     `);
     console.log("Banco de dados inicializado com sucesso!");
@@ -48,12 +53,9 @@ export const initDB = async () => {
   }
 };
 
-// Helper para manter compatibilidade com os DAOs que criamos
-// Ele decide automaticamente se usa runSync (INSERT/UPDATE) ou getAllSync (SELECT)
 export const executeSql = async (sql: string, params: any[] = []) => {
   try {
     const isSelect = sql.trim().toUpperCase().startsWith('SELECT');
-
     if (isSelect) {
       const allRows = await db.getAllAsync(sql, params);
       return {
@@ -68,11 +70,7 @@ export const executeSql = async (sql: string, params: any[] = []) => {
       return {
         insertId: result.lastInsertRowId,
         rowsAffected: result.changes,
-        rows: {
-          _array: [],
-          length: 0,
-          item: () => null
-        }
+        rows: { _array: [], length: 0, item: () => null }
       };
     }
   } catch (error) {

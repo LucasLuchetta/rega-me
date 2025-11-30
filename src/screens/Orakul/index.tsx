@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, FlatList, RefreshControl, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, RefreshControl } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context'; // CORREÇÃO AQUI
 import { TaskDAO } from '../../database/TaskDAO';
 import { CalendarDays, Droplets } from 'lucide-react-native';
 import { useFocusEffect } from '@react-navigation/native';

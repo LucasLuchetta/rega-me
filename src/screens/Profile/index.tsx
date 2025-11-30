@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, ScrollView, SafeAreaView, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, RefreshControl } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context'; // CORREÇÃO AQUI
 import { usePlants } from '../../contexts/PlantContext';
 import { useFocusEffect } from '@react-navigation/native';
 import { Trophy, Sprout, CheckCircle2, Flame, Award } from 'lucide-react-native';

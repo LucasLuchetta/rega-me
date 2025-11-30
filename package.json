@@ -16,6 +16,7 @@
     "expo": "~54.0.25",
     "expo-device": "~8.0.9",
     "expo-file-system": "~19.0.19",
+    "expo-image-picker": "~17.0.8",
     "expo-notifications": "~0.32.13",
     "expo-sensors": "~15.0.7",
     "expo-sqlite": "~16.0.9",
