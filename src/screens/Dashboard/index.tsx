@@ -1,37 +1,89 @@
-import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, SectionList, TouchableOpacity, SafeAreaView, ActivityIndicator, Alert } from 'react-native';
 import { usePlants } from '../../contexts/PlantContext';
-import { Plus, Check, Droplets } from 'lucide-react-native';
+import { Plus, Check, Clock, Droplets } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Dashboard() {
-  const { dueTasks, completeTask, loading } = usePlants();
+  const { dueTasks, completeTask, snoozeTask, completeAllInRoom, loading } = usePlants();
   const navigation = useNavigation<any>();
+  const [snoozingId, setSnoozingId] = useState<number | null>(null);
 
-  const handleComplete = (taskId: number, frequency: number) => {
-    completeTask(taskId, frequency);
+  // Lógica para agrupar tarefas por ambiente
+  const groupedTasks = dueTasks.reduce((acc: any, task) => {
+    const room = task.room || 'Sem local';
+    if (!acc[room]) acc[room] = [];
+    acc[room].push(task);
+    return acc;
+  }, {});
+
+  const sections = Object.keys(groupedTasks).map(room => ({
+    title: room,
+    data: groupedTasks[room]
+  }));
+
+  const handleComplete = (taskId: number, frequency: number, name: string) => {
+    completeTask(taskId, frequency, name);
   };
 
-  // Tipamos explicitamente o item como any aqui também para evitar erros
+  const handleSnooze = (taskId: number, name: string) => {
+    Alert.alert("Adiar Tarefa", `Adiar cuidado com ${name} por quanto tempo?`, [
+      { text: "Cancelar", style: "cancel" },
+      { text: "1 Dia", onPress: () => snoozeTask(taskId, 1, name) },
+      { text: "2 Dias", onPress: () => snoozeTask(taskId, 2, name) }
+    ]);
+  };
+
   const renderTask = ({ item }: { item: any }) => (
-    <View className="bg-white p-4 rounded-xl mb-3 flex-row items-center justify-between shadow-sm border border-green-light">
+    <TouchableOpacity 
+      onPress={() => navigation.navigate('PlantDetails', { plant: { 
+        id: item.plant_id, 
+        name: item.plant_name, 
+        room: item.room,
+        // Passar outros dados se disponíveis na query do Dashboard ou buscar lá
+        // Simplificação: Passamos o básico, o details busca o resto ou ajustamos a query getDueTasks
+      }})}
+      className="bg-white p-4 rounded-xl mb-3 flex-row items-center justify-between shadow-sm border border-gray-100"
+    >
       <View className="flex-row items-center flex-1">
-        <View className="bg-green-light p-3 rounded-full mr-4">
-          <Droplets color="#166534" size={24} />
+        <View className={`p-3 rounded-full mr-4 ${item.type === 'water' ? 'bg-blue-100' : 'bg-yellow-100'}`}>
+          <Droplets color={item.type === 'water' ? "#3b82f6" : "#eab308"} size={24} />
         </View>
         <View>
           <Text className="text-lg font-bold text-gray-800">{item.plant_name}</Text>
           <Text className="text-gray-500 text-sm">
-            {item.room} • Regar a cada {item.frequency_days} dias
+            {item.type === 'water' ? 'Regar' : 'Cuidar'} • {item.frequency_days}d
           </Text>
         </View>
       </View>
       
+      <View className="flex-row gap-2">
+        <TouchableOpacity 
+          onPress={() => handleSnooze(item.id, item.plant_name)}
+          className="bg-gray-100 p-3 rounded-full"
+        >
+          <Clock color="#6b7280" size={20} />
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          onPress={() => handleComplete(item.id, item.frequency_days, item.plant_name)}
+          className="bg-green-500 p-3 rounded-full active:bg-green-700"
+        >
+          <Check color="white" size={20} />
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const renderSectionHeader = ({ section: { title } }: any) => (
+    <View className="flex-row justify-between items-center mt-6 mb-3 px-1">
+      <Text className="text-xl font-bold text-gray-700 capitalize">{title}</Text>
       <TouchableOpacity 
-        onPress={() => handleComplete(item.id, item.frequency_days)}
-        className="bg-green-500 p-3 rounded-full active:bg-green-700"
+        onPress={() => completeAllInRoom(title)}
+        className="flex-row items-center bg-green-100 px-3 py-1 rounded-full"
       >
-        <Check color="white" size={20} />
+        <Check size={14} color="#166534" />
+        <Text className="text-green-800 text-xs font-bold ml-1">Feito em Tudo</Text>
       </TouchableOpacity>
     </View>
   );
@@ -47,13 +99,11 @@ export default function Dashboard() {
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <View className="flex-1 px-5 pt-5">
-        <View className="flex-row justify-between items-center mb-6 mt-4">
+        <View className="flex-row justify-between items-center mb-2 mt-4">
           <View>
-            <Text className="text-3xl font-bold text-gray-800">Olá, Jardineiro! 🌿</Text>
+            <Text className="text-3xl font-bold text-gray-800">Hoje 🌿</Text>
             <Text className="text-gray-500">
-              {dueTasks.length > 0 
-                ? `Você tem ${dueTasks.length} tarefas hoje.` 
-                : "Tudo em ordem por aqui."}
+              {dueTasks.length} tarefas pendentes
             </Text>
           </View>
         </View>
@@ -61,23 +111,24 @@ export default function Dashboard() {
         {dueTasks.length === 0 ? (
           <View className="flex-1 justify-center items-center pb-20">
             <Text className="text-gray-400 text-lg text-center">
-              Nenhuma planta precisa de cuidados agora.{"\n"}Aproveite o dia! ☀️
+              Tudo limpo por hoje! ☀️
             </Text>
           </View>
         ) : (
-          <FlatList
-            data={dueTasks}
-            // CORREÇÃO AQUI: Tipagem explícita para o item
-            keyExtractor={(item: any) => item.id.toString()}
+          <SectionList
+            sections={sections}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={renderTask}
+            renderSectionHeader={renderSectionHeader}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 100 }}
+            stickySectionHeadersEnabled={false}
           />
         )}
 
         <TouchableOpacity 
           onPress={() => navigation.navigate('AddPlant')}
-          className="absolute bottom-6 right-6 bg-green-dark w-14 h-14 rounded-full justify-center items-center shadow-lg elevation-5"
+          className="absolute bottom-6 right-6 bg-green-600 w-14 h-14 rounded-full justify-center items-center shadow-lg elevation-5"
         >
           <Plus color="white" size={30} />
         </TouchableOpacity>

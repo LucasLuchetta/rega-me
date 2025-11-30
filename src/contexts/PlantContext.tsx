@@ -1,11 +1,9 @@
-// src/contexts/PlantContext.tsx
-import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useEffect, useContext, type ReactNode } from 'react';
 import { Alert } from 'react-native';
 import { PlantDAO, Plant } from '../database/PlantDAO';
-import { TaskDAO } from '../database/TaskDAO';
+import { TaskDAO, Task } from '../database/TaskDAO';
 import { NotificationService } from '../services/NotificationService';
 
-// Interface estendida para incluir dados do formulário que não estão na interface base Plant (como frequency)
 interface PlantData extends Plant {
   frequencyDays: number;
 }
@@ -18,6 +16,10 @@ interface PlantContextData {
   addNewPlant: (plantData: PlantData) => Promise<void>;
   removePlant: (id: number) => Promise<void>;
   completeTask: (taskId: number, frequency: number, plantName: string) => Promise<void>;
+  snoozeTask: (taskId: number, days: number, plantName: string) => Promise<void>;
+  completeAllInRoom: (room: string) => Promise<void>;
+  addTaskToPlant: (task: Task) => Promise<void>;
+  getPlantTasks: (plantId: number) => Promise<any[]>;
 }
 
 const PlantContext = createContext<PlantContextData>({} as PlantContextData);
@@ -45,7 +47,6 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
 
   const addNewPlant = async (plantData: PlantData) => {
     try {
-      // 1. Salvar Planta
       const result = await PlantDAO.addPlant({
         name: plantData.name,
         species: plantData.species,
@@ -56,11 +57,8 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
         drainage: plantData.drainage
       });
       
-      // 2. Criar Tarefa de Rega Inicial
       if (result.insertId) {
         const nextDueDate = new Date();
-        // A primeira rega é "hoje" ou definida pelo usuário? Vamos assumir hoje para teste, ou daqui a X dias.
-        // Para o fluxo inicial, vamos assumir que a pessoa acabou de cuidar ou quer ser lembrada daqui a X dias.
         nextDueDate.setDate(nextDueDate.getDate() + plantData.frequencyDays);
 
         await TaskDAO.addTask({
@@ -70,9 +68,6 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
           next_due: nextDueDate.toISOString()
         });
 
-        // 3. Agendar Notificação (Convertendo dias para segundos para teste rápido, ou dias reais)
-        // NOTA: Para produção, use dias * 24 * 60 * 60. Para TESTE, vou usar segundos.
-        // Mude abaixo para dias reais quando for lançar.
         const secondsUntilNotify = plantData.frequencyDays * 24 * 60 * 60; 
         await NotificationService.scheduleWateringReminder(plantData.name, secondsUntilNotify);
       }
@@ -81,6 +76,30 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error(error);
       Alert.alert("Erro", "Falha ao adicionar planta.");
+    }
+  };
+
+  // Adicionar tarefa extra (Multitarefa)
+  const addTaskToPlant = async (task: Task) => {
+    try {
+      await TaskDAO.addTask(task);
+      await loadData();
+      
+      // Opcional: Agendar notificação para essa nova tarefa também
+      // await NotificationService.schedule...
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Erro", "Falha ao adicionar tarefa.");
+    }
+  };
+
+  const getPlantTasks = async (plantId: number) => {
+    try {
+      const result: any = await TaskDAO.getTasksByPlantId(plantId);
+      return result.rows._array || [];
+    } catch (error) {
+      console.error(error);
+      return [];
     }
   };
 
@@ -96,20 +115,51 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
   const completeTask = async (taskId: number, frequency: number, plantName: string) => {
     try {
       await TaskDAO.completeTask(taskId, frequency);
-      
-      // Reagendar notificação para o próximo ciclo
       const secondsUntilNext = frequency * 24 * 60 * 60;
       await NotificationService.scheduleWateringReminder(plantName, secondsUntilNext);
-
       await loadData();
     } catch (error) {
       console.error(error);
     }
   };
 
+  // NOVO: Snooze
+  const snoozeTask = async (taskId: number, days: number, plantName: string) => {
+    try {
+      await TaskDAO.snoozeTask(taskId, days);
+      
+      // Reagendar notificação para daqui a X dias
+      const secondsUntilNext = days * 24 * 60 * 60;
+      await NotificationService.scheduleWateringReminder(plantName, secondsUntilNext);
+      
+      await loadData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // NOVO: Completar todas do ambiente
+  const completeAllInRoom = async (room: string) => {
+    try {
+      // Filtra tarefas atrasadas desse ambiente
+      const tasksInRoom = dueTasks.filter(t => t.room === room);
+      
+      // Executa tudo em paralelo
+      const promises = tasksInRoom.map(t => 
+        completeTask(t.id, t.frequency_days, t.plant_name)
+      );
+      
+      await Promise.all(promises);
+      Alert.alert("Sucesso", `Todas as plantas da ${room} foram cuidadas! 🌱`);
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Erro", "Falha ao concluir tarefas do ambiente.");
+    }
+  };
+
   useEffect(() => {
     loadData();
-    NotificationService.requestPermissions(); // Pede permissão ao iniciar
+    NotificationService.requestPermissions();
   }, []);
 
   return (
@@ -120,7 +170,11 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       loadData, 
       addNewPlant, 
       removePlant,
-      completeTask 
+      completeTask,
+      snoozeTask,
+      completeAllInRoom,
+      addTaskToPlant,
+      getPlantTasks
     }}>
       {children}
     </PlantContext.Provider>

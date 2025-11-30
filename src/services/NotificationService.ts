@@ -7,8 +7,9 @@ Notifications.setNotificationHandler({
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: false,
-    shouldShowBanner: true, // Added
-    shouldShowList: true,   // Added
+    shouldShowBanner: true,
+    shouldShowList: true,
+    priority: Notifications.AndroidNotificationPriority.HIGH,
   }),
 });
 
@@ -39,7 +40,8 @@ export const NotificationService = {
       content: {
         title: "Hora de regar! 💧",
         body: `Sua ${plantName} está com sede.`,
-        sound: true, // Note: sound: true might need specific sound file config on some android versions, but works generally
+        sound: true,
+        priority: Notifications.AndroidNotificationPriority.HIGH,
       },
       trigger: {
         type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,

@@ -6,13 +6,13 @@ import { Leaf, Calendar, User } from 'lucide-react-native';
 // Telas
 import Dashboard from '../screens/Dashboard';
 import AddPlant from '../screens/AddPlant';
+import PlantDetails from '../screens/PlantDetails';
 import Orakul from '../screens/Orakul';
 import Profile from '../screens/Profile';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-// Stack específica para a aba Jardim (permite navegar para AddPlant)
 function GardenStack() {
   return (
     <Stack.Navigator>
@@ -27,7 +27,16 @@ function GardenStack() {
         options={{ 
           title: 'Nova Planta',
           headerStyle: { backgroundColor: '#fff' },
-          headerTintColor: '#166534', // green.dark
+          headerTintColor: '#166534', 
+        }} 
+      />
+      <Stack.Screen 
+        name="PlantDetails" 
+        component={PlantDetails} 
+        options={{ 
+          title: 'Detalhes',
+          headerStyle: { backgroundColor: '#fff' },
+          headerTintColor: '#166534', 
         }} 
       />
     </Stack.Navigator>
@@ -39,7 +48,7 @@ export default function AppNavigator() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#166534', // green.dark
+        tabBarActiveTintColor: '#166534',
         tabBarInactiveTintColor: '#9ca3af',
         tabBarStyle: { paddingBottom: 5, height: 60 },
       }}

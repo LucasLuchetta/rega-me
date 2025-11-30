@@ -5,8 +5,14 @@ import { usePlants } from '../../contexts/PlantContext';
 import { useNavigation } from '@react-navigation/native';
 import { CheckCircle2, Circle } from 'lucide-react-native';
 
+interface OptionPillProps {
+  label: string;
+  selected: boolean;
+  onPress: () => void;
+}
+
 // Componente simples de Radio Button Pílula
-const OptionPill = ({ label, selected, onPress }: any) => (
+const OptionPill = ({ label, selected, onPress }: OptionPillProps) => (
   <TouchableOpacity 
     onPress={onPress}
     className={`px-4 py-2 rounded-full mr-2 mb-2 border ${selected ? 'bg-green-100 border-green-500' : 'bg-gray-50 border-gray-200'}`}
