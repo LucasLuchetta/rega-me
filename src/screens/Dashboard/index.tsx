@@ -1,211 +1,217 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert, ImageBackground } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { usePlants } from '../../contexts/PlantContext';
-import { Plus, Droplets, MapPin, ChevronRight, Check, Clock, FastForward } from 'lucide-react-native';
+import { Plus, MapPin, CloudSun, Wind, Droplets } from 'lucide-react-native'; // Importei ícones de clima
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import CircularProgress from '../../components/CircularProgress'; // Importe o novo componente
 import tw from '../../utils/tw';
 
-export default function Dashboard() {
-  const { plants, dueTasks, completeAllInRoom, completeTask, snoozeTask, anticipateTask, getPlantTasks, loadData } = usePlants();
-  const navigation = useNavigation<any>();
-  const [greeting, setGreeting] = useState('');
+const { width } = Dimensions.get('window');
+const CARD_WIDTH = (width - 48) / 2;
 
-  useFocusEffect(useCallback(() => {
-    loadData();
-    const hour = new Date().getHours();
-    if (hour < 12) setGreeting('Bom dia, Jardineiro(a) ☀️');
-    else if (hour < 18) setGreeting('Boa tarde 🍃');
-    else setGreeting('Boa noite 🌙');
-  }, []));
+export default function Dashboard() {
+  const { plants, dueTasks, completeTask, snoozeTask, loadData } = usePlants();
+  const navigation = useNavigation<any>();
+
+  useFocusEffect(useCallback(() => { loadData(); }, []));
 
   const rooms = Array.from(new Set(plants.map(p => p.room))).sort();
-
-  const getPendingCount = (room: string) => {
-    return dueTasks.filter(t => t.room === room).length;
-  };
 
   const handleQuickWater = (task: any) => {
       completeTask(task.id, task.frequency_days, task.plant_name);
   };
 
-  const handleQuickSnooze = (task: any) => {
-      snoozeTask(task.id, 2, task.plant_name);
-      Alert.alert("Adiado", "Lembramos você em 2 dias.");
-  };
-
-  const handleQuickAnticipate = async (plant: any) => {
-      const tasks = await getPlantTasks(plant.id);
-      const waterTask = tasks.find((t: any) => t.type === 'water');
+  // Função para calcular a % de água restante
+  const getWaterLevel = (nextDue: string, frequency: number) => {
+      const today = new Date();
+      const due = new Date(nextDue);
       
-      if (waterTask) {
-          Alert.alert("Adiantar Rega?", `Confirmar rega de hoje para ${plant.name}?`, [
-              { text: "Cancelar", style: "cancel" },
-              { 
-                  text: "Sim, reguei!", 
-                  onPress: async () => {
-                      await anticipateTask(waterTask.id, waterTask.frequency_days, plant.name);
-                      loadData();
-                  } 
-              }
-          ]);
-      } else {
-          Alert.alert("Ops", "Esta planta não tem uma tarefa de rega configurada.");
-      }
+      // Diferença em dias
+      const diffTime = due.getTime() - today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      // Se já passou da data (negativo), nível é 0%
+      if (diffDays <= 0) return 0;
+      
+      // Se falta mais dias que a frequência (ex: adiantado), 100%
+      if (diffDays > frequency) return 100;
+
+      // Cálculo da porcentagem
+      return Math.round((diffDays / frequency) * 100);
   };
 
-  const handleWaterRoom = (room: string) => {
-    Alert.alert(
-        "Ritual de Cuidado 🚿", 
-        `Vamos cuidar de todas as plantas da ${room} agora?`, 
-        [
-            { text: "Agora não", style: "cancel" },
-            { 
-                text: "Sim, cuidar de tudo!", 
-                onPress: () => completeAllInRoom(room),
-                style: "default"
-            }
-        ]
-    );
-  };
-
-  const ListHeader = () => (
-    <View style={tw`mb-8 mt-2`}>
-        <Text style={tw`text-gray-400 text-xs font-bold uppercase tracking-widest mb-1`}>
-            {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
-        </Text>
-        <Text style={tw`text-3xl font-extrabold text-gray-900`}>{greeting}</Text>
-        
-        {/* Substituído Gradiente por Cor Sólida */}
-        <View style={tw`mt-6 bg-green-700 rounded-3xl p-6 shadow-lg relative overflow-hidden`}>
-            <View style={tw`absolute -right-4 -top-4 w-32 h-32 bg-green-500 rounded-full opacity-20`} />
-            <Text style={tw`text-green-100 font-medium text-sm mb-1`}>Status do Jardim</Text>
-            <View style={tw`flex-row items-end`}>
-                <Text style={tw`text-white text-4xl font-bold mr-2`}>{dueTasks.length}</Text>
-                <Text style={tw`text-green-100 text-lg mb-1`}>ações pendentes</Text>
-            </View>
-            <Text style={tw`text-green-200 mt-2 text-sm`}>
-                {dueTasks.length === 0 ? "Seu oásis está em perfeita harmonia. 🧘‍♀️" : "Algumas amigas precisam de sua atenção hoje."}
-            </Text>
+  // Widget de Tempo Simples (Mock Visual)
+  const WeatherWidget = () => (
+    <View style={tw`flex-row items-center bg-white px-3 py-2 rounded-full border border-gray-100 shadow-sm`}>
+        <View style={tw`bg-blue-50 p-1.5 rounded-full mr-2`}>
+            <CloudSun size={16} color="#3b82f6" />
+        </View>
+        <View>
+            <Text style={tw`text-gray-800 font-bold text-xs`}>24°C</Text>
+            <Text style={tw`text-gray-400 text-[10px] font-medium`}>Ensolarado</Text>
         </View>
     </View>
   );
 
-  const renderRoom = ({ item: room }: { item: string }) => {
-    const pendingCount = getPendingCount(room);
-    const roomPlants = plants.filter(p => p.room === room);
-
-    return (
-      <View style={tw`bg-white rounded-3xl mb-5 shadow-sm border border-gray-100`}>
-        <View style={tw`p-5 border-b border-gray-50 flex-row justify-between items-center`}>
-            <View style={tw`flex-row items-center`}>
-                <View style={tw`bg-gray-50 p-2.5 rounded-full mr-3`}>
-                    <MapPin size={18} color="#4b5563" />
-                </View>
-                <View>
-                    <Text style={tw`text-lg font-bold text-gray-800 leading-tight`}>{room}</Text>
-                    <Text style={tw`text-xs text-gray-400 font-medium`}>{roomPlants.length} planta(s)</Text>
-                </View>
+  const RenderHeader = () => (
+    <View style={tw`px-6 pt-2 pb-6`}>
+        {/* Top Bar com Clima */}
+        <View style={tw`flex-row justify-between items-start mb-8`}>
+            <View style={tw`flex-1`}>
+                <Text style={tw`text-gray-400 text-xs font-bold uppercase tracking-widest mb-1`}>
+                    {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
+                </Text>
+                <Text style={tw`text-3xl font-extrabold text-gray-800`}>Meu Jardim 🌱</Text>
             </View>
-            {pendingCount > 0 && (
-                <TouchableOpacity 
-                    onPress={() => handleWaterRoom(room)}
-                    style={tw`bg-blue-50 px-4 py-2 rounded-full flex-row items-center border border-blue-100`}
-                >
-                    <Droplets size={14} color="#2563eb" />
-                    <Text style={tw`text-blue-700 text-xs font-bold ml-2`}>Cuidar ({pendingCount})</Text>
-                </TouchableOpacity>
-            )}
+            
+            {/* Novo Widget de Tempo no Canto Superior Direito */}
+            <WeatherWidget />
         </View>
 
-        <View style={tw`py-1`}>
-            {roomPlants.map((plant, index) => {
-                const pendingTask = dueTasks.find(t => t.plant_id === plant.id);
-                const isDue = !!pendingTask;
+        {/* Section: Lembretes de Hoje (Cards com Círculo de Água) */}
+        <View style={tw`mb-4`}>
+            <View style={tw`flex-row justify-between items-end mb-4`}>
+                <Text style={tw`text-xl font-bold text-gray-800`}>Precisam de Água</Text>
+            </View>
 
-                return (
-                    <View key={plant.id} style={tw`mx-4 py-4 ${index !== roomPlants.length -1 ? 'border-b border-gray-50' : ''}`}>
-                        <TouchableOpacity 
-                            onPress={() => navigation.navigate('PlantDetails', { plant })}
-                            style={tw`flex-row justify-between items-center`}
-                        >
-                            <View style={tw`flex-row items-center flex-1`}>
-                                <View style={tw`w-10 h-10 rounded-full ${isDue ? 'bg-orange-50 border border-orange-100' : 'bg-green-50 border border-green-100'} items-center justify-center mr-3 overflow-hidden`}>
-                                    {plant.photo_uri ? (
-                                        <ImageBackground source={{ uri: plant.photo_uri }} style={tw`w-full h-full`} />
-                                    ) : (
-                                        <Text style={tw`text-lg`}>{isDue ? '🥀' : '🌿'}</Text>
-                                    )}
+            {dueTasks.length === 0 ? (
+                <View style={tw`bg-green-50 p-6 rounded-3xl border border-green-100 items-center flex-row`}>
+                    <View style={tw`bg-green-100 p-3 rounded-full mr-4`}>
+                        <Droplets size={24} color="#166534" />
+                    </View>
+                    <View style={tw`flex-1`}>
+                        <Text style={tw`text-green-800 font-bold text-lg`}>Tudo hidratado!</Text>
+                        <Text style={tw`text-green-600 text-sm`}>Suas plantas estão felizes por hoje.</Text>
+                    </View>
+                </View>
+            ) : (
+                <FlatList 
+                    data={dueTasks}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={item => item.id.toString()}
+                    contentContainerStyle={{ paddingRight: 24 }}
+                    renderItem={({ item }) => {
+                        // Calcula o nível de água baseado na data
+                        const waterLevel = getWaterLevel(item.next_due, item.frequency_days);
+                        
+                        // Define cor baseada na urgência
+                        let levelColor = '#22c55e'; // Verde
+                        if (waterLevel < 30) levelColor = '#f59e0b'; // Amarelo
+                        if (waterLevel < 10) levelColor = '#ef4444'; // Vermelho
+
+                        return (
+                            <View style={tw`bg-white w-72 p-5 rounded-[28px] mr-4 shadow-sm border border-gray-100`}>
+                                <View style={tw`flex-row justify-between items-start mb-4`}>
+                                    <View style={tw`flex-row items-center flex-1`}>
+                                        <Image 
+                                            source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/icon.png')} 
+                                            style={tw`w-14 h-14 rounded-2xl bg-gray-100`} 
+                                        />
+                                        <View style={tw`ml-3 flex-1`}>
+                                            <Text style={tw`font-bold text-gray-800 text-lg`} numberOfLines={1}>{item.plant_name}</Text>
+                                            <Text style={tw`text-gray-400 text-xs uppercase font-bold tracking-wide`}>{item.room}</Text>
+                                        </View>
+                                    </View>
+                                    
+                                    {/* Círculo de Porcentagem de Água */}
+                                    <View style={tw`ml-2`}>
+                                        <CircularProgress 
+                                            size={48} 
+                                            percentage={waterLevel} 
+                                            color={levelColor} 
+                                            strokeWidth={4}
+                                        />
+                                    </View>
                                 </View>
-                                <View>
-                                    <Text style={tw`text-gray-700 font-semibold`}>{plant.name}</Text>
-                                    <Text style={tw`text-gray-400 text-xs italic`}>{plant.species || 'Espécie desconhecida'}</Text>
+
+                                <View style={tw`flex-row gap-3 mt-2`}>
+                                    <TouchableOpacity 
+                                        onPress={() => snoozeTask(item.id, 1, item.plant_name)}
+                                        style={tw`flex-1 py-3 rounded-xl bg-gray-50 border border-gray-200 items-center`}
+                                    >
+                                        <Text style={tw`text-gray-500 font-bold text-sm`}>Adiar</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity 
+                                        onPress={() => handleQuickWater(item)}
+                                        style={tw`flex-1 py-3 bg-blue-500 rounded-xl items-center shadow-lg shadow-blue-500/30 flex-row justify-center`}
+                                    >
+                                        <Droplets size={16} color="white" style={tw`mr-2`} />
+                                        <Text style={tw`text-white font-bold text-sm`}>Regar</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
-                            <ChevronRight size={18} color="#e5e7eb" />
-                        </TouchableOpacity>
-
-                        <View style={tw`flex-row mt-3 justify-end gap-2`}>
-                            {isDue ? (
-                                <>
-                                    <TouchableOpacity 
-                                        onPress={() => handleQuickSnooze(pendingTask)}
-                                        style={tw`bg-orange-50 px-3 py-1.5 rounded-lg flex-row items-center border border-orange-100`}
-                                    >
-                                        <Clock size={12} color="#ea580c" />
-                                        <Text style={tw`text-orange-700 text-xs font-bold ml-1`}>Adiar</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity 
-                                        onPress={() => handleQuickWater(pendingTask)}
-                                        style={tw`bg-green-100 px-3 py-1.5 rounded-lg flex-row items-center border border-green-200`}
-                                    >
-                                        <Check size={12} color="#166534" />
-                                        <Text style={tw`text-green-800 text-xs font-bold ml-1`}>Feito</Text>
-                                    </TouchableOpacity>
-                                </>
-                            ) : (
-                                <TouchableOpacity 
-                                    onPress={() => handleQuickAnticipate(plant)}
-                                    style={tw`bg-blue-50 px-3 py-1.5 rounded-lg flex-row items-center border border-blue-100`}
-                                >
-                                    <FastForward size={12} color="#2563eb" />
-                                    <Text style={tw`text-blue-700 text-xs font-bold ml-1`}>Adiantar</Text>
-                                </TouchableOpacity>
-                            )}
-                        </View>
-                    </View>
-                );
-            })}
+                        );
+                    }}
+                />
+            )}
         </View>
-      </View>
+        
+        {/* Título da seção de salas */}
+        <Text style={tw`text-xl font-bold text-gray-800 mt-4 mb-2`}>Minhas Salas</Text>
+    </View>
+  );
+
+  const renderRoomItem = ({ item: room }: { item: string }) => {
+    const roomPlants = plants.filter(p => p.room === room);
+    
+    // Verifica se alguma planta nesta sala precisa de água
+    const pendingTasksInRoom = dueTasks.filter(t => t.room === room).length;
+
+    return (
+        <TouchableOpacity 
+            style={[tw`bg-white p-5 rounded-[28px] mb-4 shadow-sm border border-gray-100 justify-between relative overflow-hidden`, { width: CARD_WIDTH, height: CARD_WIDTH * 1.2 }]}
+            onPress={() => {/* Navegar para lista da sala */}}
+        >
+            {/* Indicador de Alerta na Sala */}
+            {pendingTasksInRoom > 0 && (
+                <View style={tw`absolute top-0 right-0 bg-red-500 px-3 py-1 rounded-bl-2xl z-10`}>
+                    <Text style={tw`text-white text-[10px] font-bold`}>{pendingTasksInRoom}</Text>
+                </View>
+            )}
+
+            <View>
+                <View style={tw`bg-green-50 w-12 h-12 rounded-2xl items-center justify-center mb-3`}>
+                    <MapPin size={20} color="#166534" />
+                </View>
+                <Text style={tw`font-bold text-gray-800 text-lg leading-tight`} numberOfLines={1}>{room}</Text>
+                <Text style={tw`text-gray-400 text-xs mt-1`}>{roomPlants.length} plantas</Text>
+            </View>
+
+            {/* Miniaturas das plantas na sala */}
+            <View style={tw`flex-row mt-4 pl-2`}>
+                {roomPlants.slice(0, 3).map((p, i) => (
+                    <View key={p.id} style={tw`w-8 h-8 rounded-full border-2 border-white -ml-2 bg-gray-200 overflow-hidden shadow-sm`}>
+                         {p.photo_uri ? (
+                            <Image source={{ uri: p.photo_uri }} style={tw`w-full h-full`} />
+                         ) : <View style={tw`w-full h-full bg-green-200 items-center justify-center`}><Text style={tw`text-[8px]`}>🌿</Text></View>}
+                    </View>
+                ))}
+            </View>
+        </TouchableOpacity>
     );
   };
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-[#F3F4F6]`}>
-      <FlatList 
-          data={rooms}
-          renderItem={renderRoom}
-          keyExtractor={item => item}
-          contentContainerStyle={{ padding: 20, paddingBottom: 100 }}
-          ListHeaderComponent={ListHeader}
-          ListEmptyComponent={
-              <View style={tw`items-center mt-10 p-10 bg-white rounded-3xl border-2 border-dashed border-gray-200`}>
-                  <Text style={tw`text-4xl mb-4 text-gray-300`}>🪴</Text> 
-                  <Text style={tw`text-gray-800 font-bold text-lg`}>Comece seu Oásis</Text>
-                  <Text style={tw`text-gray-400 text-center mt-2 leading-relaxed`}>
-                      Seu jardim digital começa com a primeira planta. Toque no botão verde para dar vida ao app.
-                  </Text>
-              </View>
-          }
+    <SafeAreaView style={tw`flex-1 bg-[#FAFAFA]`}>
+      <FlatList
+        ListHeaderComponent={RenderHeader}
+        data={rooms}
+        keyExtractor={item => item}
+        renderItem={renderRoomItem}
+        numColumns={2}
+        columnWrapperStyle={tw`justify-between px-6`}
+        contentContainerStyle={{ paddingBottom: 100 }}
       />
 
+      {/* Botão Flutuante */}
       <TouchableOpacity 
         onPress={() => navigation.navigate('AddPlant')}
-        style={tw`absolute bottom-6 right-6 bg-green-600 w-16 h-16 rounded-full justify-center items-center shadow-2xl border-4 border-white`}
+        style={tw`absolute bottom-8 right-6 bg-gray-900 w-16 h-16 rounded-full justify-center items-center shadow-2xl shadow-gray-900/50`}
         activeOpacity={0.9}
       >
-        <Plus color="white" size={32} strokeWidth={2.5} />
+        <Plus color="white" size={32} />
       </TouchableOpacity>
     </SafeAreaView>
   );

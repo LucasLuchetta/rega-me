@@ -5,8 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { CheckCircle2, Circle, Search } from 'lucide-react-native';
 import tw from '../../utils/tw';
 
-// CORREÇÃO AQUI: Importando da pasta src/database
-// Certifique-se de que o arquivo plants_pt.json esteja em src/database/
+// Importando da pasta src/database
 import plantsData from '../../database/plants_pt.json';
 
 const COMMON_ROOMS = ['Sala', 'Quarto', 'Cozinha', 'Varanda', 'Banheiro', 'Jardim'];
@@ -19,6 +18,19 @@ const OptionPill = ({ label, selected, onPress }: any) => (
     <Text style={tw`${selected ? 'text-green-dark font-bold' : 'text-gray-600'}`}>{label}</Text>
   </TouchableOpacity>
 );
+
+// Função auxiliar para estimar frequência baseada na descrição
+const estimateFrequency = (description: string, category: string) => {
+  const text = description ? description.toLowerCase() : '';
+  const cat = category ? category.toLowerCase() : '';
+  
+  if (cat.includes('cacto') || cat.includes('suculenta')) return '15';
+  if (text.includes('secar entre') || text.includes('apenas quando seco') || text.includes('dry between')) return '7';
+  if (text.includes('manter úmido') || text.includes('mantenha úmido') || text.includes('keep moist')) return '3';
+  if (text.includes('diariamente') || text.includes('daily')) return '1';
+  
+  return '7'; // Default seguro
+};
 
 export default function AddPlant() {
   const { addNewPlant } = usePlants();
@@ -47,9 +59,18 @@ export default function AddPlant() {
   const handleSelectFromJSON = (plant: any) => {
     setName(plant.common[0] || plant.latin);
     setSpecies(plant.latin);
+    
+    // Lógica de Preenchimento Inteligente (Smart Filling)
+    const smartFreq = estimateFrequency(plant.watering, plant.category);
+    setFrequency(smartFreq);
+    
     setModalVisible(false);
-    // O JSON tem 'watering' como texto, não dias. O usuário ainda precisa definir a frequência numérica.
-    Alert.alert("Dica de Rega", plant.watering); 
+    
+    // Feedback melhorado para o usuário
+    Alert.alert(
+      "Preenchimento Inteligente 🪄", 
+      `Com base na espécie, sugerimos rega a cada ${smartFreq} dias.\n\nDica original: ${plant.watering}`
+    ); 
   };
 
   const handleSave = async () => {
@@ -119,7 +140,7 @@ export default function AddPlant() {
           />
           <Text style={tw`text-gray-600 mb-2 font-medium`}>Frequência de Rega (dias)</Text>
           <TextInput 
-              style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800`} 
+              style={tw`bg-gray-50 border border-green-200 bg-green-50 rounded-lg p-3 text-green-800 font-bold`} 
               placeholder="Ex: 7" keyboardType="numeric" value={frequency} onChangeText={setFrequency} 
             />
         </View>
