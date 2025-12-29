@@ -1,4 +1,8 @@
 import { Cloud, CloudDrizzle, CloudLightning, CloudRain, CloudSnow, CloudSun, Sun } from 'lucide-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const CACHE_KEY = 'weather_cache';
+const CACHE_DURATION = 30 * 60 * 1000; // 30 minutos
 
 export interface WeatherData {
   temp: number;
@@ -35,6 +39,19 @@ export const WeatherService = {
   // 2. Busca o clima pelas coordenadas (Forecast API)
   getWeather: async (lat: number, lon: number): Promise<WeatherData | null> => {
     try {
+      // Check cache
+      const cached = await AsyncStorage.getItem(CACHE_KEY);
+      if (cached) {
+          const { data, timestamp, coords } = JSON.parse(cached);
+          const isClose = Math.abs(coords.lat - lat) < 0.05 && Math.abs(coords.lon - lon) < 0.05;
+          const isRecent = (Date.now() - timestamp) < CACHE_DURATION;
+
+          if (isClose && isRecent) {
+              console.log("Using cached weather data");
+              return data;
+          }
+      }
+
       const response = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,is_day,weather_code&timezone=auto`
       );
@@ -42,12 +59,21 @@ export const WeatherService = {
 
       if (!data.current) return null;
 
-      return {
+      const weatherData = {
         temp: Math.round(data.current.temperature_2m),
         humidity: data.current.relative_humidity_2m,
         conditionCode: data.current.weather_code,
         isDay: data.current.is_day === 1
       };
+
+      // Save to cache
+      await AsyncStorage.setItem(CACHE_KEY, JSON.stringify({
+          data: weatherData,
+          timestamp: Date.now(),
+          coords: { lat, lon }
+      }));
+
+      return weatherData;
     } catch (error) {
       console.warn("Erro ao buscar clima:", error);
       return null;

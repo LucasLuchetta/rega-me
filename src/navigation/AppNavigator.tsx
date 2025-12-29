@@ -7,6 +7,7 @@ import { Leaf, Calendar, User } from 'lucide-react-native';
 import Dashboard from '../screens/Dashboard';
 import AddPlant from '../screens/AddPlant';
 import PlantDetails from '../screens/PlantDetails';
+import RoomDetail from '../screens/RoomDetail';
 import Orakul from '../screens/Orakul';
 import Profile from '../screens/Profile';
 
@@ -38,6 +39,11 @@ function GardenStack() {
           headerStyle: { backgroundColor: '#fff' },
           headerTintColor: '#166534', 
         }} 
+      />
+      <Stack.Screen
+        name="RoomDetail"
+        component={RoomDetail}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

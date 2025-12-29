@@ -105,18 +105,29 @@ export default function AddPlant() {
       }
   };
 
-  const handleSave = async () => {
-    if (!name.trim() || !room.trim() || !frequency.trim()) {
-      Alert.alert("Ops!", "Preencha pelo menos Nome, Local e Frequência.");
-      return;
-    }
+  const validateForm = () => {
+    const errors: string[] = [];
+    if (!name.trim()) errors.push("Nome é obrigatório");
+    if (!room.trim()) errors.push("Local é obrigatório");
+
     const freqDays = parseInt(frequency);
-    if (isNaN(freqDays) || freqDays <= 0) {
-      Alert.alert("Erro", "A frequência deve ser um número válido.");
-      return;
+    if (!frequency || isNaN(freqDays) || freqDays <= 0) {
+      errors.push("Frequência deve ser um número válido maior que 0");
     }
+
+    if (errors.length > 0) {
+      Alert.alert("Atenção", errors.join("\n"));
+      return false;
+    }
+    return true;
+  };
+
+  const handleSave = async () => {
+    if (!validateForm()) return;
+
     setLoading(true);
     try {
+      const freqDays = parseInt(frequency);
       await addNewPlant({
         name, species, room, frequencyDays: freqDays,
         pot_size: potSize, pot_material: potMaterial, drainage,

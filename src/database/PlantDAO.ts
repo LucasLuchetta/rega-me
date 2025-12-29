@@ -47,5 +47,24 @@ export const PlantDAO = {
   // Deletar planta (e por cascata, suas tarefas)
   deletePlant: async (id: number) => {
     return await executeSql('DELETE FROM plants WHERE id = ?', [id]);
+  },
+
+  // Atualizar planta
+  updatePlant: async (plant: Plant) => {
+    const sql = `
+      UPDATE plants
+      SET name = ?, species = ?, room = ?, pot_size = ?, pot_material = ?, drainage = ?
+      WHERE id = ?
+    `;
+    const params = [
+      plant.name,
+      plant.species || '',
+      plant.room,
+      plant.pot_size || 'Médio',
+      plant.pot_material || 'Plástico',
+      plant.drainage ? 1 : 0,
+      plant.id
+    ];
+    return await executeSql(sql, params);
   }
 };
