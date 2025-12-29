@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Modal, TextInput, Alert, Image, StatusBar } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { usePlants } from '../../contexts/PlantContext';
-import { Trash2, Plus, Camera, Droplets, Clock, CheckCircle2, Scissors, Sprout, ShieldAlert, Box, ChevronLeft, MoreHorizontal, Wind, ThermometerSun, Filter } from 'lucide-react-native';
+import { Trash2, Plus, Camera, Droplets, Clock, CheckCircle2, Scissors, Sprout, ShieldAlert, Box, ChevronLeft, MoreHorizontal, Wind, ThermometerSun, Filter, Calendar } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import tw from '../../utils/tw';
 import EditPlantModal from './components/EditPlantModal';
 
 const CARE_TYPES = [
-    { id: 'water', label: 'Rega', icon: Droplets, color: '#3b82f6' },
-    { id: 'fertilize', label: 'Adubo', icon: Sprout, color: '#eab308' },
-    { id: 'prune', label: 'Poda', icon: Scissors, color: '#ef4444' },
-    { id: 'repot', label: 'Vaso', icon: Box, color: '#f97316' },
+    { id: 'water', label: 'Rega', icon: Droplets, color: tw.color('sky-500'), bg: 'bg-sky-50' },
+    { id: 'mist', label: 'Borrifar', icon: Wind, color: tw.color('sky-400'), bg: 'bg-sky-50' }, // Added mist as option but manual
+    { id: 'fertilize', label: 'Adubo', icon: Sprout, color: tw.color('clay-500'), bg: 'bg-clay-50' },
+    { id: 'prune', label: 'Poda', icon: Scissors, color: tw.color('red-400'), bg: 'bg-red-50' },
+    { id: 'repot', label: 'Vaso', icon: Box, color: tw.color('orange-500'), bg: 'bg-orange-50' },
 ];
 
 export default function PlantDetails() {
@@ -56,7 +57,7 @@ export default function PlantDetails() {
 
   const handleAction = (task: any) => {
       Alert.alert("Ação Rápida", `O que fazer com ${task.type}?`, [
-          { text: "Adiar", onPress: () => { snoozeTask(task.id, 2, plant.name); loadData(); } },
+          { text: "Adiar 2 dias", onPress: () => { snoozeTask(task.id, 2, plant.name); loadData(); } },
           { text: "Marcar Feito", onPress: () => { anticipateTask(task.id, task.frequency_days, plant.name); loadData(); } },
           { text: "Cancelar", style: "cancel" }
       ]);
@@ -85,21 +86,21 @@ export default function PlantDetails() {
   const filteredHistory = filterType ? history.filter(h => h.type === filterType) : history;
 
   return (
-    <View style={tw`flex-1 bg-white`}>
+    <View style={tw`flex-1 bg-sage-50`}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       
-      {/* Imagem de Capa Imersiva (Estilo Referência 4) */}
+      {/* Imagem de Capa Imersiva */}
       <View style={tw`h-[45%] w-full relative`}>
           <Image 
             source={coverImage ? { uri: coverImage } : require('../../../assets/icon.png')} // Fallback image
             style={tw`w-full h-full`} 
             resizeMode="cover" 
           />
-          <View style={tw`absolute inset-0 bg-black/20`} /> {/* Overlay escuro sutil */}
+          <View style={tw`absolute inset-0 bg-black/30`} /> {/* Overlay escuro sutil */}
           
           {/* Header Buttons */}
           <View style={tw`absolute top-12 left-6 right-6 flex-row justify-between z-10`}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={tw`w-10 h-10 bg-white/30 backdrop-blur-md rounded-full items-center justify-center`}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={tw`w-10 h-10 bg-white/20 backdrop-blur-md rounded-full items-center justify-center border border-white/30`}>
                 <ChevronLeft size={24} color="white" />
             </TouchableOpacity>
             <TouchableOpacity
@@ -108,85 +109,101 @@ export default function PlantDetails() {
                     {text: 'Deletar', style: 'destructive', onPress: () => { removePlant(plant.id); navigation.goBack(); }},
                     {text: 'Cancelar'}
                 ])}
-                style={tw`w-10 h-10 bg-white/30 backdrop-blur-md rounded-full items-center justify-center`}
+                style={tw`w-10 h-10 bg-white/20 backdrop-blur-md rounded-full items-center justify-center border border-white/30`}
             >
                 <MoreHorizontal size={24} color="white" />
             </TouchableOpacity>
           </View>
 
           {/* Title Overlay na Imagem */}
-          <View style={tw`absolute bottom-10 left-6`}>
-              <Text style={tw`text-white font-bold text-3xl shadow-sm`}>{plant.name}</Text>
-              <Text style={tw`text-white/90 text-lg italic`}>{plant.species}</Text>
+          <View style={tw`absolute bottom-10 left-6 right-6`}>
+              <Text style={tw`text-white font-serif font-bold text-4xl shadow-sm mb-1`}>{plant.name}</Text>
+              <Text style={tw`text-sage-100 text-lg italic opacity-90`}>{plant.species}</Text>
           </View>
       </View>
 
       {/* Floating Bottom Sheet */}
-      <View style={tw`flex-1 bg-white -mt-6 rounded-t-[32px] px-6 pt-8 shadow-2xl`}>
+      <View style={tw`flex-1 bg-sage-50 -mt-8 rounded-t-[36px] px-6 pt-8 shadow-2xl`}>
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
             
-            {/* Informações Rápidas */}
+            {/* Informações Rápidas - Info Pills */}
             <View style={tw`flex-row justify-between mb-8`}>
-                <View style={tw`bg-green-50 px-4 py-3 rounded-2xl items-center flex-1 mr-3`}>
-                    <Clock size={20} color="#166534" style={tw`mb-1`} />
-                    <Text style={tw`text-xs text-green-800 font-bold uppercase`}>Idade</Text>
-                    <Text style={tw`text-gray-600 text-xs`}>Recente</Text>
+                <View style={tw`bg-white border border-sage-100 px-4 py-3 rounded-2xl items-center flex-1 mr-3 shadow-sm`}>
+                    <Calendar size={18} color={tw.color('sage-500')} style={tw`mb-1.5`} />
+                    <Text style={tw`text-[10px] text-sage-400 font-bold uppercase tracking-wider`}>Idade</Text>
+                    <Text style={tw`text-sage-700 text-xs font-medium`}>Recente</Text>
                 </View>
-                <View style={tw`bg-blue-50 px-4 py-3 rounded-2xl items-center flex-1 mr-3`}>
-                    <ThermometerSun size={20} color="#1e40af" style={tw`mb-1`} />
-                    <Text style={tw`text-xs text-blue-800 font-bold uppercase`}>Local</Text>
-                    <Text style={tw`text-gray-600 text-xs`}>{plant.room}</Text>
+                <View style={tw`bg-white border border-sage-100 px-4 py-3 rounded-2xl items-center flex-1 mr-3 shadow-sm`}>
+                    <ThermometerSun size={18} color={tw.color('clay-500')} style={tw`mb-1.5`} />
+                    <Text style={tw`text-[10px] text-sage-400 font-bold uppercase tracking-wider`}>Local</Text>
+                    <Text style={tw`text-sage-700 text-xs font-medium`} numberOfLines={1}>{plant.room}</Text>
                 </View>
-                <View style={tw`bg-orange-50 px-4 py-3 rounded-2xl items-center flex-1`}>
-                    <Box size={20} color="#ea580c" style={tw`mb-1`} />
-                    <Text style={tw`text-xs text-orange-800 font-bold uppercase`}>Vaso</Text>
-                    <Text style={tw`text-gray-600 text-xs`}>{plant.pot_size}</Text>
+                <View style={tw`bg-white border border-sage-100 px-4 py-3 rounded-2xl items-center flex-1 shadow-sm`}>
+                    <Box size={18} color={tw.color('orange-500')} style={tw`mb-1.5`} />
+                    <Text style={tw`text-[10px] text-sage-400 font-bold uppercase tracking-wider`}>Vaso</Text>
+                    <Text style={tw`text-sage-700 text-xs font-medium`}>{plant.pot_size}</Text>
                 </View>
             </View>
 
-            {/* Seção Cuidado (Lista Clean como referência 4) */}
+            {/* Seção Cuidado */}
             <View style={tw`flex-row justify-between items-center mb-4`}>
-                <Text style={tw`text-xl font-bold text-gray-800`}>Cuidados</Text>
-                <TouchableOpacity onPress={() => setModalVisible(true)}><Plus size={24} color="#4ade80" /></TouchableOpacity>
+                <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Cuidados</Text>
+                <TouchableOpacity onPress={() => setModalVisible(true)} style={tw`bg-sage-100 p-2 rounded-full`}>
+                    <Plus size={20} color={tw.color('sage-600')} />
+                </TouchableOpacity>
             </View>
 
-            {tasks.map((task) => {
-                const config = CARE_TYPES.find(c => c.id === task.type) || CARE_TYPES[0];
-                const Icon = config.icon;
-                return (
-                    <TouchableOpacity key={task.id} onPress={() => handleAction(task)} style={tw`flex-row items-center py-4 border-b border-gray-100`}>
-                        <View style={[tw`w-10 h-10 rounded-full items-center justify-center mr-4`, { backgroundColor: `${config.color}20` }]}>
-                            <Icon size={20} color={config.color} />
-                        </View>
-                        <View style={tw`flex-1`}>
-                            <Text style={tw`text-gray-800 font-bold text-base capitalize`}>{config.label}</Text>
-                            <Text style={tw`text-gray-400 text-xs`}>A cada {task.frequency_days} dias</Text>
-                        </View>
-                        <View style={tw`flex-row items-center`}>
-                            <Clock size={14} color="#9ca3af" />
-                            <Text style={tw`ml-1 text-gray-400 text-xs`}>
-                                {new Date(task.next_due).toLocaleDateString('pt-BR', {day: '2-digit', month: 'short'})}
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                );
-            })}
+            <View style={tw`bg-white rounded-3xl p-2 border border-sage-100 shadow-sm mb-8`}>
+                {tasks.map((task, index) => {
+                    const config = CARE_TYPES.find(c => c.id === task.type) || CARE_TYPES[0];
+                    const Icon = config.icon;
+                    const isLast = index === tasks.length - 1;
+                    return (
+                        <TouchableOpacity
+                            key={task.id}
+                            onPress={() => handleAction(task)}
+                            style={[tw`flex-row items-center p-4`, !isLast && tw`border-b border-sage-50`]}
+                        >
+                            <View style={[tw`w-12 h-12 rounded-2xl items-center justify-center mr-4`, { backgroundColor: `${config.color}15` }]}>
+                                <Icon size={22} color={config.color} />
+                            </View>
+                            <View style={tw`flex-1`}>
+                                <Text style={tw`text-sage-800 font-bold text-base capitalize`}>{config.label}</Text>
+                                <Text style={tw`text-sage-400 text-xs`}>Repetir a cada {task.frequency_days} dias</Text>
+                            </View>
+                            <View style={tw`items-end`}>
+                                <View style={tw`flex-row items-center bg-sage-50 px-2 py-1 rounded-lg`}>
+                                    <Clock size={12} color={tw.color('sage-400')} />
+                                    <Text style={tw`ml-1.5 text-sage-500 text-xs font-medium`}>
+                                        {new Date(task.next_due).toLocaleDateString('pt-BR', {day: '2-digit', month: 'short'})}
+                                    </Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    );
+                })}
+                {tasks.length === 0 && (
+                    <Text style={tw`text-center text-sage-400 p-4 italic`}>Nenhum cuidado configurado.</Text>
+                )}
+            </View>
 
             {/* Fotos (Timeline Visual) */}
-            <View style={tw`flex-row justify-between items-center mt-8 mb-4`}>
-                 <Text style={tw`text-xl font-bold text-gray-800`}>Diário Visual</Text>
-                 <TouchableOpacity onPress={pickImage}><Camera size={24} color="#4ade80" /></TouchableOpacity>
+            <View style={tw`flex-row justify-between items-center mb-4`}>
+                 <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Diário Visual</Text>
+                 <TouchableOpacity onPress={pickImage} style={tw`bg-sage-100 p-2 rounded-full`}>
+                     <Camera size={20} color={tw.color('sage-600')} />
+                 </TouchableOpacity>
             </View>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={tw`mb-4`}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={tw`mb-8 -mx-6 px-6`}>
                 {photos.map((p, i) => (
-                    <Image key={i} source={{ uri: p.photo_uri }} style={tw`w-24 h-24 rounded-xl mr-3 bg-gray-100`} />
+                    <Image key={i} source={{ uri: p.photo_uri }} style={tw`w-28 h-28 rounded-2xl mr-3 bg-sage-100 border-2 border-white`} />
                 ))}
-                {photos.length === 0 && <Text style={tw`text-gray-400 italic`}>Nenhuma foto registrada ainda.</Text>}
+                {photos.length === 0 && <Text style={tw`text-sage-400 italic ml-1`}>Nenhuma foto registrada ainda.</Text>}
             </ScrollView>
 
             {/* Histórico com Filtros */}
-            <View style={tw`flex-row justify-between items-center mt-4 mb-4`}>
-                <Text style={tw`text-xl font-bold text-gray-800`}>Histórico</Text>
+            <View style={tw`flex-row justify-between items-center mb-4`}>
+                <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Histórico</Text>
                 <TouchableOpacity onPress={() => {
                     Alert.alert("Filtrar por", "Escolha o tipo de ação", [
                         { text: "Todos", onPress: () => setFilterType(null) },
@@ -194,19 +211,27 @@ export default function PlantDetails() {
                         { text: "Cancelar", style: "cancel" }
                     ])
                 }}>
-                    <Filter size={20} color={filterType ? "#166534" : "#9ca3af"} />
+                    <Filter size={20} color={filterType ? tw.color('sage-600') : tw.color('sage-300')} />
                 </TouchableOpacity>
             </View>
 
-            {filteredHistory.map((h, i) => (
-                <View key={i} style={tw`flex-row items-center mb-3`}>
-                    <CheckCircle2 size={16} color="#4ade80" />
-                    <Text style={tw`ml-2 text-gray-500`}>
-                        {h.type} realizado em {new Date(h.date_performed).toLocaleDateString()}
-                    </Text>
-                </View>
-            ))}
-            {filteredHistory.length === 0 && <Text style={tw`text-gray-400 italic`}>Nenhum histórico encontrado.</Text>}
+            <View style={tw`bg-white rounded-3xl p-4 border border-sage-100 shadow-sm`}>
+                {filteredHistory.map((h, i) => {
+                    const isLast = i === filteredHistory.length - 1;
+                    return (
+                        <View key={i} style={[tw`flex-row items-center py-2`, !isLast && tw`border-b border-sage-50`]}>
+                            <CheckCircle2 size={16} color={tw.color('sage-400')} />
+                            <Text style={tw`ml-3 text-sage-600 flex-1`}>
+                                <Text style={tw`font-bold capitalize`}>{h.type}</Text> realizado
+                            </Text>
+                            <Text style={tw`text-sage-400 text-xs`}>
+                                {new Date(h.date_performed).toLocaleDateString()}
+                            </Text>
+                        </View>
+                    );
+                })}
+                {filteredHistory.length === 0 && <Text style={tw`text-sage-400 italic text-center py-2`}>Nenhum histórico encontrado.</Text>}
+            </View>
 
         </ScrollView>
       </View>
@@ -218,25 +243,34 @@ export default function PlantDetails() {
         onSave={handleUpdatePlant}
       />
 
-      {/* Modal igual ao anterior, mas com estilo clean */}
+      {/* Modal Novo Cuidado */}
       <Modal visible={modalVisible} transparent animationType="slide">
-        <View style={tw`flex-1 justify-end bg-black/50`}>
-            <View style={tw`bg-white rounded-t-3xl p-6`}>
+        <View style={tw`flex-1 justify-end bg-sage-900/50`}>
+            <View style={tw`bg-white rounded-t-[32px] p-6`}>
                 <View style={tw`flex-row justify-between mb-6`}>
-                    <Text style={tw`text-xl font-bold`}>Novo Cuidado</Text>
-                    <TouchableOpacity onPress={() => setModalVisible(false)}><Text style={tw`text-blue-600`}>Cancelar</Text></TouchableOpacity>
+                    <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Novo Cuidado</Text>
+                    <TouchableOpacity onPress={() => setModalVisible(false)}><Text style={tw`text-sage-500 font-bold`}>Cancelar</Text></TouchableOpacity>
                 </View>
                 <View style={tw`flex-row flex-wrap gap-2 mb-6`}>
                     {CARE_TYPES.map(t => (
                         <TouchableOpacity key={t.id} onPress={() => setSelectedType(t.id)} 
-                            style={tw`px-4 py-2 rounded-full border ${selectedType === t.id ? 'bg-green-500 border-green-500' : 'border-gray-200'}`}>
-                            <Text style={tw`${selectedType === t.id ? 'text-white' : 'text-gray-600'} font-bold`}>{t.label}</Text>
+                            style={tw`px-4 py-2.5 rounded-full border flex-row items-center ${selectedType === t.id ? 'bg-sage-600 border-sage-600' : 'bg-white border-sage-200'}`}>
+                            {selectedType === t.id && <CheckCircle2 size={14} color="white" style={tw`mr-2`} />}
+                            <Text style={tw`${selectedType === t.id ? 'text-white' : 'text-sage-600'} font-bold text-sm`}>{t.label}</Text>
                         </TouchableOpacity>
                     ))}
                 </View>
-                <TextInput placeholder="Frequência (dias)" keyboardType="numeric" style={tw`bg-gray-50 p-4 rounded-xl mb-4`} value={newFrequency} onChangeText={setNewFrequency}/>
-                <TouchableOpacity onPress={handleAddTask} style={tw`bg-green-600 p-4 rounded-xl items-center`}>
-                    <Text style={tw`text-white font-bold`}>Salvar Rotina</Text>
+                <Text style={tw`text-sage-500 mb-2 ml-1 text-xs font-bold uppercase`}>Frequência</Text>
+                <TextInput
+                    placeholder="A cada quantos dias?"
+                    keyboardType="numeric"
+                    placeholderTextColor={tw.color('sage-300')}
+                    style={tw`bg-sage-50 p-4 rounded-2xl mb-6 text-sage-800 font-bold border border-sage-100`}
+                    value={newFrequency}
+                    onChangeText={setNewFrequency}
+                />
+                <TouchableOpacity onPress={handleAddTask} style={tw`bg-sage-600 p-4 rounded-2xl items-center shadow-lg shadow-sage-600/30`}>
+                    <Text style={tw`text-white font-bold text-lg`}>Salvar Rotina</Text>
                 </TouchableOpacity>
             </View>
         </View>
