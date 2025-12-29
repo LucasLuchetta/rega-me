@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { usePlants } from '../../contexts/PlantContext';
@@ -6,6 +6,8 @@ import { Plus, MapPin, CloudSun, Wind, Droplets } from 'lucide-react-native'; //
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import CircularProgress from '../../components/CircularProgress'; // Importe o novo componente
 import tw from '../../utils/tw';
+import * as Location from 'expo-location';
+import { WeatherService, WeatherData } from '../../services/WeatherService';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = (width - 48) / 2;
@@ -13,8 +15,27 @@ const CARD_WIDTH = (width - 48) / 2;
 export default function Dashboard() {
   const { plants, dueTasks, completeTask, snoozeTask, loadData } = usePlants();
   const navigation = useNavigation<any>();
+  const [weather, setWeather] = useState<WeatherData | null>(null);
 
   useFocusEffect(useCallback(() => { loadData(); }, []));
+
+  useEffect(() => {
+    (async () => {
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.log('Permissão de localização negada');
+          return;
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        const w = await WeatherService.getWeather(location.coords.latitude, location.coords.longitude);
+        setWeather(w);
+      } catch (e) {
+        console.log('Erro ao buscar clima', e);
+      }
+    })();
+  }, []);
 
   const rooms = Array.from(new Set(plants.map(p => p.room))).sort();
 
@@ -41,18 +62,34 @@ export default function Dashboard() {
       return Math.round((diffDays / frequency) * 100);
   };
 
-  // Widget de Tempo Simples (Mock Visual)
-  const WeatherWidget = () => (
-    <View style={tw`flex-row items-center bg-white px-3 py-2 rounded-full border border-gray-100 shadow-sm`}>
-        <View style={tw`bg-blue-50 p-1.5 rounded-full mr-2`}>
-            <CloudSun size={16} color="#3b82f6" />
+  // Widget de Tempo Simples (Com dados reais)
+  const WeatherWidget = () => {
+    if (!weather) return (
+        <View style={tw`flex-row items-center bg-white px-3 py-2 rounded-full border border-gray-100 shadow-sm`}>
+             <View style={tw`bg-gray-50 p-1.5 rounded-full mr-2`}>
+                <CloudSun size={16} color="#9ca3af" />
+             </View>
+            <View>
+                <Text style={tw`text-gray-400 font-bold text-xs`}>--</Text>
+            </View>
         </View>
-        <View>
-            <Text style={tw`text-gray-800 font-bold text-xs`}>24°C</Text>
-            <Text style={tw`text-gray-400 text-[10px] font-medium`}>Ensolarado</Text>
+    );
+
+    const config = WeatherService.getWeatherIconConfig(weather.conditionCode, weather.isDay);
+    const Icon = config.icon;
+
+    return (
+        <View style={tw`flex-row items-center bg-white px-3 py-2 rounded-full border border-gray-100 shadow-sm`}>
+            <View style={[tw`p-1.5 rounded-full mr-2`, { backgroundColor: `${config.color}20` }]}>
+                <Icon size={16} color={config.color} />
+            </View>
+            <View>
+                <Text style={tw`text-gray-800 font-bold text-xs`}>{weather.temp}°C</Text>
+                <Text style={tw`text-gray-400 text-[10px] font-medium`}>{config.label}</Text>
+            </View>
         </View>
-    </View>
-  );
+    );
+  };
 
   const RenderHeader = () => (
     <View style={tw`px-6 pt-2 pb-6`}>
