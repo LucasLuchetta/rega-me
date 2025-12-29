@@ -28,6 +28,7 @@ interface PlantContextData {
   addPlantPhoto: (plantId: number, uri: string) => Promise<void>;
   removePlantPhoto: (photoId: number) => Promise<void>;
   getPlantPhotos: (plantId: number) => Promise<any[]>;
+  updatePlant: (plant: Plant, frequency?: number) => Promise<void>;
 }
 
 const PlantContext = createContext<PlantContextData>({} as PlantContextData);
@@ -91,6 +92,20 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       await loadData();
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const updatePlant = async (plant: Plant, frequency?: number) => {
+    try {
+      await PlantDAO.updatePlant(plant);
+      if (frequency && plant.id) {
+          // Assuming 'water' is the main task type we want to update the frequency for
+          await TaskDAO.updateTaskFrequency(plant.id, 'water', frequency);
+      }
+      await loadData();
+    } catch (error) {
+      console.error("Erro ao atualizar planta:", error);
+      Alert.alert("Erro", "Falha ao atualizar planta.");
     }
   };
 
@@ -231,7 +246,8 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       plants, dueTasks, loading, loadData, addNewPlant, removePlant,
       completeTask, snoozeTask, anticipateTask, completeAllInRoom,
       addTaskToPlant, getPlantTasks, getHistory, getPlantHistory,
-      addPlantPhoto, removePlantPhoto, getPlantPhotos
+      addPlantPhoto, removePlantPhoto, getPlantPhotos,
+      updatePlant
     }}>
       {children}
     </PlantContext.Provider>

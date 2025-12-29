@@ -2,14 +2,17 @@ import React, { useCallback, useState } from 'react';
 import { View, Text, FlatList, RefreshControl, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TaskDAO } from '../../database/TaskDAO';
-import { CalendarDays, Droplets, Sprout, Scissors, ShieldAlert, Box } from 'lucide-react-native';
+import { usePlants } from '../../contexts/PlantContext';
+import { CalendarDays, Droplets, Sprout, Scissors, ShieldAlert, Box, Check, Clock } from 'lucide-react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import { Alert } from 'react-native';
 import tw from '../../utils/tw';
 
 export default function Orakul() {
   const [futureTasks, setFutureTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const { completeTask, snoozeTask } = usePlants();
 
   const loadFuture = async () => {
     setLoading(true);
@@ -52,8 +55,29 @@ export default function Orakul() {
       }
   };
 
+  const handleTaskAction = (task: any) => {
+    Alert.alert(
+      task.plant_name,
+      "O que deseja fazer?",
+      [
+        { text: "Adiar 1 dia", onPress: async () => {
+          await snoozeTask(task.id, 1, task.plant_name);
+          loadFuture();
+        }},
+        { text: "Concluir Hoje", onPress: async () => {
+          await completeTask(task.id, task.frequency_days, task.plant_name);
+          loadFuture();
+        }},
+        { text: "Cancelar", style: "cancel" }
+      ]
+    );
+  };
+
   const renderItem = ({ item }: { item: any }) => (
-    <View style={tw`bg-white p-4 rounded-xl mb-3 flex-row items-center border-l-4 border-green-500 shadow-sm`}>
+    <TouchableOpacity
+      onPress={() => handleTaskAction(item)}
+      style={tw`bg-white p-4 rounded-xl mb-3 flex-row items-center border-l-4 border-green-500 shadow-sm`}
+    >
       <View style={tw`mr-4 items-center justify-center bg-gray-100 w-12 h-12 rounded-lg`}>
          {getIcon(item.type)}
       </View>
@@ -63,12 +87,13 @@ export default function Orakul() {
           {item.type === 'water' ? 'Rega' : item.type === 'fertilize' ? 'Adubo' : item.type}
         </Text>
       </View>
-      <View style={tw`bg-green-light px-3 py-1 rounded-full`}>
-        <Text style={tw`text-green-800 font-bold text-xs`}>
+      <View style={tw`flex-row items-center`}>
+         <Clock size={14} color="#166534" style={tw`mr-1`} />
+         <Text style={tw`text-green-800 font-bold text-xs`}>
             {new Date(item.next_due).toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
-        </Text>
+         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (

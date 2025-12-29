@@ -1,0 +1,21 @@
+{
+  "greeting": "My Sanctuary",
+  "daily_rituals": "Daily Rituals",
+  "rooms": "Rooms",
+  "water": "Water",
+  "fertilize": "Fertilize",
+  "prune": "Prune",
+  "mist": "Mist",
+  "repot": "Repot",
+  "care": "Care",
+  "all_done_title": "All done.",
+  "all_done_subtitle": "Enjoy your day.",
+  "plants_count": "{{count}} plants",
+  "water_all_title": "Care for All",
+  "water_all_confirm": "Do you want to mark all tasks in {{room}} as completed?",
+  "yes_water_all": "Yes, water all",
+  "cancel": "Cancel",
+  "success_message": "All plants in {{room}} have been cared for! 🌱",
+  "error_message": "Could not update the room.",
+  "weather_suggestion": "It's very humid today, would you like to postpone watering?"
+}

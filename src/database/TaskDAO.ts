@@ -104,5 +104,10 @@ export const TaskDAO = {
       ORDER BY h.date_performed DESC
     `;
     return await executeSql(sql, [plantId]);
+  },
+
+  updateTaskFrequency: async (plantId: number, type: string, newFrequency: number) => {
+    const sql = `UPDATE tasks SET frequency_days = ? WHERE plant_id = ? AND type = ?`;
+    return await executeSql(sql, [newFrequency, plantId, type]);
   }
 };

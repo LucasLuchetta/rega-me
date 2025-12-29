@@ -2,11 +2,14 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, Dimensions, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { usePlants } from '../../contexts/PlantContext';
-import { Plus, MapPin, Droplets, Check } from 'lucide-react-native';
+import { Plus, MapPin, Droplets, Check, Sprout, Scissors, Wind, Box } from 'lucide-react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import tw from '../../utils/tw';
 import * as Location from 'expo-location';
 import { WeatherService, WeatherData } from '../../services/WeatherService';
+import '../../i18n';
+import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 
 const { width } = Dimensions.get('window');
 // Layout calculation: Screen Width - Horizontal Padding (24*2) - Gap (16) / 2 columns
@@ -15,6 +18,7 @@ const PADDING = 24;
 const CARD_WIDTH = (width - (PADDING * 2) - GAP) / 2;
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const { plants, dueTasks, completeTask, loadData } = usePlants();
   const navigation = useNavigation<any>();
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -37,8 +41,7 @@ export default function Dashboard() {
   const rooms = Array.from(new Set(plants.map(p => p.room))).sort();
 
   const handleRoomPress = (room: string) => {
-    // Future: Navigation to RoomDetail screen
-    Alert.alert(room, `Gerenciar plantas em ${room}`);
+    navigation.navigate('RoomDetail', { room });
   };
 
   const WeatherPill = () => {
@@ -54,6 +57,18 @@ export default function Dashboard() {
   };
 
   const renderTaskItem = ({ item }: { item: any }) => {
+     let Icon = Droplets;
+     let label = t('care');
+     let color = "bg-sage-500";
+
+     switch (item.type) {
+        case 'fertilize': Icon = Sprout; label = t('fertilize'); color = "bg-yellow-500"; break;
+        case 'prune': Icon = Scissors; label = t('prune'); color = "bg-red-500"; break;
+        case 'mist': Icon = Wind; label = t('mist'); color = "bg-purple-500"; break;
+        case 'repot': Icon = Box; label = t('repot'); color = "bg-orange-500"; break;
+        default: Icon = Droplets; label = t('water'); color = "bg-sage-500";
+     }
+
      return (
         <TouchableOpacity
             activeOpacity={0.9}
@@ -75,10 +90,10 @@ export default function Dashboard() {
                     <View style={tw`flex-row gap-2 mt-2`}>
                          <TouchableOpacity
                             onPress={() => completeTask(item.id, item.frequency_days, item.plant_name)}
-                            style={tw`flex-1 bg-sage-500 py-2 rounded-xl items-center flex-row justify-center`}
+                            style={tw`flex-1 ${color} py-2 rounded-xl items-center flex-row justify-center`}
                          >
-                            <Droplets size={14} color="white" style={tw`mr-1.5`} />
-                            <Text style={tw`text-white font-bold text-xs`}>Regar</Text>
+                            <Icon size={14} color="white" style={tw`mr-1.5`} />
+                            <Text style={tw`text-white font-bold text-xs`}>{label}</Text>
                          </TouchableOpacity>
                     </View>
                 </View>
@@ -101,16 +116,20 @@ export default function Dashboard() {
                 <View style={tw`bg-sage-50 w-10 h-10 rounded-full items-center justify-center`}>
                     <MapPin size={18} color={tw.color('sage-600')} />
                 </View>
-                {pendingCount > 0 && (
+                {pendingCount > 0 ? (
                     <View style={tw`bg-clay-400 px-2 py-1 rounded-full`}>
                         <Text style={tw`text-white text-[10px] font-bold`}>{pendingCount}</Text>
+                    </View>
+                ) : (
+                    <View style={tw`bg-sage-100 p-1 rounded-full`}>
+                         <Check size={14} color={tw.color('sage-600')} />
                     </View>
                 )}
             </View>
 
             <View>
                 <Text style={tw`font-bold text-text-primary text-lg leading-tight mb-1`} numberOfLines={1}>{room}</Text>
-                <Text style={tw`text-text-secondary text-xs`}>{roomPlants.length} plantas</Text>
+                <Text style={tw`text-text-secondary text-xs`}>{t('plants_count', {count: roomPlants.length})}</Text>
             </View>
 
             {/* Micro-Visual of plants */}
@@ -133,23 +152,41 @@ export default function Dashboard() {
         <View style={tw`flex-row justify-between items-center mb-8`}>
             <View>
                 <Text style={tw`text-sage-600 text-xs font-bold uppercase tracking-widest mb-1`}>
-                    {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric' })}
+                    {new Date().toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'pt-BR', { weekday: 'long', day: 'numeric' })}
                 </Text>
-                <Text style={tw`text-3xl font-serif font-medium text-text-primary`}>Meu Santuário</Text>
+                <Text style={tw`text-3xl font-serif font-medium text-text-primary`}>{t('greeting')}</Text>
             </View>
             <WeatherPill />
         </View>
 
+         {/* Suggestion based on weather */}
+         {weather && (weather.temp > 28 || weather.humidity < 40) && (
+             <View style={tw`bg-orange-50 p-3 rounded-xl mb-6 border border-orange-100 flex-row items-center`}>
+                 <Wind size={16} color="#c2410c" style={tw`mr-2`} />
+                 <Text style={tw`text-orange-800 text-xs font-bold flex-1`}>
+                     {weather.temp > 28 ? "Dia quente! Verifique se suas plantas precisam de mais água." : "Ar seco hoje. Considere borrifar suas plantas tropicais."}
+                 </Text>
+             </View>
+         )}
+         {weather && weather.humidity > 80 && (
+             <View style={tw`bg-blue-50 p-3 rounded-xl mb-6 border border-blue-100 flex-row items-center`}>
+                 <Droplets size={16} color="#1d4ed8" style={tw`mr-2`} />
+                 <Text style={tw`text-blue-800 text-xs font-bold flex-1`}>
+                     {t('weather_suggestion')}
+                 </Text>
+             </View>
+         )}
+
         {/* Daily Rituals (Tasks) */}
-        <Text style={tw`text-lg font-bold text-text-primary mb-4`}>Rituais de Hoje</Text>
+        <Text style={tw`text-lg font-bold text-text-primary mb-4`}>{t('daily_rituals')}</Text>
         {dueTasks.length === 0 ? (
             <View style={tw`bg-sage-50 p-6 rounded-3xl border border-sage-100 items-center flex-row mb-6`}>
                 <View style={tw`bg-sage-100 p-3 rounded-full mr-4`}>
                     <Check size={20} color={tw.color('sage-700')} />
                 </View>
                 <View style={tw`flex-1`}>
-                    <Text style={tw`text-sage-800 font-bold text-base`}>Tudo em paz.</Text>
-                    <Text style={tw`text-sage-600 text-sm`}>Aproveite o seu dia.</Text>
+                    <Text style={tw`text-sage-800 font-bold text-base`}>{t('all_done_title')}</Text>
+                    <Text style={tw`text-sage-600 text-sm`}>{t('all_done_subtitle')}</Text>
                 </View>
             </View>
         ) : (
@@ -163,7 +200,7 @@ export default function Dashboard() {
             />
         )}
 
-        <Text style={tw`text-lg font-bold text-text-primary mt-2 mb-4`}>Salas</Text>
+        <Text style={tw`text-lg font-bold text-text-primary mt-2 mb-4`}>{t('rooms')}</Text>
     </View>
   );
 
