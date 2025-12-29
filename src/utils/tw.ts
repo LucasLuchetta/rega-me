@@ -1,18 +1,6 @@
 import { create } from 'twrnc';
 
-// Criamos uma instância do twrnc já com suas cores personalizadas
-const tw = create({
-  theme: {
-    extend: {
-      colors: {
-        green: {
-          light: '#e6f4ea',
-          DEFAULT: '#4ade80',
-          dark: '#166534',
-        }
-      }
-    },
-  },
-});
+// Importing the configuration to ensure we share the same source of truth
+const tw = create(require('../../tailwind.config.js'));
 
 export default tw;
