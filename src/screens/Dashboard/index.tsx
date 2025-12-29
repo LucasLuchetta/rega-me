@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, Dimensions, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { usePlants } from '../../contexts/PlantContext';
-import { Plus, MapPin, Droplets, Check, Sprout, Scissors, Wind, Box } from 'lucide-react-native';
+import { Plus, MapPin, Droplets, Check, Sprout, Scissors, Wind, Box, Sun } from 'lucide-react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import tw from '../../utils/tw';
 import * as Location from 'expo-location';
@@ -49,9 +49,9 @@ export default function Dashboard() {
     const config = WeatherService.getWeatherIconConfig(weather.conditionCode, weather.isDay);
     const Icon = config.icon;
     return (
-        <View style={tw`flex-row items-center bg-sage-50 px-3 py-1.5 rounded-full`}>
-            <Icon size={14} color={tw.color('sage-600')} />
-            <Text style={tw`ml-2 text-sage-800 font-bold text-xs`}>{weather.temp}°</Text>
+        <View style={tw`flex-row items-center bg-white px-4 py-2 rounded-full shadow-sm border border-sage-100`}>
+            <Icon size={16} color={tw.color('sage-600')} />
+            <Text style={tw`ml-2 text-sage-800 font-bold text-sm`}>{weather.temp}°</Text>
         </View>
     );
   };
@@ -59,40 +59,76 @@ export default function Dashboard() {
   const renderTaskItem = ({ item }: { item: any }) => {
      let Icon = Droplets;
      let label = t('care');
-     let color = "bg-sage-500";
+     let colorClass = "bg-sage-500";
+     let iconColor = tw.color('sage-600');
+     let bgIcon = "bg-sage-100";
 
      switch (item.type) {
-        case 'fertilize': Icon = Sprout; label = t('fertilize'); color = "bg-yellow-500"; break;
-        case 'prune': Icon = Scissors; label = t('prune'); color = "bg-red-500"; break;
-        case 'mist': Icon = Wind; label = t('mist'); color = "bg-purple-500"; break;
-        case 'repot': Icon = Box; label = t('repot'); color = "bg-orange-500"; break;
-        default: Icon = Droplets; label = t('water'); color = "bg-sage-500";
+        case 'fertilize':
+            Icon = Sprout;
+            label = t('fertilize');
+            colorClass = "bg-clay-400"; // Clay for earth/growth
+            iconColor = tw.color('clay-600');
+            bgIcon = "bg-clay-100";
+            break;
+        case 'prune':
+            Icon = Scissors;
+            label = t('prune');
+            colorClass = "bg-red-400"; // Softer red
+            iconColor = tw.color('red-600');
+            bgIcon = "bg-red-100";
+            break;
+        case 'mist':
+            Icon = Wind;
+            label = t('mist');
+            colorClass = "bg-sky-400"; // Sky blue for mist
+            iconColor = tw.color('sky-600');
+            bgIcon = "bg-sky-100";
+            break;
+        case 'repot':
+            Icon = Box;
+            label = t('repot');
+            colorClass = "bg-orange-400";
+            iconColor = tw.color('orange-600');
+            bgIcon = "bg-orange-100";
+            break;
+        default:
+            Icon = Droplets;
+            label = t('water');
+            colorClass = "bg-sky-500"; // Water is blue/sky
+            iconColor = tw.color('sky-600');
+            bgIcon = "bg-sky-100";
      }
 
      return (
         <TouchableOpacity
             activeOpacity={0.9}
             onPress={() => navigation.navigate('PlantDetails', { plant: plants.find(p => p.id === item.plant_id) })}
-            style={tw`bg-surface w-72 p-4 rounded-3xl mr-4 shadow-sm border border-gray-100 mb-4`}
+            style={tw`bg-white w-72 p-4 rounded-3xl mr-4 shadow-sm border border-sage-100 mb-4`}
         >
             <View style={tw`flex-row`}>
                 <Image
                     source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/icon.png')}
-                    style={tw`w-20 h-24 rounded-2xl bg-gray-100`}
+                    style={tw`w-20 h-24 rounded-2xl bg-sage-50`}
                     resizeMode="cover"
                 />
                 <View style={tw`flex-1 ml-4 justify-between py-1`}>
                     <View>
-                        <Text style={tw`font-bold text-text-primary text-lg`} numberOfLines={1}>{item.plant_name}</Text>
-                        <Text style={tw`text-text-secondary text-xs uppercase tracking-wide`}>{item.type}</Text>
+                        <Text style={tw`font-bold text-sage-900 text-lg`} numberOfLines={1}>{item.plant_name}</Text>
+                        <View style={tw`flex-row items-center mt-1`}>
+                             <View style={tw`${bgIcon} p-1 rounded-full mr-1.5`}>
+                                 <Icon size={10} color={iconColor} />
+                             </View>
+                             <Text style={tw`text-sage-500 text-xs font-medium uppercase tracking-wide`}>{item.type}</Text>
+                        </View>
                     </View>
 
-                    <View style={tw`flex-row gap-2 mt-2`}>
+                    <View style={tw`flex-row gap-2 mt-3`}>
                          <TouchableOpacity
                             onPress={() => completeTask(item.id, item.frequency_days, item.plant_name)}
-                            style={tw`flex-1 ${color} py-2 rounded-xl items-center flex-row justify-center`}
+                            style={tw`flex-1 ${colorClass} py-2.5 rounded-xl items-center flex-row justify-center shadow-sm`}
                          >
-                            <Icon size={14} color="white" style={tw`mr-1.5`} />
+                            <Check size={14} color="white" style={tw`mr-1.5`} />
                             <Text style={tw`text-white font-bold text-xs`}>{label}</Text>
                          </TouchableOpacity>
                     </View>
@@ -108,85 +144,97 @@ export default function Dashboard() {
 
     return (
         <TouchableOpacity 
-            style={[tw`bg-surface p-4 rounded-3xl mb-4 shadow-sm border border-gray-100 justify-between`, { width: CARD_WIDTH, height: CARD_WIDTH * 1.1 }]}
+            style={[tw`bg-white p-5 rounded-[28px] mb-4 shadow-sm border border-sage-100 justify-between`, { width: CARD_WIDTH, height: CARD_WIDTH * 1.15 }]}
             onPress={() => handleRoomPress(room)}
             activeOpacity={0.8}
         >
             <View style={tw`flex-row justify-between items-start`}>
-                <View style={tw`bg-sage-50 w-10 h-10 rounded-full items-center justify-center`}>
-                    <MapPin size={18} color={tw.color('sage-600')} />
+                <View style={tw`bg-sage-50 w-11 h-11 rounded-2xl items-center justify-center`}>
+                    <MapPin size={20} color={tw.color('sage-600')} />
                 </View>
                 {pendingCount > 0 ? (
-                    <View style={tw`bg-clay-400 px-2 py-1 rounded-full`}>
+                    <View style={tw`bg-clay-400 px-2.5 py-1 rounded-full border border-white shadow-sm`}>
                         <Text style={tw`text-white text-[10px] font-bold`}>{pendingCount}</Text>
                     </View>
                 ) : (
-                    <View style={tw`bg-sage-100 p-1 rounded-full`}>
-                         <Check size={14} color={tw.color('sage-600')} />
+                    <View style={tw`bg-sage-100 px-2 py-1 rounded-full`}>
+                         <Check size={12} color={tw.color('sage-600')} />
                     </View>
                 )}
             </View>
 
             <View>
-                <Text style={tw`font-bold text-text-primary text-lg leading-tight mb-1`} numberOfLines={1}>{room}</Text>
-                <Text style={tw`text-text-secondary text-xs`}>{t('plants_count', {count: roomPlants.length})}</Text>
+                <Text style={tw`font-serif font-bold text-sage-900 text-lg leading-tight mb-1`} numberOfLines={1}>{room}</Text>
+                <Text style={tw`text-sage-500 text-xs`}>{t('plants_count', {count: roomPlants.length})}</Text>
             </View>
 
             {/* Micro-Visual of plants */}
-            <View style={tw`flex-row mt-2 pl-2`}>
+            <View style={tw`flex-row mt-2 pl-3`}>
                 {roomPlants.slice(0, 3).map((p, i) => (
-                    <View key={p.id} style={tw`w-6 h-6 rounded-full border border-white -ml-2 bg-sage-100 overflow-hidden`}>
+                    <View key={p.id} style={tw`w-7 h-7 rounded-full border-2 border-white -ml-3 bg-sage-200 overflow-hidden shadow-sm`}>
                          {p.photo_uri ? (
                             <Image source={{ uri: p.photo_uri }} style={tw`w-full h-full`} />
                          ) : null}
                     </View>
                 ))}
+                {roomPlants.length > 3 && (
+                     <View style={tw`w-7 h-7 rounded-full border-2 border-white -ml-3 bg-sage-100 items-center justify-center`}>
+                        <Text style={tw`text-[8px] text-sage-600 font-bold`}>+{roomPlants.length - 3}</Text>
+                     </View>
+                )}
             </View>
         </TouchableOpacity>
     );
   };
 
   const RenderHeader = () => (
-    <View style={tw`px-6 pt-4 pb-2`}>
+    <View style={tw`px-6 pt-6 pb-2`}>
         {/* Header Title */}
-        <View style={tw`flex-row justify-between items-center mb-8`}>
+        <View style={tw`flex-row justify-between items-start mb-8`}>
             <View>
-                <Text style={tw`text-sage-600 text-xs font-bold uppercase tracking-widest mb-1`}>
+                <Text style={tw`text-sage-500 text-xs font-bold uppercase tracking-widest mb-1`}>
                     {new Date().toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'pt-BR', { weekday: 'long', day: 'numeric' })}
                 </Text>
-                <Text style={tw`text-3xl font-serif font-medium text-text-primary`}>{t('greeting')}</Text>
+                <Text style={tw`text-3xl font-serif font-medium text-sage-900`}>{t('greeting')}</Text>
             </View>
             <WeatherPill />
         </View>
 
          {/* Suggestion based on weather */}
          {weather && (weather.temp > 28 || weather.humidity < 40) && (
-             <View style={tw`bg-orange-50 p-3 rounded-xl mb-6 border border-orange-100 flex-row items-center`}>
-                 <Wind size={16} color="#c2410c" style={tw`mr-2`} />
-                 <Text style={tw`text-orange-800 text-xs font-bold flex-1`}>
-                     {weather.temp > 28 ? "Dia quente! Verifique se suas plantas precisam de mais água." : "Ar seco hoje. Considere borrifar suas plantas tropicais."}
-                 </Text>
-             </View>
-         )}
-         {weather && weather.humidity > 80 && (
-             <View style={tw`bg-blue-50 p-3 rounded-xl mb-6 border border-blue-100 flex-row items-center`}>
-                 <Droplets size={16} color="#1d4ed8" style={tw`mr-2`} />
-                 <Text style={tw`text-blue-800 text-xs font-bold flex-1`}>
-                     {t('weather_suggestion')}
-                 </Text>
+             <View style={tw`bg-clay-50 p-4 rounded-2xl mb-8 border border-clay-100 flex-row items-start shadow-sm`}>
+                 <View style={tw`bg-white p-2 rounded-full mr-3 shadow-sm`}>
+                     <Wind size={18} color={tw.color('clay-500')} />
+                 </View>
+                 <View style={tw`flex-1`}>
+                     <Text style={tw`text-clay-800 font-bold text-sm mb-0.5`}>Dica do Dia</Text>
+                     <Text style={tw`text-clay-700 text-xs leading-5`}>
+                         {weather.temp > 28
+                            ? "Está fazendo calor! Verifique se suas plantas precisam de um pouco mais de água hoje."
+                            : "O ar está seco. Suas plantas tropicais adorariam uma borrifada de água (mist)."}
+                     </Text>
+                 </View>
              </View>
          )}
 
         {/* Daily Rituals (Tasks) */}
-        <Text style={tw`text-lg font-bold text-text-primary mb-4`}>{t('daily_rituals')}</Text>
+        <View style={tw`flex-row items-center justify-between mb-4`}>
+            <Text style={tw`text-xl font-serif font-bold text-sage-900`}>{t('daily_rituals')}</Text>
+            {dueTasks.length > 0 && (
+                <View style={tw`bg-sage-100 px-2 py-1 rounded-md`}>
+                    <Text style={tw`text-sage-700 text-xs font-bold`}>{dueTasks.length}</Text>
+                </View>
+            )}
+        </View>
+
         {dueTasks.length === 0 ? (
-            <View style={tw`bg-sage-50 p-6 rounded-3xl border border-sage-100 items-center flex-row mb-6`}>
-                <View style={tw`bg-sage-100 p-3 rounded-full mr-4`}>
-                    <Check size={20} color={tw.color('sage-700')} />
+            <View style={tw`bg-white p-6 rounded-3xl border border-sage-100 items-center flex-row mb-8 shadow-sm`}>
+                <View style={tw`bg-sage-50 p-4 rounded-full mr-5`}>
+                    <Sun size={24} color={tw.color('sage-500')} />
                 </View>
                 <View style={tw`flex-1`}>
-                    <Text style={tw`text-sage-800 font-bold text-base`}>{t('all_done_title')}</Text>
-                    <Text style={tw`text-sage-600 text-sm`}>{t('all_done_subtitle')}</Text>
+                    <Text style={tw`text-sage-800 font-bold text-base mb-1`}>{t('all_done_title')}</Text>
+                    <Text style={tw`text-sage-500 text-sm leading-5`}>{t('all_done_subtitle')}</Text>
                 </View>
             </View>
         ) : (
@@ -197,15 +245,16 @@ export default function Dashboard() {
                 keyExtractor={item => item.id.toString()}
                 renderItem={renderTaskItem}
                 contentContainerStyle={{ paddingRight: 24, paddingBottom: 10 }}
+                style={tw`mb-4`}
             />
         )}
 
-        <Text style={tw`text-lg font-bold text-text-primary mt-2 mb-4`}>{t('rooms')}</Text>
+        <Text style={tw`text-xl font-serif font-bold text-sage-900 mt-2 mb-4`}>{t('rooms')}</Text>
     </View>
   );
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-canvas`}>
+    <SafeAreaView style={tw`flex-1 bg-sage-50`}>
       <FlatList
         ListHeaderComponent={RenderHeader}
         data={rooms}
@@ -218,7 +267,7 @@ export default function Dashboard() {
 
       <TouchableOpacity 
         onPress={() => navigation.navigate('AddPlant')}
-        style={tw`absolute bottom-8 right-6 bg-sage-800 w-16 h-16 rounded-full justify-center items-center shadow-lg shadow-sage-900/30`}
+        style={tw`absolute bottom-8 right-6 bg-sage-600 w-16 h-16 rounded-full justify-center items-center shadow-lg shadow-sage-900/20 border-4 border-white`}
         activeOpacity={0.9}
         accessibilityLabel="Adicionar nova planta"
         accessibilityRole="button"

@@ -30,11 +30,18 @@ module.exports = {
           500: '#E59866', // Primary Accent (Warmth)
           600: '#B77A52',
           700: '#895B3D',
+          800: '#6D462F', // Added darker shades for text
+          900: '#422A1C',
         },
         sky: {
-          100: '#EBF5FB',
-          500: '#A9CCE3', // Soft Blue for Water contexts
-          600: '#5DADE2',
+          50: '#F0F9FF', // Added lighter shade for backgrounds
+          100: '#E0F2FE',
+          200: '#BAE6FD',
+          300: '#7DD3FC',
+          400: '#38BDF8',
+          500: '#0EA5E9',
+          600: '#0284C7',
+          700: '#0369A1',
         },
         // Semantic aliases (New System)
         primary: '#5D8C7B', // Sage 500
@@ -82,7 +89,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['System'],
-        serif: ['System'],
+        serif: ['Georgia', 'Times New Roman', 'System'], // Enhanced serif support
       },
       borderRadius: {
         '4xl': '32px',
