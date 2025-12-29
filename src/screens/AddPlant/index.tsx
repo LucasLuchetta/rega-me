@@ -43,6 +43,8 @@ export default function AddPlant() {
   const [species, setSpecies] = useState('');
   const [room, setRoom] = useState('');
   const [frequency, setFrequency] = useState('');
+  const [fertilizeFreq, setFertilizeFreq] = useState('');
+  const [pruneFreq, setPruneFreq] = useState('');
   const [potSize, setPotSize] = useState('Médio');
   const [potMaterial, setPotMaterial] = useState('Plástico');
   const [drainage, setDrainage] = useState(1);
@@ -65,6 +67,9 @@ export default function AddPlant() {
     // Lógica de Preenchimento Inteligente (Smart Filling)
     const smartFreq = estimateFrequency(plant.watering, plant.category);
     setFrequency(smartFreq);
+    // Sugestões genéricas para adubo e poda (podem ser refinadas)
+    setFertilizeFreq('30');
+    setPruneFreq('60');
     
     setModalVisible(false);
     
@@ -112,7 +117,7 @@ export default function AddPlant() {
 
     const freqDays = parseInt(frequency);
     if (!frequency || isNaN(freqDays) || freqDays <= 0) {
-      errors.push("Frequência deve ser um número válido maior que 0");
+      errors.push("Frequência de rega deve ser um número válido maior que 0");
     }
 
     if (errors.length > 0) {
@@ -128,8 +133,13 @@ export default function AddPlant() {
     setLoading(true);
     try {
       const freqDays = parseInt(frequency);
+      const fertDays = fertilizeFreq ? parseInt(fertilizeFreq) : 0;
+      const pruneDays = pruneFreq ? parseInt(pruneFreq) : 0;
+
       await addNewPlant({
         name, species, room, frequencyDays: freqDays,
+        fertilizeFrequency: fertDays,
+        pruneFrequency: pruneDays,
         pot_size: potSize, pot_material: potMaterial, drainage,
         photo_uri: photoUri
       });
@@ -183,7 +193,12 @@ export default function AddPlant() {
 
         <View style={tw`mb-6`}>
           <Text style={tw`text-gray-600 mb-2 font-medium`}>Local</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={tw`mb-2`}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={tw`mb-2`}
+            contentContainerStyle={tw`px-1`}
+          >
             {COMMON_ROOMS.map(r => (
               <TouchableOpacity 
                 key={r} onPress={() => setRoom(r)}
@@ -197,11 +212,31 @@ export default function AddPlant() {
             style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800 mb-3`} 
             placeholder="Ou digite outro local..." value={room} onChangeText={setRoom} 
           />
-          <Text style={tw`text-gray-600 mb-2 font-medium`}>Frequência de Rega (dias)</Text>
-          <TextInput 
-              style={tw`bg-gray-50 border border-green-200 bg-green-50 rounded-lg p-3 text-green-800 font-bold`} 
-              placeholder="Ex: 7" keyboardType="numeric" value={frequency} onChangeText={setFrequency} 
-            />
+
+          <Text style={tw`text-gray-600 mb-2 font-medium`}>Cuidados (Frequência em dias)</Text>
+          <View style={tw`flex-row justify-between mb-2`}>
+            <View style={tw`flex-1 mr-2`}>
+                <Text style={tw`text-xs text-gray-500 mb-1`}>Rega 💧</Text>
+                <TextInput
+                  style={tw`bg-green-50 border border-green-200 rounded-lg p-3 text-green-800 font-bold`}
+                  placeholder="Ex: 7" keyboardType="numeric" value={frequency} onChangeText={setFrequency}
+                />
+            </View>
+            <View style={tw`flex-1 mr-2`}>
+                <Text style={tw`text-xs text-gray-500 mb-1`}>Adubo 🌱</Text>
+                <TextInput
+                  style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800`}
+                  placeholder="Ex: 30" keyboardType="numeric" value={fertilizeFreq} onChangeText={setFertilizeFreq}
+                />
+            </View>
+            <View style={tw`flex-1`}>
+                <Text style={tw`text-xs text-gray-500 mb-1`}>Poda ✂️</Text>
+                <TextInput
+                  style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800`}
+                  placeholder="Ex: 60" keyboardType="numeric" value={pruneFreq} onChangeText={setPruneFreq}
+                />
+            </View>
+          </View>
         </View>
 
         <View style={tw`mb-4`}>

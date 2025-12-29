@@ -11,7 +11,6 @@ const CARE_TYPES = [
     { id: 'water', label: 'Rega', icon: Droplets, color: '#3b82f6' },
     { id: 'fertilize', label: 'Adubo', icon: Sprout, color: '#eab308' },
     { id: 'prune', label: 'Poda', icon: Scissors, color: '#ef4444' },
-    { id: 'mist', label: 'Umidade', icon: Wind, color: '#a855f7' },
     { id: 'repot', label: 'Vaso', icon: Box, color: '#f97316' },
 ];
 
