@@ -6,8 +6,6 @@ import { initDB } from './src/database/db';
 import { PlantProvider } from './src/contexts/PlantContext';
 import AppNavigator from './src/navigation/AppNavigator';
 
-// A LINHA DO IMPORT GLOBAL.CSS FOI REMOVIDA AQUI
-
 export default function App() {
   const [dbInitialized, setDbInitialized] = useState(false);
 

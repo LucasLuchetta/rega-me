@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, ActivityIndicator, Modal, FlatList } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, ActivityIndicator, Modal, FlatList, Image } from 'react-native';
 import { usePlants } from '../../contexts/PlantContext';
 import { useNavigation } from '@react-navigation/native';
-import { CheckCircle2, Circle, Search } from 'lucide-react-native';
+import { CheckCircle2, Circle, Search, Camera } from 'lucide-react-native';
 import tw from '../../utils/tw';
+import * as ImagePicker from 'expo-image-picker';
 
 // Importando da pasta src/database
 import plantsData from '../../database/plants_pt.json';
@@ -45,6 +46,7 @@ export default function AddPlant() {
   const [potSize, setPotSize] = useState('Médio');
   const [potMaterial, setPotMaterial] = useState('Plástico');
   const [drainage, setDrainage] = useState(1);
+  const [photoUri, setPhotoUri] = useState('');
 
   // Busca no JSON
   const [modalVisible, setModalVisible] = useState(false);
@@ -73,6 +75,36 @@ export default function AddPlant() {
     ); 
   };
 
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 0.8,
+    });
+
+    if (!result.canceled) {
+      setPhotoUri(result.assets[0].uri);
+    }
+  };
+
+  const takePhoto = async () => {
+      const permission = await ImagePicker.requestCameraPermissionsAsync();
+      if (!permission.granted) {
+          Alert.alert("Erro", "Permissão de câmera necessária.");
+          return;
+      }
+      const result = await ImagePicker.launchCameraAsync({
+          allowsEditing: true,
+          aspect: [4, 4],
+          quality: 0.8,
+      });
+
+      if (!result.canceled) {
+          setPhotoUri(result.assets[0].uri);
+      }
+  };
+
   const handleSave = async () => {
     if (!name.trim() || !room.trim() || !frequency.trim()) {
       Alert.alert("Ops!", "Preencha pelo menos Nome, Local e Frequência.");
@@ -87,7 +119,8 @@ export default function AddPlant() {
     try {
       await addNewPlant({
         name, species, room, frequencyDays: freqDays,
-        pot_size: potSize, pot_material: potMaterial, drainage
+        pot_size: potSize, pot_material: potMaterial, drainage,
+        photo_uri: photoUri
       });
       navigation.goBack();
     } catch (error) {
@@ -101,6 +134,21 @@ export default function AddPlant() {
     <View style={tw`flex-1 bg-white`}>
       <ScrollView style={tw`flex-1 p-5`} contentContainerStyle={{ paddingBottom: 40 }}>
         <Text style={tw`text-2xl font-bold text-gray-800 mb-6`}>Nova Planta 🌱</Text>
+
+        {/* Seção de Foto */}
+        <View style={tw`items-center mb-6`}>
+            <TouchableOpacity onPress={pickImage} style={tw`w-32 h-32 bg-gray-100 rounded-full items-center justify-center overflow-hidden border-2 border-dashed border-gray-300`}>
+                {photoUri ? (
+                    <Image source={{ uri: photoUri }} style={tw`w-full h-full`} />
+                ) : (
+                    <Camera size={32} color="#9ca3af" />
+                )}
+            </TouchableOpacity>
+            <View style={tw`flex-row mt-2`}>
+                <TouchableOpacity onPress={pickImage} style={tw`mr-4`}><Text style={tw`text-green-600 font-bold`}>Galeria</Text></TouchableOpacity>
+                <TouchableOpacity onPress={takePhoto}><Text style={tw`text-green-600 font-bold`}>Câmera</Text></TouchableOpacity>
+            </View>
+        </View>
 
         <TouchableOpacity 
           onPress={() => setModalVisible(true)}
