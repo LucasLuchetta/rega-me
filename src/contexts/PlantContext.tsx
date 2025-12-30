@@ -34,6 +34,7 @@ interface PlantContextData {
   removePlantPhoto: (photoId: number) => Promise<void>;
   getPlantPhotos: (plantId: number) => Promise<any[]>;
   updatePlant: (plant: Plant, frequency?: number) => Promise<void>;
+  removeTask: (taskId: number) => Promise<void>;
 }
 
 const PlantContext = createContext<PlantContextData>({} as PlantContextData);
@@ -128,6 +129,16 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error("Erro ao atualizar planta:", error);
       Alert.alert("Erro", "Falha ao atualizar planta.");
+    }
+  };
+
+  const removeTask = async (taskId: number) => {
+    try {
+      await TaskDAO.deleteTask(taskId);
+      await loadData();
+    } catch (error) {
+      console.error("Erro ao deletar tarefa:", error);
+      Alert.alert("Erro", "Falha ao deletar tarefa.");
     }
   };
 
@@ -268,7 +279,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     completeTask, snoozeTask, anticipateTask, completeAllInRoom,
     addTaskToPlant, getPlantTasks, getHistory, getPlantHistory,
     addPlantPhoto, removePlantPhoto, getPlantPhotos,
-    updatePlant
+    updatePlant, removeTask
   }), [plants, dueTasks, loading]);
 
   return (
