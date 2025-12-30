@@ -70,24 +70,37 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       });
       
       if (result.insertId) {
-        // Função auxiliar para adicionar tarefa e notificação
-        const addInitialTask = async (type: any, freq: number) => {
-          if (freq && freq > 0) {
+        const plantId = result.insertId;
+
+        // Mapeamento dos campos vindos do formulário para os tipos de tarefa
+        const careTasks = [
+          { type: 'water', freq: plantData.frequencyDays },
+          { type: 'fertilize', freq: plantData.fertilizeFrequency },
+          { type: 'prune', freq: plantData.pruneFrequency },
+          { type: 'mist', freq: plantData.mistFrequency },
+          { type: 'pesticide', freq: plantData.pesticideFrequency },
+          { type: 'repot', freq: plantData.repotFrequency },
+        ];
+
+        // Itera sobre cada cuidado e salva no banco se houver frequência definida
+        for (const task of careTasks) {
+          if (task.freq && task.freq > 0) {
             const nextDue = new Date();
-            nextDue.setDate(nextDue.getDate() + freq);
+            nextDue.setDate(nextDue.getDate() + task.freq);
+
+            // Salva a tarefa no Banco de Dados
             await TaskDAO.addTask({
-              plant_id: result.insertId,
-              type: type,
-              frequency_days: freq,
+              plant_id: plantId,
+              type: task.type as any,
+              frequency_days: task.freq,
               next_due: nextDue.toISOString()
             });
-            const secondsUntilNotify = freq * 24 * 60 * 60;
-            await NotificationService.scheduleWateringReminder(plantData.name, secondsUntilNotify, type);
-          }
-        };
 
-        const secondsUntilNotify = plantData.frequencyDays * 24 * 60 * 60; 
-        await NotificationService.scheduleWateringReminder(plantData.name, secondsUntilNotify, 'water');
+            // Agenda a notificação
+            const secondsUntilNotify = task.freq * 24 * 60 * 60;
+            await NotificationService.scheduleWateringReminder(plantData.name, secondsUntilNotify, task.type);
+          }
+        }
       }
       await loadData();
     } catch (error) {
