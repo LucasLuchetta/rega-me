@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Modal, TextInput, Alert, Image, StatusBar } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Modal, TextInput, Alert, Image, StatusBar, ActivityIndicator } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { usePlants } from '../../contexts/PlantContext';
 import { Trash2, Plus, Camera, Droplets, Clock, CheckCircle2, Scissors, Sprout, ShieldAlert, Box, ChevronLeft, MoreHorizontal, Wind, ThermometerSun, Filter, Calendar } from 'lucide-react-native';
@@ -30,6 +30,7 @@ export default function PlantDetails() {
   const [selectedType, setSelectedType] = useState('water');
   const [newFrequency, setNewFrequency] = useState('');
   const [filterType, setFilterType] = useState<string | null>(null);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   useEffect(() => {
       loadData();
@@ -57,8 +58,24 @@ export default function PlantDetails() {
 
   const handleAction = (task: any) => {
       Alert.alert("Ação Rápida", `O que fazer com ${task.type}?`, [
-          { text: "Adiar 2 dias", onPress: () => { snoozeTask(task.id, 2, plant.name); loadData(); } },
-          { text: "Marcar Feito", onPress: () => { anticipateTask(task.id, task.frequency_days, plant.name); loadData(); } },
+          {
+            text: "Adiar 2 dias",
+            onPress: async () => {
+              setActionLoading(task.id);
+              await snoozeTask(task.id, 2, plant.name);
+              await loadData();
+              setActionLoading(null);
+            }
+          },
+          {
+            text: "Marcar Feito",
+            onPress: async () => {
+              setActionLoading(task.id);
+              await anticipateTask(task.id, task.frequency_days, plant.name);
+              await loadData();
+              setActionLoading(null);
+            }
+          },
           { text: "Cancelar", style: "cancel" }
       ]);
   };
@@ -100,7 +117,12 @@ export default function PlantDetails() {
           
           {/* Header Buttons */}
           <View style={tw`absolute top-12 left-6 right-6 flex-row justify-between z-10`}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={tw`w-10 h-10 bg-white/20 backdrop-blur-md rounded-full items-center justify-center border border-white/30`}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={tw`w-10 h-10 bg-white/20 backdrop-blur-md rounded-full items-center justify-center border border-white/30`}
+              accessibilityLabel="Voltar"
+              accessibilityRole="button"
+            >
                 <ChevronLeft size={24} color="white" />
             </TouchableOpacity>
             <TouchableOpacity
@@ -108,8 +130,8 @@ export default function PlantDetails() {
                     {text: 'Editar Planta', onPress: () => setEditModalVisible(true)},
                     {text: 'Deletar', style: 'destructive', onPress: () => {
                          Alert.alert(
-                             "Tem certeza?",
-                             "Isso apagará a planta e todo o histórico de cuidados permanentemente.",
+                             "Atenção, ação irreversível!",
+                             "Você está prestes a excluir esta planta permanentemente. Todo o histórico de cuidados será perdido. Deseja realmente continuar?",
                              [
                                  { text: "Cancelar", style: "cancel" },
                                  { text: "Sim, Deletar", style: "destructive", onPress: () => { removePlant(plant.id); navigation.goBack(); } }
@@ -173,6 +195,7 @@ export default function PlantDetails() {
                         <TouchableOpacity
                             key={task.id}
                             onPress={() => handleAction(task)}
+                            disabled={actionLoading === task.id}
                             style={[tw`flex-row items-center p-4`, !isLast && tw`border-b border-sage-50`]}
                         >
                             <View style={[tw`w-12 h-12 rounded-2xl items-center justify-center mr-4`, { backgroundColor: `${config.color}15` }]}>
@@ -183,12 +206,18 @@ export default function PlantDetails() {
                                 <Text style={tw`text-sage-400 text-xs`}>Repetir a cada {task.frequency_days} dias</Text>
                             </View>
                             <View style={tw`items-end`}>
-                                <View style={tw`flex-row items-center bg-sage-50 px-2 py-1 rounded-lg`}>
-                                    <Clock size={12} color={tw.color('sage-400')} />
-                                    <Text style={tw`ml-1.5 text-sage-500 text-xs font-medium`}>
-                                        {new Date(task.next_due).toLocaleDateString('pt-BR', {day: '2-digit', month: 'short'})}
-                                    </Text>
-                                </View>
+                                {actionLoading === task.id ? (
+                                  <View style={tw`px-2 py-1`}>
+                                    <ActivityIndicator size="small" color={tw.color('sage-500')} />
+                                  </View>
+                                ) : (
+                                  <View style={tw`flex-row items-center bg-sage-50 px-2 py-1 rounded-lg`}>
+                                      <Clock size={12} color={tw.color('sage-400')} />
+                                      <Text style={tw`ml-1.5 text-sage-500 text-xs font-medium`}>
+                                          {new Date(task.next_due).toLocaleDateString('pt-BR', {day: '2-digit', month: 'short'})}
+                                      </Text>
+                                  </View>
+                                )}
                             </View>
                         </TouchableOpacity>
                     );
@@ -241,7 +270,13 @@ export default function PlantDetails() {
                         </View>
                     );
                 })}
-                {filteredHistory.length === 0 && <Text style={tw`text-sage-400 italic text-center py-2`}>Nenhum histórico encontrado.</Text>}
+                {filteredHistory.length === 0 && (
+                    <View style={tw`items-center justify-center py-6`}>
+                        <Clock size={24} color={tw.color('sage-300')} style={tw`mb-2`} />
+                        <Text style={tw`text-sage-400 italic text-center text-sm`}>Nenhum histórico ainda.</Text>
+                        <Text style={tw`text-sage-300 text-xs text-center`}>Complete tarefas para vê-las aqui.</Text>
+                    </View>
+                )}
             </View>
 
         </ScrollView>
@@ -276,10 +311,13 @@ export default function PlantDetails() {
                     placeholder="A cada quantos dias?"
                     keyboardType="numeric"
                     placeholderTextColor={tw.color('sage-300')}
-                    style={tw`bg-sage-50 p-4 rounded-2xl mb-6 text-sage-800 font-bold border border-sage-100`}
+                    style={tw`bg-sage-50 p-4 rounded-2xl mb-1 text-sage-800 font-bold border border-sage-100`}
                     value={newFrequency}
                     onChangeText={setNewFrequency}
+                    accessibilityLabel="Frequência em dias"
                 />
+                <Text style={tw`text-sage-400 text-xs mb-6 ml-1`}>Ex: 7 (semanal), 30 (mensal)</Text>
+
                 <TouchableOpacity onPress={handleAddTask} style={tw`bg-sage-600 p-4 rounded-2xl items-center shadow-lg shadow-sage-600/30`}>
                     <Text style={tw`text-white font-bold text-lg`}>Salvar Rotina</Text>
                 </TouchableOpacity>
