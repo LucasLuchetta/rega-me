@@ -77,7 +77,7 @@ export default function Dashboard() {
     if (viewMode === 'list') {
       return (
         <TouchableOpacity 
-          style={tw`bg-white p-4 rounded-2xl mb-3 flex-row items-center shadow-sm border ${hasTask ? 'border-clay-300' : 'border-sage-50'}`}
+          style={tw`mx-6 bg-white p-4 rounded-2xl mb-3 flex-row items-center shadow-sm border ${hasTask ? 'border-clay-300' : 'border-sage-50'}`}
           onPress={() => navigation.navigate('PlantDetails', { plant: item })}
           activeOpacity={0.7}
           accessibilityLabel={accessLabel}
@@ -256,7 +256,7 @@ export default function Dashboard() {
         // Force re-render when switching columns
         key={viewMode}
         columnWrapperStyle={viewMode === 'gallery' ? tw`justify-between px-6 gap-4` : undefined}
-        contentContainerStyle={viewMode === 'list' ? { paddingHorizontal: 24, paddingBottom: 100 } : { paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: 100 }}
       />
 
       <TouchableOpacity 
