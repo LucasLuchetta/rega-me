@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, ActivityIndicator, Modal, FlatList, Image } from 'react-native';
 import { usePlants } from '../../contexts/PlantContext';
 import { useNavigation } from '@react-navigation/native';
@@ -52,6 +52,32 @@ export default function AddPlant() {
   const [potMaterial, setPotMaterial] = useState('Plástico');
   const [drainage, setDrainage] = useState(1);
   const [photoUri, setPhotoUri] = useState('');
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e: any) => {
+      const isDirty = (name.trim() !== '' || photoUri !== '');
+      if (!isDirty || loading) {
+        return;
+      }
+
+      e.preventDefault();
+
+      Alert.alert(
+        'Descartar alterações?',
+        'Você tem informações não salvas. Tem certeza que deseja sair?',
+        [
+          { text: 'Não sair', style: 'cancel', onPress: () => {} },
+          {
+            text: 'Descartar',
+            style: 'destructive',
+            onPress: () => navigation.dispatch(e.data.action),
+          },
+        ]
+      );
+    });
+
+    return unsubscribe;
+  }, [navigation, name, photoUri, loading]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
@@ -353,6 +379,8 @@ export default function AddPlant() {
           style={tw`p-5 rounded-2xl items-center mb-10 shadow-lg shadow-sage-500/30 mt-4 ${loading ? 'bg-sage-300' : 'bg-sage-600'}`}
           accessibilityRole="button"
           accessibilityLabel="Salvar e adicionar planta ao jardim"
+          accessibilityState={{ busy: loading }}
+          accessibilityHint="Toque duas vezes para salvar a planta"
         >
           {loading ? <ActivityIndicator color="white" /> : <Text style={tw`text-white font-bold text-lg`}>Adicionar ao Jardim</Text>}
         </TouchableOpacity>

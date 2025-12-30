@@ -16,3 +16,9 @@ Adding `activeOpacity` provides immediate tactile feedback which makes the app f
 
 ### 5. Pre-existing Typescript Errors
 The codebase has pre-existing TS errors (`Orakul`, `Profile`) that are unrelated to my changes. In a real-world scenario, I would flag these, but for this "Blitz", I ignored them to focus on my specific deliverables, ensuring I didn't add *new* errors.
+
+### 6. Navigation Event Listeners
+When implementing safety checks (like `beforeRemove`), React Navigation's `addListener` is powerful but requires careful handling of the `data.action` to properly discard changes or resume navigation. It's a specific API that differs from web's `beforeunload`.
+
+### 7. Accessibility State for Interactive Elements
+Simply adding `accessibilityLabel` isn't enough for stateful elements like tabs or toggle buttons. `accessibilityState={{ selected: boolean }}` or `{{ busy: boolean }}` provides critical context to screen reader users that static text cannot convey.
