@@ -2,18 +2,17 @@
 
 ## Critical Learnings
 
-### 1. Component Extraction for Local State
-Found that `renderItem` functions inside a main component cannot easily handle local state (like loading spinners for individual items) without causing performance issues or state conflicts.
-**Solution:** Extracted `renderTaskItem` into a standalone `TaskItem` component. This allowed each task button to manage its own `loading` state during async operations independently.
+### 1. Typescript in DevDependencies but Not Installed
+The repo listed `typescript` in `devDependencies`, but it wasn't installed in `node_modules`. This required a manual `pnpm install` before I could run type checks. This is a common pattern in CI/CD environments where deps might be cached or installed differently, but for a dev session, it's a blocker.
 
-### 2. Accessibility in Custom Components
-The repo uses `TouchableOpacity` for buttons but often misses ARIA props.
-**Pattern Identified:** Interactive elements like "OptionPill" or task cards need explicit `accessibilityRole="button"` (or "radio") and `accessibilityLabel` to be usable by screen readers. Native inference isn't enough for custom UI.
+### 2. Missing Imports in React Native
+When adding `ActivityIndicator` or other native components, it's easy to forget the import from `react-native`, especially when focusing on logic. A quick `tsc` run catches this.
 
-### 3. List Empty States
-`FlatList` usage was inconsistent with empty states. Some lists had conditional rendering outside the list, while others just showed nothing.
-**Improvement:** leveraging `ListEmptyComponent` ensures the UI remains structural and provides helpful guidance when data is missing (e.g., "Sua selva está vazia").
+### 3. Accessible Touchables
+React Native's `TouchableOpacity` needs explicit `accessibilityLabel` when it contains only icons. The default behavior doesn't infer a label from the icon name. Using `accessibilityRole="button"` is also crucial for screen readers to announce it as an interactive element.
 
-### 4. Safety in Destructive Actions
-The "Delete" action was nested in an ActionSheet but lacked a "scary" confirmation step.
-**Fix:** Implemented a double-confirmation pattern. First click reveals options, second click on "Delete" triggers a specific destructive Alert. This prevents accidental data loss.
+### 4. Feedback loops
+Adding `activeOpacity` provides immediate tactile feedback which makes the app feel more responsive without changing the design. It's a high-impact, low-effort polish.
+
+### 5. Pre-existing Typescript Errors
+The codebase has pre-existing TS errors (`Orakul`, `Profile`) that are unrelated to my changes. In a real-world scenario, I would flag these, but for this "Blitz", I ignored them to focus on my specific deliverables, ensuring I didn't add *new* errors.

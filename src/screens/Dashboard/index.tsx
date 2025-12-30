@@ -74,6 +74,7 @@ export default function Dashboard() {
         <TouchableOpacity 
           style={tw`bg-white p-4 rounded-2xl mb-3 flex-row items-center shadow-sm border ${hasTask ? 'border-clay-300' : 'border-sage-50'}`}
           onPress={() => navigation.navigate('PlantDetails', { plant: item })}
+          activeOpacity={0.7}
         >
            <Image
               source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/icon.png')}
@@ -97,6 +98,7 @@ export default function Dashboard() {
         <TouchableOpacity
             style={[tw`bg-white rounded-3xl mb-4 shadow-sm border border-sage-50 overflow-hidden`, { width: CARD_WIDTH }]}
             onPress={() => navigation.navigate('PlantDetails', { plant: item })}
+            activeOpacity={0.7}
         >
             <Image
                 source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/icon.png')}
@@ -211,6 +213,7 @@ export default function Dashboard() {
                     key={room}
                     onPress={() => handleRoomPress(room)}
                     style={tw`mr-3 px-4 py-2 rounded-full border ${activeTab === room ? 'bg-sage-600 border-sage-600' : 'bg-transparent border-gray-200'}`}
+                    activeOpacity={0.7}
                 >
                     <Text style={tw`font-bold ${activeTab === room ? 'text-white' : 'text-gray-500'}`}>
                         {room === 'All' ? 'Todos' : room}
