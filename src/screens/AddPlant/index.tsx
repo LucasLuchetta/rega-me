@@ -2,12 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, ActivityIndicator, Modal, FlatList, Image } from 'react-native';
 import { usePlants } from '../../contexts/PlantContext';
 import { useNavigation } from '@react-navigation/native';
-import { CheckCircle2, Circle, Search, Camera, ScanLine, X } from 'lucide-react-native';
+import { CheckCircle2, Circle, Search, Camera, ScanLine, X, Plus, Droplets, Scissors, Sprout, ShieldAlert, Box, Wind, Trash2 } from 'lucide-react-native';
 import tw from '../../utils/tw';
 import * as ImagePicker from 'expo-image-picker';
 import plantsData from '../../database/plants_pt.json';
 
 const COMMON_ROOMS = ['Sala', 'Quarto', 'Cozinha', 'Varanda', 'Banheiro', 'Jardim'];
+
+const CARE_TYPES = [
+    { id: 'water', label: 'Rega', icon: Droplets, color: tw.color('sky-500'), bg: 'bg-sky-50' },
+    { id: 'mist', label: 'Borrifar', icon: Wind, color: tw.color('sky-400'), bg: 'bg-sky-50' },
+    { id: 'fertilize', label: 'Adubo', icon: Sprout, color: tw.color('clay-500'), bg: 'bg-clay-50' },
+    { id: 'prune', label: 'Poda', icon: Scissors, color: tw.color('red-400'), bg: 'bg-red-50' },
+    { id: 'repot', label: 'Vaso', icon: Box, color: tw.color('orange-500'), bg: 'bg-orange-50' },
+    { id: 'pesticide', label: 'Defensivo', icon: ShieldAlert, color: tw.color('purple-500'), bg: 'bg-purple-50' },
+];
 
 const OptionPill = ({ label, selected, onPress }: any) => (
   <TouchableOpacity 
@@ -42,16 +51,22 @@ export default function AddPlant() {
   const [name, setName] = useState('');
   const [species, setSpecies] = useState('');
   const [room, setRoom] = useState('');
-  const [frequency, setFrequency] = useState('');
-  const [fertilizeFreq, setFertilizeFreq] = useState('');
-  const [pruneFreq, setPruneFreq] = useState('');
-  const [mistFreq, setMistFreq] = useState('');
-  const [pesticideFreq, setPesticideFreq] = useState('');
-  const [repotFreq, setRepotFreq] = useState('');
   const [potSize, setPotSize] = useState('Médio');
   const [potMaterial, setPotMaterial] = useState('Plástico');
   const [drainage, setDrainage] = useState(1);
   const [photoUri, setPhotoUri] = useState('');
+
+  // New State for Tasks
+  const [tasks, setTasks] = useState<{type: string, frequency: string}[]>([
+      { type: 'water', frequency: '7' }
+  ]);
+
+  const [encyclopediaModalVisible, setEncyclopediaModalVisible] = useState(false);
+  const [careModalVisible, setCareModalVisible] = useState(false);
+  const [selectedCareType, setSelectedCareType] = useState('water');
+  const [newCareFrequency, setNewCareFrequency] = useState('');
+
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', (e: any) => {
@@ -79,9 +94,6 @@ export default function AddPlant() {
     return unsubscribe;
   }, [navigation, name, photoUri, loading]);
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [searchText, setSearchText] = useState('');
-
   const filteredPlants = plantsData.filter((p: any) => 
     (p.common && p.common[0] && p.common[0].toLowerCase().includes(searchText.toLowerCase())) ||
     (p.latin && p.latin.toLowerCase().includes(searchText.toLowerCase()))
@@ -96,11 +108,15 @@ export default function AddPlant() {
         setSpecies(plant.latin);
 
         const smartFreq = estimateFrequency(plant.watering, plant.category);
-        setFrequency(smartFreq);
-        setFertilizeFreq('30');
-        setPruneFreq('60');
 
-        setModalVisible(false);
+        // Populate tasks smartly
+        setTasks([
+            { type: 'water', frequency: smartFreq },
+            { type: 'fertilize', frequency: '30' },
+            { type: 'prune', frequency: '60' }
+        ]);
+
+        setEncyclopediaModalVisible(false);
 
         // Gamification / Identification Feedback
         Alert.alert(
@@ -125,7 +141,7 @@ export default function AddPlant() {
       if (!name) {
           Alert.alert("Identificação", "Gostaria que tentássemos identificar essa planta?", [
               { text: "Não", style: 'cancel' },
-              { text: "Sim", onPress: () => setModalVisible(true) } // For now, opens the list manually
+              { text: "Sim", onPress: () => setEncyclopediaModalVisible(true) }
           ]);
       }
     }
@@ -148,10 +164,34 @@ export default function AddPlant() {
           if (!name) {
              Alert.alert("Identificação", "Gostaria que tentássemos identificar essa planta?", [
                   { text: "Não", style: 'cancel' },
-                  { text: "Sim", onPress: () => setModalVisible(true) }
+                  { text: "Sim", onPress: () => setEncyclopediaModalVisible(true) }
               ]);
           }
       }
+  };
+
+  const handleAddCareTask = () => {
+      if (!newCareFrequency) {
+          Alert.alert("Atenção", "Informe a frequência em dias.");
+          return;
+      }
+
+      const newTasks = [...tasks];
+      const existingIndex = newTasks.findIndex(t => t.type === selectedCareType);
+
+      if (existingIndex >= 0) {
+          newTasks[existingIndex].frequency = newCareFrequency;
+      } else {
+          newTasks.push({ type: selectedCareType, frequency: newCareFrequency });
+      }
+
+      setTasks(newTasks);
+      setCareModalVisible(false);
+      setNewCareFrequency('');
+  };
+
+  const handleRemoveTask = (type: string) => {
+      setTasks(tasks.filter(t => t.type !== type));
   };
 
   const validateForm = () => {
@@ -159,9 +199,9 @@ export default function AddPlant() {
     if (!name.trim()) errors.push("Nome é obrigatório");
     if (!room.trim()) errors.push("Local é obrigatório");
 
-    const freqDays = parseInt(frequency);
-    if (!frequency || isNaN(freqDays) || freqDays <= 0) {
-      errors.push("Frequência de rega deve ser válida");
+    const waterTask = tasks.find(t => t.type === 'water');
+    if (!waterTask || !waterTask.frequency || parseInt(waterTask.frequency) <= 0) {
+        errors.push("É necessário configurar ao menos a Rega.");
     }
 
     if (errors.length > 0) {
@@ -176,20 +216,21 @@ export default function AddPlant() {
 
     setLoading(true);
     try {
-      const freqDays = parseInt(frequency);
-      const fertDays = fertilizeFreq ? parseInt(fertilizeFreq) : 0;
-      const pruneDays = pruneFreq ? parseInt(pruneFreq) : 0;
-      const mistDays = mistFreq ? parseInt(mistFreq) : 0;
-      const pesticideDays = pesticideFreq ? parseInt(pesticideFreq) : 0;
-      const repotDays = repotFreq ? parseInt(repotFreq) : 0;
+      const waterFreq = parseInt(tasks.find(t => t.type === 'water')?.frequency || '0');
+      const fertilizeFreq = parseInt(tasks.find(t => t.type === 'fertilize')?.frequency || '0');
+      const pruneFreq = parseInt(tasks.find(t => t.type === 'prune')?.frequency || '0');
+      const mistFreq = parseInt(tasks.find(t => t.type === 'mist')?.frequency || '0');
+      const pesticideFreq = parseInt(tasks.find(t => t.type === 'pesticide')?.frequency || '0');
+      const repotFreq = parseInt(tasks.find(t => t.type === 'repot')?.frequency || '0');
 
       await addNewPlant({
-        name, species, room, frequencyDays: freqDays,
-        fertilizeFrequency: fertDays,
-        pruneFrequency: pruneDays,
-        mistFrequency: mistDays,
-        pesticideFrequency: pesticideDays,
-        repotFrequency: repotDays,
+        name, species, room,
+        frequencyDays: waterFreq,
+        fertilizeFrequency: fertilizeFreq,
+        pruneFrequency: pruneFreq,
+        mistFrequency: mistFreq,
+        pesticideFrequency: pesticideFreq,
+        repotFrequency: repotFreq,
         pot_size: potSize, pot_material: potMaterial, drainage,
         photo_uri: photoUri
       });
@@ -258,7 +299,7 @@ export default function AddPlant() {
         </View>
 
         <TouchableOpacity 
-          onPress={() => setModalVisible(true)}
+          onPress={() => setEncyclopediaModalVisible(true)}
           style={tw`bg-white border border-sage-100 p-4 rounded-xl flex-row items-center mb-8 shadow-sm`}
           accessibilityLabel="Não sabe o nome? Buscar em nossa enciclopédia"
           accessibilityRole="button"
@@ -321,47 +362,39 @@ export default function AddPlant() {
         </View>
 
         <View style={tw`mb-6`}>
-            <Text style={tw`text-sage-900 mb-3 font-bold text-lg font-serif`}>Rotina de Cuidados</Text>
-            <View style={tw`bg-white p-4 rounded-2xl border border-gray-100`}>
-                <View style={tw`flex-row items-center justify-between mb-4 border-b border-gray-50 pb-4`}>
-                    <View style={tw`flex-row items-center`}>
-                        <View style={tw`bg-blue-100 p-2 rounded-lg mr-3`}><Text>💧</Text></View>
-                        <Text style={tw`text-gray-600 font-medium`}>Rega (dias)</Text>
-                    </View>
-                    <TextInput
-                        style={tw`bg-gray-50 w-20 p-2 rounded-lg text-center font-bold text-sage-900`}
-                        placeholder="7" keyboardType="numeric" value={frequency} onChangeText={setFrequency}
-                        accessibilityLabel="Frequência de rega em dias"
-                        accessibilityHint="Digite o número de dias entre cada rega"
-                        returnKeyType="done"
-                    />
-                </View>
-                <View style={tw`flex-row items-center justify-between mb-4 border-b border-gray-50 pb-4`}>
-                    <View style={tw`flex-row items-center`}>
-                        <View style={tw`bg-yellow-100 p-2 rounded-lg mr-3`}><Text>⚡️</Text></View>
-                        <Text style={tw`text-gray-600 font-medium`}>Adubo (dias)</Text>
-                    </View>
-                    <TextInput
-                        style={tw`bg-gray-50 w-20 p-2 rounded-lg text-center font-bold text-sage-900`}
-                        placeholder="30" keyboardType="numeric" value={fertilizeFreq} onChangeText={setFertilizeFreq}
-                        accessibilityLabel="Frequência de adubação em dias"
-                        accessibilityHint="Digite o número de dias entre cada adubação"
-                        returnKeyType="done"
-                    />
-                </View>
-                <View style={tw`flex-row items-center justify-between`}>
-                    <View style={tw`flex-row items-center`}>
-                        <View style={tw`bg-red-100 p-2 rounded-lg mr-3`}><Text>✂️</Text></View>
-                        <Text style={tw`text-gray-600 font-medium`}>Poda (dias)</Text>
-                    </View>
-                    <TextInput
-                        style={tw`bg-gray-50 w-20 p-2 rounded-lg text-center font-bold text-sage-900`}
-                        placeholder="60" keyboardType="numeric" value={pruneFreq} onChangeText={setPruneFreq}
-                        accessibilityLabel="Frequência de poda em dias"
-                        accessibilityHint="Digite o número de dias entre cada poda"
-                        returnKeyType="done"
-                    />
-                </View>
+            <View style={tw`flex-row justify-between items-center mb-4`}>
+                <Text style={tw`text-sage-900 font-bold text-lg font-serif`}>Cuidados</Text>
+                <TouchableOpacity onPress={() => setCareModalVisible(true)} style={tw`bg-sage-100 p-2 rounded-full`}>
+                    <Plus size={20} color={tw.color('sage-600')} />
+                </TouchableOpacity>
+            </View>
+
+            <View style={tw`bg-white rounded-3xl p-2 border border-sage-100 shadow-sm`}>
+                {tasks.map((task, index) => {
+                    const config = CARE_TYPES.find(c => c.id === task.type) || CARE_TYPES[0];
+                    const Icon = config.icon;
+                    const isLast = index === tasks.length - 1;
+                    return (
+                        <View
+                            key={task.type}
+                            style={[tw`flex-row items-center p-4`, !isLast && tw`border-b border-sage-50`]}
+                        >
+                            <View style={[tw`w-12 h-12 rounded-2xl items-center justify-center mr-4`, { backgroundColor: `${config.color}15` }]}>
+                                <Icon size={22} color={config.color} />
+                            </View>
+                            <View style={tw`flex-1`}>
+                                <Text style={tw`text-sage-800 font-bold text-base capitalize`}>{config.label}</Text>
+                                <Text style={tw`text-sage-400 text-xs`}>Repetir a cada {task.frequency} dias</Text>
+                            </View>
+                            <TouchableOpacity onPress={() => handleRemoveTask(task.type)} style={tw`p-2`}>
+                                <Trash2 size={18} color={tw.color('red-300')} />
+                            </TouchableOpacity>
+                        </View>
+                    );
+                })}
+                {tasks.length === 0 && (
+                    <Text style={tw`text-center text-sage-400 p-4 italic`}>Nenhum cuidado configurado.</Text>
+                )}
             </View>
         </View>
 
@@ -387,11 +420,11 @@ export default function AddPlant() {
       </ScrollView>
 
       {/* Modal de Busca no JSON */}
-      <Modal visible={modalVisible} animationType="slide" presentationStyle="pageSheet">
+      <Modal visible={encyclopediaModalVisible} animationType="slide" presentationStyle="pageSheet">
         <View style={tw`flex-1 bg-canvas p-5`}>
             <View style={tw`flex-row justify-between items-center mb-6 mt-2`}>
                 <Text style={tw`text-2xl font-serif text-sage-900`}>Enciclopédia</Text>
-                <TouchableOpacity onPress={() => setModalVisible(false)} style={tw`bg-gray-100 p-2 rounded-full`}>
+                <TouchableOpacity onPress={() => setEncyclopediaModalVisible(false)} style={tw`bg-gray-100 p-2 rounded-full`}>
                     <X size={20} color="#666" />
                 </TouchableOpacity>
             </View>
@@ -421,6 +454,42 @@ export default function AddPlant() {
                     </TouchableOpacity>
                 )}
             />
+        </View>
+      </Modal>
+
+      {/* Modal Novo Cuidado */}
+      <Modal visible={careModalVisible} transparent animationType="slide">
+        <View style={tw`flex-1 justify-end bg-sage-900/50`}>
+            <View style={tw`bg-white rounded-t-[32px] p-6`}>
+                <View style={tw`flex-row justify-between mb-6`}>
+                    <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Novo Cuidado</Text>
+                    <TouchableOpacity onPress={() => setCareModalVisible(false)}><Text style={tw`text-sage-500 font-bold`}>Cancelar</Text></TouchableOpacity>
+                </View>
+                <View style={tw`flex-row flex-wrap gap-2 mb-6`}>
+                    {CARE_TYPES.map(t => (
+                        <TouchableOpacity key={t.id} onPress={() => setSelectedCareType(t.id)}
+                            style={tw`px-4 py-2.5 rounded-full border flex-row items-center ${selectedCareType === t.id ? 'bg-sage-600 border-sage-600' : 'bg-white border-sage-200'}`}>
+                            {selectedCareType === t.id && <CheckCircle2 size={14} color="white" style={tw`mr-2`} />}
+                            <Text style={tw`${selectedCareType === t.id ? 'text-white' : 'text-sage-600'} font-bold text-sm`}>{t.label}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+                <Text style={tw`text-sage-500 mb-2 ml-1 text-xs font-bold uppercase`}>Frequência</Text>
+                <TextInput
+                    placeholder="A cada quantos dias?"
+                    keyboardType="numeric"
+                    placeholderTextColor={tw.color('sage-300')}
+                    style={tw`bg-sage-50 p-4 rounded-2xl mb-1 text-sage-800 font-bold border border-sage-100`}
+                    value={newCareFrequency}
+                    onChangeText={setNewCareFrequency}
+                    accessibilityLabel="Frequência em dias"
+                />
+                <Text style={tw`text-sage-400 text-xs mb-6 ml-1`}>Ex: 7 (semanal), 30 (mensal)</Text>
+
+                <TouchableOpacity onPress={handleAddCareTask} style={tw`bg-sage-600 p-4 rounded-2xl items-center shadow-lg shadow-sage-600/30`}>
+                    <Text style={tw`text-white font-bold text-lg`}>Salvar Rotina</Text>
+                </TouchableOpacity>
+            </View>
         </View>
       </Modal>
     </View>
