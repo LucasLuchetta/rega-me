@@ -53,7 +53,7 @@ export const PlantDAO = {
   updatePlant: async (plant: Plant) => {
     const sql = `
       UPDATE plants
-      SET name = ?, species = ?, room = ?, pot_size = ?, pot_material = ?, drainage = ?
+      SET name = ?, species = ?, room = ?, pot_size = ?, pot_material = ?, drainage = ?, photo_uri = ?
       WHERE id = ?
     `;
     const params = [
@@ -63,6 +63,7 @@ export const PlantDAO = {
       plant.pot_size || 'Médio',
       plant.pot_material || 'Plástico',
       plant.drainage ? 1 : 0,
+      plant.photo_uri || '',
       plant.id
     ];
     return await executeSql(sql, params);

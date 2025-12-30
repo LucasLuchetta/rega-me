@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Modal, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, Modal, TouchableOpacity, ScrollView, Image } from 'react-native';
 import tw from '../../../utils/tw';
 import { Plant } from '../../../database/PlantDAO';
+import * as ImagePicker from 'expo-image-picker';
+import { Camera } from 'lucide-react-native';
 
 interface EditPlantModalProps {
   visible: boolean;
@@ -15,11 +17,25 @@ export default function EditPlantModal({ visible, onClose, plant, onSave }: Edit
   const [room, setRoom] = useState(plant.room);
   const [species, setSpecies] = useState(plant.species || '');
   const [frequency, setFrequency] = useState('');
+  const [photoUri, setPhotoUri] = useState(plant.photo_uri || '');
 
   const handleSave = () => {
     const freq = parseInt(frequency);
-    onSave({ ...plant, name, room, species }, isNaN(freq) ? undefined : freq);
+    onSave({ ...plant, name, room, species, photo_uri: photoUri }, isNaN(freq) ? undefined : freq);
     onClose();
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setPhotoUri(result.assets[0].uri);
+    }
   };
 
   return (
@@ -29,6 +45,19 @@ export default function EditPlantModal({ visible, onClose, plant, onSave }: Edit
             <View style={tw`flex-row justify-between mb-6`}>
                 <Text style={tw`text-xl font-bold`}>Editar Planta</Text>
                 <TouchableOpacity onPress={onClose}><Text style={tw`text-blue-600`}>Cancelar</Text></TouchableOpacity>
+            </View>
+
+            <View style={tw`items-center mb-6`}>
+              <TouchableOpacity onPress={pickImage} style={tw`relative`}>
+                <Image
+                  source={photoUri ? { uri: photoUri } : require('../../../../assets/icon.png')}
+                  style={tw`w-24 h-24 rounded-full bg-gray-200`}
+                />
+                <View style={tw`absolute bottom-0 right-0 bg-sage-600 p-2 rounded-full border-2 border-white`}>
+                  <Camera size={16} color="white" />
+                </View>
+              </TouchableOpacity>
+              <Text style={tw`text-sage-500 text-xs mt-2`}>Toque para alterar a foto</Text>
             </View>
 
             <Text style={tw`text-gray-500 mb-2`}>Nome</Text>

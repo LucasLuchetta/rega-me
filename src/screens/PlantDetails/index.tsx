@@ -32,6 +32,7 @@ export default function PlantDetails() {
   const [filterType, setFilterType] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [actionModalVisible, setActionModalVisible] = useState(false);
+  const [optionsModalVisible, setOptionsModalVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState<any>(null);
 
   useEffect(() => {
@@ -109,20 +110,7 @@ export default function PlantDetails() {
                 <ChevronLeft size={24} color="white" />
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => Alert.alert("Opções", "Escolha uma ação", [
-                    {text: 'Editar Planta', onPress: () => setEditModalVisible(true)},
-                    {text: 'Deletar', style: 'destructive', onPress: () => {
-                         Alert.alert(
-                             "Atenção, ação irreversível!",
-                             "Você está prestes a excluir esta planta permanentemente. Todo o histórico de cuidados será perdido. Deseja realmente continuar?",
-                             [
-                                 { text: "Cancelar", style: "cancel" },
-                                 { text: "Sim, Deletar", style: "destructive", onPress: () => { removePlant(plant.id); navigation.goBack(); } }
-                             ]
-                         );
-                    }},
-                    {text: 'Cancelar', style: "cancel"}
-                ])}
+                onPress={() => setOptionsModalVisible(true)}
                 style={tw`w-10 h-10 bg-white/20 rounded-full items-center justify-center border border-white/30`}
                 accessibilityLabel="Opções da planta"
                 accessibilityRole="button"
@@ -303,6 +291,54 @@ export default function PlantDetails() {
 
                 <TouchableOpacity onPress={handleAddTask} style={tw`bg-sage-600 p-4 rounded-2xl items-center shadow-lg shadow-sage-600/30`}>
                     <Text style={tw`text-white font-bold text-lg`}>Salvar Rotina</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+      </Modal>
+
+      {/* Modal de Opções da Planta */}
+      <Modal visible={optionsModalVisible} transparent animationType="fade" onRequestClose={() => setOptionsModalVisible(false)}>
+        <View style={tw`flex-1 justify-center items-center bg-black/50 p-6`}>
+            <View style={tw`bg-white rounded-3xl p-6 w-full max-w-sm relative shadow-xl`}>
+                <TouchableOpacity
+                    onPress={() => setOptionsModalVisible(false)}
+                    style={tw`absolute top-4 right-4 z-10 p-2 bg-gray-50 rounded-full`}
+                    hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+                    accessibilityLabel="Fechar"
+                    accessibilityRole="button"
+                >
+                    <X size={20} color={tw.color('gray-400')} />
+                </TouchableOpacity>
+
+                <Text style={tw`text-xl font-serif font-bold text-sage-900 mb-2`}>Opções da Planta</Text>
+                <Text style={tw`text-sage-500 mb-6`}>O que deseja fazer com <Text style={tw`font-bold`}>{plant.name}</Text>?</Text>
+
+                <TouchableOpacity
+                    onPress={() => {
+                        setOptionsModalVisible(false);
+                        setEditModalVisible(true);
+                    }}
+                    style={tw`bg-sage-600 p-4 rounded-2xl items-center mb-3 flex-row justify-center shadow-sm`}
+                >
+                    <Text style={tw`text-white font-bold`}>Editar Planta</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={() => {
+                        setOptionsModalVisible(false);
+                        Alert.alert(
+                             "Atenção, ação irreversível!",
+                             "Você está prestes a excluir esta planta permanentemente. Todo o histórico de cuidados será perdido. Deseja realmente continuar?",
+                             [
+                                 { text: "Cancelar", style: "cancel" },
+                                 { text: "Sim, Deletar", style: "destructive", onPress: () => { removePlant(plant.id); navigation.goBack(); } }
+                             ]
+                         );
+                    }}
+                    style={tw`bg-red-50 p-4 rounded-2xl items-center flex-row justify-center border border-red-100`}
+                >
+                    <Trash2 size={20} color={tw.color('red-500')} style={tw`mr-2`} />
+                    <Text style={tw`text-red-500 font-bold`}>Deletar Planta</Text>
                 </TouchableOpacity>
             </View>
         </View>
