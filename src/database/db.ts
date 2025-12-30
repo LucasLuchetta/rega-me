@@ -1,9 +1,18 @@
 // src/database/db.ts
 import * as SQLite from 'expo-sqlite';
+import { Platform } from 'react-native';
 
-const db = SQLite.openDatabaseSync('plantcare.db');
+let db: any;
+
+if (Platform.OS !== 'web') {
+  db = SQLite.openDatabaseSync('plantcare.db');
+}
 
 export const initDB = async () => {
+  if (Platform.OS === 'web') {
+    console.log("Web environment detected: Skipping SQLite initialization.");
+    return;
+  }
   try {
     db.execSync(`
       PRAGMA journal_mode = WAL;
@@ -54,6 +63,18 @@ export const initDB = async () => {
 };
 
 export const executeSql = async (sql: string, params: any[] = []) => {
+  if (Platform.OS === 'web') {
+    console.warn("Web environment: SQL execution simulated.");
+    return {
+      rows: {
+        _array: [],
+        length: 0,
+        item: () => null
+      },
+      insertId: 1,
+      rowsAffected: 0
+    };
+  }
   try {
     const isSelect = sql.trim().toUpperCase().startsWith('SELECT');
     if (isSelect) {

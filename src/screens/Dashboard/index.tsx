@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, Dimensions, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, Dimensions, ScrollView, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { usePlants } from '../../contexts/PlantContext';
-import { Plus, MapPin, Droplets, Check, Sprout, Scissors, Wind, Box, Sun } from 'lucide-react-native';
+import { Plus, MapPin, Droplets, Check, Sprout, Scissors, Wind, Box, Sun, Grid, List as ListIcon } from 'lucide-react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import tw from '../../utils/tw';
 import * as Location from 'expo-location';
@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 
 const { width } = Dimensions.get('window');
-// Layout calculation: Screen Width - Horizontal Padding (24*2) - Gap (16) / 2 columns
 const GAP = 16;
 const PADDING = 24;
 const CARD_WIDTH = (width - (PADDING * 2) - GAP) / 2;
@@ -22,6 +21,8 @@ export default function Dashboard() {
   const { plants, dueTasks, completeTask, loadData } = usePlants();
   const navigation = useNavigation<any>();
   const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [viewMode, setViewMode] = useState<'list' | 'gallery'>('list');
+  const [activeTab, setActiveTab] = useState('All');
 
   useFocusEffect(useCallback(() => { loadData(); }, []));
 
@@ -38,10 +39,15 @@ export default function Dashboard() {
     })();
   }, []);
 
-  const rooms = Array.from(new Set(plants.map(p => p.room))).sort();
+  const rooms = ['All', ...Array.from(new Set(plants.map(p => p.room))).sort()];
+
+  // Filter plants based on active room
+  const filteredPlants = activeTab === 'All'
+    ? plants
+    : plants.filter(p => p.room === activeTab);
 
   const handleRoomPress = (room: string) => {
-    navigation.navigate('RoomDetail', { room });
+    setActiveTab(room);
   };
 
   const WeatherPill = () => {
@@ -67,21 +73,21 @@ export default function Dashboard() {
         case 'fertilize':
             Icon = Sprout;
             label = t('fertilize');
-            colorClass = "bg-clay-400"; // Clay for earth/growth
+            colorClass = "bg-clay-400";
             iconColor = tw.color('clay-600');
             bgIcon = "bg-clay-100";
             break;
         case 'prune':
             Icon = Scissors;
             label = t('prune');
-            colorClass = "bg-red-400"; // Softer red
+            colorClass = "bg-red-400";
             iconColor = tw.color('red-600');
             bgIcon = "bg-red-100";
             break;
         case 'mist':
             Icon = Wind;
             label = t('mist');
-            colorClass = "bg-sky-400"; // Sky blue for mist
+            colorClass = "bg-sky-400";
             iconColor = tw.color('sky-600');
             bgIcon = "bg-sky-100";
             break;
@@ -95,7 +101,7 @@ export default function Dashboard() {
         default:
             Icon = Droplets;
             label = t('water');
-            colorClass = "bg-sky-500"; // Water is blue/sky
+            colorClass = "bg-sky-500";
             iconColor = tw.color('sky-600');
             bgIcon = "bg-sky-100";
      }
@@ -138,51 +144,51 @@ export default function Dashboard() {
      );
   };
 
-  const renderRoomItem = ({ item: room }: { item: string }) => {
-    const roomPlants = plants.filter(p => p.room === room);
-    const pendingCount = dueTasks.filter(t => t.room === room).length;
+  const renderPlantItem = ({ item }: { item: any }) => {
+    // Check if this plant has a due task
+    const hasTask = dueTasks.some(t => t.plant_id === item.id);
 
-    return (
+    if (viewMode === 'list') {
+      return (
         <TouchableOpacity 
-            style={[tw`bg-white p-5 rounded-[28px] mb-4 shadow-sm border border-sage-100 justify-between`, { width: CARD_WIDTH, height: CARD_WIDTH * 1.15 }]}
-            onPress={() => handleRoomPress(room)}
-            activeOpacity={0.8}
+          style={tw`bg-white p-4 rounded-2xl mb-3 flex-row items-center shadow-sm border ${hasTask ? 'border-clay-300' : 'border-sage-50'}`}
+          onPress={() => navigation.navigate('PlantDetails', { plant: item })}
         >
-            <View style={tw`flex-row justify-between items-start`}>
-                <View style={tw`bg-sage-50 w-11 h-11 rounded-2xl items-center justify-center`}>
-                    <MapPin size={20} color={tw.color('sage-600')} />
+           <Image
+              source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/icon.png')}
+              style={tw`w-14 h-14 rounded-full bg-sage-100 mr-4`}
+            />
+            <View style={tw`flex-1`}>
+               <Text style={tw`font-bold text-sage-900 text-base`}>{item.name}</Text>
+               <Text style={tw`text-sage-500 text-xs italic`}>{item.species || 'Planta Misteriosa'}</Text>
+            </View>
+            {hasTask && (
+                <View style={tw`bg-clay-100 p-2 rounded-full`}>
+                    <Droplets size={16} color={tw.color('clay-600')} />
                 </View>
-                {pendingCount > 0 ? (
-                    <View style={tw`bg-clay-400 px-2.5 py-1 rounded-full border border-white shadow-sm`}>
-                        <Text style={tw`text-white text-[10px] font-bold`}>{pendingCount}</Text>
-                    </View>
-                ) : (
-                    <View style={tw`bg-sage-100 px-2 py-1 rounded-full`}>
-                         <Check size={12} color={tw.color('sage-600')} />
-                    </View>
-                )}
-            </View>
+            )}
+        </TouchableOpacity>
+      );
+    }
 
-            <View>
-                <Text style={tw`font-serif font-bold text-sage-900 text-lg leading-tight mb-1`} numberOfLines={1}>{room}</Text>
-                <Text style={tw`text-sage-500 text-xs`}>{t('plants_count', {count: roomPlants.length})}</Text>
+    // Gallery View
+    return (
+        <TouchableOpacity
+            style={[tw`bg-white rounded-3xl mb-4 shadow-sm border border-sage-50 overflow-hidden`, { width: CARD_WIDTH }]}
+            onPress={() => navigation.navigate('PlantDetails', { plant: item })}
+        >
+            <Image
+                source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/icon.png')}
+                style={tw`w-full h-32 bg-sage-100`}
+                resizeMode="cover"
+            />
+            <View style={tw`p-3`}>
+                <Text style={tw`font-bold text-sage-900 text-sm`} numberOfLines={1}>{item.name}</Text>
+                <Text style={tw`text-sage-500 text-xs`} numberOfLines={1}>{item.room}</Text>
             </View>
-
-            {/* Micro-Visual of plants */}
-            <View style={tw`flex-row mt-2 pl-3`}>
-                {roomPlants.slice(0, 3).map((p, i) => (
-                    <View key={p.id} style={tw`w-7 h-7 rounded-full border-2 border-white -ml-3 bg-sage-200 overflow-hidden shadow-sm`}>
-                         {p.photo_uri ? (
-                            <Image source={{ uri: p.photo_uri }} style={tw`w-full h-full`} />
-                         ) : null}
-                    </View>
-                ))}
-                {roomPlants.length > 3 && (
-                     <View style={tw`w-7 h-7 rounded-full border-2 border-white -ml-3 bg-sage-100 items-center justify-center`}>
-                        <Text style={tw`text-[8px] text-sage-600 font-bold`}>+{roomPlants.length - 3}</Text>
-                     </View>
-                )}
-            </View>
+             {hasTask && (
+                <View style={tw`absolute top-2 right-2 bg-clay-500 w-3 h-3 rounded-full border border-white`} />
+            )}
         </TouchableOpacity>
     );
   };
@@ -190,7 +196,7 @@ export default function Dashboard() {
   const RenderHeader = () => (
     <View style={tw`px-6 pt-6 pb-2`}>
         {/* Header Title */}
-        <View style={tw`flex-row justify-between items-start mb-8`}>
+        <View style={tw`flex-row justify-between items-start mb-6`}>
             <View>
                 <Text style={tw`text-sage-500 text-xs font-bold uppercase tracking-widest mb-1`}>
                     {new Date().toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'pt-BR', { weekday: 'long', day: 'numeric' })}
@@ -218,26 +224,15 @@ export default function Dashboard() {
          )}
 
         {/* Daily Rituals (Tasks) */}
-        <View style={tw`flex-row items-center justify-between mb-4`}>
-            <Text style={tw`text-xl font-serif font-bold text-sage-900`}>{t('daily_rituals')}</Text>
-            {dueTasks.length > 0 && (
+        {dueTasks.length > 0 && (
+          <View>
+            <View style={tw`flex-row items-center justify-between mb-4`}>
+                <Text style={tw`text-xl font-serif font-bold text-sage-900`}>{t('daily_rituals')}</Text>
                 <View style={tw`bg-sage-100 px-2 py-1 rounded-md`}>
                     <Text style={tw`text-sage-700 text-xs font-bold`}>{dueTasks.length}</Text>
                 </View>
-            )}
-        </View>
-
-        {dueTasks.length === 0 ? (
-            <View style={tw`bg-white p-6 rounded-3xl border border-sage-100 items-center flex-row mb-8 shadow-sm`}>
-                <View style={tw`bg-sage-50 p-4 rounded-full mr-5`}>
-                    <Sun size={24} color={tw.color('sage-500')} />
-                </View>
-                <View style={tw`flex-1`}>
-                    <Text style={tw`text-sage-800 font-bold text-base mb-1`}>{t('all_done_title')}</Text>
-                    <Text style={tw`text-sage-500 text-sm leading-5`}>{t('all_done_subtitle')}</Text>
-                </View>
             </View>
-        ) : (
+
             <FlatList
                 data={dueTasks}
                 horizontal
@@ -247,9 +242,55 @@ export default function Dashboard() {
                 contentContainerStyle={{ paddingRight: 24, paddingBottom: 10 }}
                 style={tw`mb-4`}
             />
+          </View>
         )}
 
-        <Text style={tw`text-xl font-serif font-bold text-sage-900 mt-2 mb-4`}>{t('rooms')}</Text>
+        {dueTasks.length === 0 && (
+             <View style={tw`bg-white p-6 rounded-3xl border border-sage-100 items-center flex-row mb-8 shadow-sm`}>
+                <View style={tw`bg-sage-50 p-4 rounded-full mr-5`}>
+                    <Sun size={24} color={tw.color('sage-500')} />
+                </View>
+                <View style={tw`flex-1`}>
+                    <Text style={tw`text-sage-800 font-bold text-base mb-1`}>{t('all_done_title')}</Text>
+                    <Text style={tw`text-sage-500 text-sm leading-5`}>{t('all_done_subtitle')}</Text>
+                </View>
+            </View>
+        )}
+
+        {/* My Jungle Section */}
+        <View style={tw`flex-row items-center justify-between mt-4 mb-4`}>
+            <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Minha Selva</Text>
+
+            <View style={tw`flex-row bg-gray-100 p-1 rounded-lg`}>
+                <TouchableOpacity
+                    onPress={() => setViewMode('list')}
+                    style={tw`p-1.5 rounded-md ${viewMode === 'list' ? 'bg-white shadow-sm' : ''}`}
+                >
+                    <ListIcon size={16} color={viewMode === 'list' ? '#166534' : '#9ca3af'} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => setViewMode('gallery')}
+                    style={tw`p-1.5 rounded-md ${viewMode === 'gallery' ? 'bg-white shadow-sm' : ''}`}
+                >
+                    <Grid size={16} color={viewMode === 'gallery' ? '#166534' : '#9ca3af'} />
+                </TouchableOpacity>
+            </View>
+        </View>
+
+        {/* Room Tabs */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={tw`mb-4`}>
+            {rooms.map(room => (
+                <TouchableOpacity
+                    key={room}
+                    onPress={() => handleRoomPress(room)}
+                    style={tw`mr-3 px-4 py-2 rounded-full border ${activeTab === room ? 'bg-sage-600 border-sage-600' : 'bg-transparent border-gray-200'}`}
+                >
+                    <Text style={tw`font-bold ${activeTab === room ? 'text-white' : 'text-gray-500'}`}>
+                        {room === 'All' ? 'Todos' : room}
+                    </Text>
+                </TouchableOpacity>
+            ))}
+        </ScrollView>
     </View>
   );
 
@@ -257,12 +298,14 @@ export default function Dashboard() {
     <SafeAreaView style={tw`flex-1 bg-sage-50`}>
       <FlatList
         ListHeaderComponent={RenderHeader}
-        data={rooms}
-        keyExtractor={item => item}
-        renderItem={renderRoomItem}
-        numColumns={2}
-        columnWrapperStyle={tw`justify-between px-6 gap-4`}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        data={filteredPlants}
+        keyExtractor={item => item.id.toString()}
+        renderItem={renderPlantItem}
+        numColumns={viewMode === 'gallery' ? 2 : 1}
+        // Force re-render when switching columns
+        key={viewMode}
+        columnWrapperStyle={viewMode === 'gallery' ? tw`justify-between px-6 gap-4` : undefined}
+        contentContainerStyle={viewMode === 'list' ? { paddingHorizontal: 24, paddingBottom: 100 } : { paddingBottom: 100 }}
       />
 
       <TouchableOpacity 

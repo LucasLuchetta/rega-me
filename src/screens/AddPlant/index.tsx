@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, ActivityIndicator, Modal, FlatList, Image } from 'react-native';
 import { usePlants } from '../../contexts/PlantContext';
 import { useNavigation } from '@react-navigation/native';
-import { CheckCircle2, Circle, Search, Camera } from 'lucide-react-native';
+import { CheckCircle2, Circle, Search, Camera, ScanLine, X } from 'lucide-react-native';
 import tw from '../../utils/tw';
 import * as ImagePicker from 'expo-image-picker';
-
-// Importando da pasta src/database
 import plantsData from '../../database/plants_pt.json';
 
 const COMMON_ROOMS = ['Sala', 'Quarto', 'Cozinha', 'Varanda', 'Banheiro', 'Jardim'];
@@ -14,13 +12,12 @@ const COMMON_ROOMS = ['Sala', 'Quarto', 'Cozinha', 'Varanda', 'Banheiro', 'Jardi
 const OptionPill = ({ label, selected, onPress }: any) => (
   <TouchableOpacity 
     onPress={onPress}
-    style={tw`px-4 py-2 rounded-full mr-2 mb-2 border ${selected ? 'bg-green-light border-green-500' : 'bg-gray-50 border-gray-200'}`}
+    style={tw`px-4 py-2 rounded-full mr-2 mb-2 border ${selected ? 'bg-sage-100 border-sage-500' : 'bg-canvas-dark border-gray-200'}`}
   >
-    <Text style={tw`${selected ? 'text-green-dark font-bold' : 'text-gray-600'}`}>{label}</Text>
+    <Text style={tw`${selected ? 'text-sage-800 font-bold' : 'text-gray-600'}`}>{label}</Text>
   </TouchableOpacity>
 );
 
-// Função auxiliar para estimar frequência baseada na descrição
 const estimateFrequency = (description: string, category: string) => {
   const text = description ? description.toLowerCase() : '';
   const cat = category ? category.toLowerCase() : '';
@@ -30,15 +27,15 @@ const estimateFrequency = (description: string, category: string) => {
   if (text.includes('manter úmido') || text.includes('mantenha úmido') || text.includes('keep moist')) return '3';
   if (text.includes('diariamente') || text.includes('daily')) return '1';
   
-  return '7'; // Default seguro
+  return '7';
 };
 
 export default function AddPlant() {
   const { addNewPlant } = usePlants();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false);
 
-  // Campos do formulário
   const [name, setName] = useState('');
   const [species, setSpecies] = useState('');
   const [room, setRoom] = useState('');
@@ -50,34 +47,36 @@ export default function AddPlant() {
   const [drainage, setDrainage] = useState(1);
   const [photoUri, setPhotoUri] = useState('');
 
-  // Busca no JSON
   const [modalVisible, setModalVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
 
-  // Filtra as plantas do JSON
   const filteredPlants = plantsData.filter((p: any) => 
     (p.common && p.common[0] && p.common[0].toLowerCase().includes(searchText.toLowerCase())) ||
     (p.latin && p.latin.toLowerCase().includes(searchText.toLowerCase()))
   );
 
   const handleSelectFromJSON = (plant: any) => {
-    setName(plant.common[0] || plant.latin);
-    setSpecies(plant.latin);
-    
-    // Lógica de Preenchimento Inteligente (Smart Filling)
-    const smartFreq = estimateFrequency(plant.watering, plant.category);
-    setFrequency(smartFreq);
-    // Sugestões genéricas para adubo e poda (podem ser refinadas)
-    setFertilizeFreq('30');
-    setPruneFreq('60');
-    
-    setModalVisible(false);
-    
-    // Feedback melhorado para o usuário
-    Alert.alert(
-      "Preenchimento Inteligente 🪄", 
-      `Com base na espécie, sugerimos rega a cada ${smartFreq} dias.\n\nDica original: ${plant.watering}`
-    ); 
+    // Fill data but allow user to confirm
+    setAnalyzing(true);
+    setTimeout(() => {
+        setAnalyzing(false);
+        setName(plant.common[0] || plant.latin);
+        setSpecies(plant.latin);
+
+        const smartFreq = estimateFrequency(plant.watering, plant.category);
+        setFrequency(smartFreq);
+        setFertilizeFreq('30');
+        setPruneFreq('60');
+
+        setModalVisible(false);
+
+        // Gamification / Identification Feedback
+        Alert.alert(
+          "Planta Identificada! ✨",
+          `Parece que você tem uma ${plant.common[0] || plant.latin}! \n\nSugerimos rega a cada ${smartFreq} dias.`,
+          [{ text: "Incrível!" }]
+        );
+    }, 1500); // Simulate analysis delay
   };
 
   const pickImage = async () => {
@@ -90,6 +89,13 @@ export default function AddPlant() {
 
     if (!result.canceled) {
       setPhotoUri(result.assets[0].uri);
+      // Simulate auto-identification trigger if name is empty
+      if (!name) {
+          Alert.alert("Identificação", "Gostaria que tentássemos identificar essa planta?", [
+              { text: "Não", style: 'cancel' },
+              { text: "Sim", onPress: () => setModalVisible(true) } // For now, opens the list manually
+          ]);
+      }
     }
   };
 
@@ -107,6 +113,12 @@ export default function AddPlant() {
 
       if (!result.canceled) {
           setPhotoUri(result.assets[0].uri);
+          if (!name) {
+             Alert.alert("Identificação", "Gostaria que tentássemos identificar essa planta?", [
+                  { text: "Não", style: 'cancel' },
+                  { text: "Sim", onPress: () => setModalVisible(true) }
+              ]);
+          }
       }
   };
 
@@ -117,11 +129,11 @@ export default function AddPlant() {
 
     const freqDays = parseInt(frequency);
     if (!frequency || isNaN(freqDays) || freqDays <= 0) {
-      errors.push("Frequência de rega deve ser um número válido maior que 0");
+      errors.push("Frequência de rega deve ser válida");
     }
 
     if (errors.length > 0) {
-      Alert.alert("Atenção", errors.join("\n"));
+      Alert.alert("Ops, faltou algo...", errors.join("\n"));
       return false;
     }
     return true;
@@ -151,96 +163,145 @@ export default function AddPlant() {
     }
   };
 
-  return (
-    <View style={tw`flex-1 bg-white`}>
-      <ScrollView style={tw`flex-1 p-5`} contentContainerStyle={{ paddingBottom: 40 }}>
-        <Text style={tw`text-2xl font-bold text-gray-800 mb-6`}>Nova Planta 🌱</Text>
+  if (analyzing) {
+      return (
+          <View style={tw`flex-1 bg-sage-50 justify-center items-center`}>
+              <View style={tw`bg-white p-8 rounded-full mb-6 shadow-lg`}>
+                <ScanLine size={64} color="#5D8C7B" />
+              </View>
+              <Text style={tw`font-serif text-2xl text-sage-900 mb-2`}>Analisando...</Text>
+              <Text style={tw`text-sage-500`}>Consultando nossa enciclopédia botânica</Text>
+              <ActivityIndicator size="large" color="#5D8C7B" style={tw`mt-8`} />
+          </View>
+      );
+  }
 
-        {/* Seção de Foto */}
-        <View style={tw`items-center mb-6`}>
-            <TouchableOpacity onPress={pickImage} style={tw`w-32 h-32 bg-gray-100 rounded-full items-center justify-center overflow-hidden border-2 border-dashed border-gray-300`}>
+  return (
+    <View style={tw`flex-1 bg-canvas`}>
+      <ScrollView style={tw`flex-1 p-5`} contentContainerStyle={{ paddingBottom: 40 }}>
+
+        {/* Header Clean */}
+        <View style={tw`flex-row items-center justify-between mb-6`}>
+             <Text style={tw`font-serif text-3xl text-sage-900`}>Nova Planta</Text>
+             <TouchableOpacity onPress={() => navigation.goBack()} style={tw`p-2 bg-gray-100 rounded-full`}>
+                 <X size={20} color="#666" />
+             </TouchableOpacity>
+        </View>
+
+        {/* Photo Section - Hero */}
+        <View style={tw`items-center mb-8`}>
+            <TouchableOpacity
+                onPress={() => {
+                     Alert.alert("Foto da Planta", "Escolha uma opção", [
+                         { text: "Câmera", onPress: takePhoto },
+                         { text: "Galeria", onPress: pickImage },
+                         { text: "Cancelar", style: "cancel" }
+                     ]);
+                }}
+                style={tw`w-40 h-40 bg-sage-50 rounded-[40px] items-center justify-center overflow-hidden border-2 border-dashed border-sage-200 shadow-inner`}
+            >
                 {photoUri ? (
                     <Image source={{ uri: photoUri }} style={tw`w-full h-full`} />
                 ) : (
-                    <Camera size={32} color="#9ca3af" />
+                    <View style={tw`items-center`}>
+                        <Camera size={32} color="#82A894" />
+                        <Text style={tw`text-sage-400 text-xs mt-2 font-bold`}>Adicionar Foto</Text>
+                    </View>
                 )}
             </TouchableOpacity>
-            <View style={tw`flex-row mt-2`}>
-                <TouchableOpacity onPress={pickImage} style={tw`mr-4`}><Text style={tw`text-green-600 font-bold`}>Galeria</Text></TouchableOpacity>
-                <TouchableOpacity onPress={takePhoto}><Text style={tw`text-green-600 font-bold`}>Câmera</Text></TouchableOpacity>
-            </View>
         </View>
 
         <TouchableOpacity 
           onPress={() => setModalVisible(true)}
-          style={tw`bg-green-50 border border-green-200 p-4 rounded-xl flex-row items-center mb-6`}
+          style={tw`bg-white border border-sage-100 p-4 rounded-xl flex-row items-center mb-8 shadow-sm`}
         >
-          <Search color="#166534" size={20} />
-          <Text style={tw`ml-3 text-green-800 font-medium`}>Buscar espécie na lista</Text>
+          <View style={tw`bg-sage-100 p-2 rounded-full mr-3`}>
+            <Search color="#38544A" size={18} />
+          </View>
+          <View>
+            <Text style={tw`text-sage-900 font-bold`}>Não sabe o nome?</Text>
+            <Text style={tw`text-sage-500 text-xs`}>Buscar em nossa enciclopédia</Text>
+          </View>
         </TouchableOpacity>
 
-        <View style={tw`mb-4`}>
-          <Text style={tw`text-gray-600 mb-2 font-medium`}>Identificação</Text>
+        <View style={tw`mb-6`}>
+          <Text style={tw`text-sage-900 mb-2 font-bold text-lg font-serif`}>Sobre ela</Text>
           <TextInput 
-            style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800 mb-3`} 
-            placeholder="Nome (ex: Jurema)" value={name} onChangeText={setName} 
+            style={tw`bg-white border border-gray-100 rounded-xl p-4 text-sage-900 mb-3 font-medium`}
+            placeholder="Nome (ex: Filó)"
+            value={name} onChangeText={setName}
+            placeholderTextColor="#9CA3AF"
           />
           <TextInput 
-            style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800`} 
-            placeholder="Espécie (Opcional)" value={species} onChangeText={setSpecies} 
+            style={tw`bg-white border border-gray-100 rounded-xl p-4 text-sage-900 font-medium`}
+            placeholder="Espécie (Científico ou Popular)"
+            value={species} onChangeText={setSpecies}
+            placeholderTextColor="#9CA3AF"
           />
         </View>
 
         <View style={tw`mb-6`}>
-          <Text style={tw`text-gray-600 mb-2 font-medium`}>Local</Text>
+          <Text style={tw`text-sage-900 mb-2 font-bold text-lg font-serif`}>Onde ela vive?</Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            style={tw`mb-2`}
-            contentContainerStyle={tw`px-1`}
+            style={tw`mb-3`}
+            contentContainerStyle={tw`pr-4`}
           >
             {COMMON_ROOMS.map(r => (
               <TouchableOpacity 
                 key={r} onPress={() => setRoom(r)}
-                style={tw`px-4 py-2 rounded-full mr-2 border ${room === r ? 'bg-green-light border-green-500' : 'bg-gray-50 border-gray-200'}`}
+                style={tw`px-5 py-2.5 rounded-full mr-2 border ${room === r ? 'bg-sage-600 border-sage-600' : 'bg-white border-gray-200'}`}
               >
-                <Text style={tw`${room === r ? 'text-green-dark font-bold' : 'text-gray-600'}`}>{r}</Text>
+                <Text style={tw`${room === r ? 'text-white font-bold' : 'text-gray-500'}`}>{r}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
           <TextInput 
-            style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800 mb-3`} 
-            placeholder="Ou digite outro local..." value={room} onChangeText={setRoom} 
+            style={tw`bg-white border border-gray-100 rounded-xl p-4 text-sage-900`}
+            placeholder="Outro ambiente..." value={room} onChangeText={setRoom}
+            placeholderTextColor="#9CA3AF"
           />
+        </View>
 
-          <Text style={tw`text-gray-600 mb-2 font-medium`}>Cuidados (Frequência em dias)</Text>
-          <View style={tw`flex-row justify-between mb-2`}>
-            <View style={tw`flex-1 mr-2`}>
-                <Text style={tw`text-xs text-gray-500 mb-1`}>Rega 💧</Text>
-                <TextInput
-                  style={tw`bg-green-50 border border-green-200 rounded-lg p-3 text-green-800 font-bold`}
-                  placeholder="Ex: 7" keyboardType="numeric" value={frequency} onChangeText={setFrequency}
-                />
+        <View style={tw`mb-6`}>
+            <Text style={tw`text-sage-900 mb-3 font-bold text-lg font-serif`}>Rotina de Cuidados</Text>
+            <View style={tw`bg-white p-4 rounded-2xl border border-gray-100`}>
+                <View style={tw`flex-row items-center justify-between mb-4 border-b border-gray-50 pb-4`}>
+                    <View style={tw`flex-row items-center`}>
+                        <View style={tw`bg-blue-100 p-2 rounded-lg mr-3`}><Text>💧</Text></View>
+                        <Text style={tw`text-gray-600 font-medium`}>Rega (dias)</Text>
+                    </View>
+                    <TextInput
+                        style={tw`bg-gray-50 w-20 p-2 rounded-lg text-center font-bold text-sage-900`}
+                        placeholder="7" keyboardType="numeric" value={frequency} onChangeText={setFrequency}
+                    />
+                </View>
+                <View style={tw`flex-row items-center justify-between mb-4 border-b border-gray-50 pb-4`}>
+                    <View style={tw`flex-row items-center`}>
+                        <View style={tw`bg-yellow-100 p-2 rounded-lg mr-3`}><Text>⚡️</Text></View>
+                        <Text style={tw`text-gray-600 font-medium`}>Adubo (dias)</Text>
+                    </View>
+                    <TextInput
+                        style={tw`bg-gray-50 w-20 p-2 rounded-lg text-center font-bold text-sage-900`}
+                        placeholder="30" keyboardType="numeric" value={fertilizeFreq} onChangeText={setFertilizeFreq}
+                    />
+                </View>
+                <View style={tw`flex-row items-center justify-between`}>
+                    <View style={tw`flex-row items-center`}>
+                        <View style={tw`bg-red-100 p-2 rounded-lg mr-3`}><Text>✂️</Text></View>
+                        <Text style={tw`text-gray-600 font-medium`}>Poda (dias)</Text>
+                    </View>
+                    <TextInput
+                        style={tw`bg-gray-50 w-20 p-2 rounded-lg text-center font-bold text-sage-900`}
+                        placeholder="60" keyboardType="numeric" value={pruneFreq} onChangeText={setPruneFreq}
+                    />
+                </View>
             </View>
-            <View style={tw`flex-1 mr-2`}>
-                <Text style={tw`text-xs text-gray-500 mb-1`}>Adubo 🌱</Text>
-                <TextInput
-                  style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800`}
-                  placeholder="Ex: 30" keyboardType="numeric" value={fertilizeFreq} onChangeText={setFertilizeFreq}
-                />
-            </View>
-            <View style={tw`flex-1`}>
-                <Text style={tw`text-xs text-gray-500 mb-1`}>Poda ✂️</Text>
-                <TextInput
-                  style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800`}
-                  placeholder="Ex: 60" keyboardType="numeric" value={pruneFreq} onChangeText={setPruneFreq}
-                />
-            </View>
-          </View>
         </View>
 
         <View style={tw`mb-4`}>
-          <Text style={tw`text-gray-600 mb-2 font-medium`}>Tamanho do Vaso</Text>
+          <Text style={tw`text-sage-900 mb-2 font-bold`}>Tamanho do Vaso</Text>
           <View style={tw`flex-row flex-wrap`}>
             {['Pequeno', 'Médio', 'Grande'].map(opt => (
               <OptionPill key={opt} label={opt} selected={potSize === opt} onPress={() => setPotSize(opt)} />
@@ -248,64 +309,46 @@ export default function AddPlant() {
           </View>
         </View>
 
-        <View style={tw`mb-4`}>
-          <Text style={tw`text-gray-600 mb-2 font-medium`}>Material do Vaso</Text>
-          <View style={tw`flex-row flex-wrap`}>
-            {['Plástico', 'Barro/Cerâmica', 'Vidro'].map(opt => (
-              <OptionPill key={opt} label={opt} selected={potMaterial === opt} onPress={() => setPotMaterial(opt)} />
-            ))}
-          </View>
-        </View>
-
-        <View style={tw`mb-8`}>
-          <Text style={tw`text-gray-600 mb-2 font-medium`}>Tem furos de drenagem?</Text>
-          <View style={tw`flex-row`}>
-            <TouchableOpacity onPress={() => setDrainage(1)} style={tw`flex-row items-center mr-6`}>
-              {drainage === 1 ? <CheckCircle2 color="#4ade80" size={24} /> : <Circle color="#ccc" size={24} />}
-              <Text style={tw`ml-2 text-gray-700`}>Sim</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity onPress={() => setDrainage(0)} style={tw`flex-row items-center`}>
-              {drainage === 0 ? <CheckCircle2 color="#ef4444" size={24} /> : <Circle color="#ccc" size={24} />}
-              <Text style={tw`ml-2 text-gray-700`}>Não</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
         <TouchableOpacity
           onPress={handleSave} disabled={loading}
-          style={tw`p-4 rounded-xl items-center mb-10 shadow-md ${loading ? 'bg-green-300' : 'bg-green-500'}`}
+          style={tw`p-5 rounded-2xl items-center mb-10 shadow-lg shadow-sage-500/30 mt-4 ${loading ? 'bg-sage-300' : 'bg-sage-600'}`}
         >
-          {loading ? <ActivityIndicator color="white" /> : <Text style={tw`text-white font-bold text-lg`}>Salvar Planta</Text>}
+          {loading ? <ActivityIndicator color="white" /> : <Text style={tw`text-white font-bold text-lg`}>Adicionar ao Jardim</Text>}
         </TouchableOpacity>
       </ScrollView>
 
       {/* Modal de Busca no JSON */}
       <Modal visible={modalVisible} animationType="slide" presentationStyle="pageSheet">
-        <View style={tw`flex-1 bg-white p-5`}>
-            <View style={tw`flex-row justify-between items-center mb-4`}>
-                <Text style={tw`text-xl font-bold text-gray-800`}>Catálogo</Text>
-                <TouchableOpacity onPress={() => setModalVisible(false)}>
-                    <Text style={tw`text-blue-600`}>Fechar</Text>
+        <View style={tw`flex-1 bg-canvas p-5`}>
+            <View style={tw`flex-row justify-between items-center mb-6 mt-2`}>
+                <Text style={tw`text-2xl font-serif text-sage-900`}>Enciclopédia</Text>
+                <TouchableOpacity onPress={() => setModalVisible(false)} style={tw`bg-gray-100 p-2 rounded-full`}>
+                    <X size={20} color="#666" />
                 </TouchableOpacity>
             </View>
-            <View style={tw`bg-gray-100 rounded-lg p-3 flex-row items-center mb-4`}>
+            <View style={tw`bg-white border border-gray-200 rounded-xl p-3 flex-row items-center mb-6`}>
                 <Search size={20} color="#9ca3af" />
                 <TextInput 
-                    style={tw`flex-1 ml-2 text-gray-800`} 
+                    style={tw`flex-1 ml-2 text-sage-900`}
                     placeholder="Buscar espécie..." 
                     value={searchText}
                     onChangeText={setSearchText}
                     autoFocus
+                    placeholderTextColor="#9CA3AF"
                 />
             </View>
             <FlatList 
                 data={filteredPlants}
                 keyExtractor={(item: any) => item.id.toString()}
                 renderItem={({item}) => (
-                    <TouchableOpacity onPress={() => handleSelectFromJSON(item)} style={tw`py-4 border-b border-gray-100`}>
-                        <Text style={tw`font-bold text-gray-800 text-lg`}>{item.common[0]}</Text>
-                        <Text style={tw`text-gray-500 italic`}>{item.latin}</Text>
+                    <TouchableOpacity onPress={() => handleSelectFromJSON(item)} style={tw`py-4 border-b border-gray-100 flex-row items-center`}>
+                        <View style={tw`bg-sage-100 w-10 h-10 rounded-full items-center justify-center mr-3`}>
+                            <Text>🌿</Text>
+                        </View>
+                        <View>
+                            <Text style={tw`font-bold text-sage-900 text-lg`}>{item.common[0]}</Text>
+                            <Text style={tw`text-sage-500 italic`}>{item.latin}</Text>
+                        </View>
                     </TouchableOpacity>
                 )}
             />

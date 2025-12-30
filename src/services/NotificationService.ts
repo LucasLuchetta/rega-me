@@ -12,6 +12,44 @@ Notifications.setNotificationHandler({
   }),
 });
 
+const getMessageForTask = (taskType: string, plantName: string) => {
+    const messages = {
+        water: [
+            `Ei, a ${plantName} está com sede! Que tal um pouco de água? 💧`,
+            `Psst... a ${plantName} está sonhando com água fresca.`,
+            `Hora do drink da ${plantName}! 🍹`,
+            `A ${plantName} perguntou se hoje tem rega. 👀`
+        ],
+        fertilize: [
+            `Hora do lanchinho da ${plantName}! (Adubo) 🍱`,
+            `A ${plantName} quer crescer forte! Hora de adubar. 💪`,
+            `Nutrientes para a ${plantName}! 🌱`
+        ],
+        prune: [
+            `Dia de cabeleireiro para a ${plantName}! (Poda) ✂️`,
+            `Vamos deixar a ${plantName} mais bonita? Hora de podar.`,
+            `Remova as folhas secas da ${plantName} hoje.`
+        ],
+        mist: [
+            `A ${plantName} adoraria uma brisa úmida agora. (Borrifar) 🌧`,
+            `Refresque as folhas da ${plantName}!`,
+        ],
+        repot: [
+            `A casa ficou pequena para a ${plantName}! Hora de replantar. 🏠`,
+            `A ${plantName} precisa de mais espaço para as raízes. 📦`
+        ],
+        default: [
+            `Lembrete de cuidado para ${plantName} ✨`,
+            `Não esqueça da ${plantName} hoje!`,
+            `Seu jardim precisa de você! (${plantName})`
+        ]
+    };
+
+    const type = (taskType || 'default') as keyof typeof messages;
+    const list = messages[type] || messages['default'];
+    return list[Math.floor(Math.random() * list.length)];
+};
+
 export const NotificationService = {
   requestPermissions: async () => {
     try {
@@ -35,16 +73,20 @@ export const NotificationService = {
     }
   },
 
-  scheduleWateringReminder: async (plantName: string, secondsFromNow: number) => {
+  scheduleWateringReminder: async (plantName: string, secondsFromNow: number, taskType: string = 'water') => {
     try {
       const hasPermission = await NotificationService.requestPermissions();
       if (!hasPermission) return;
 
+      const bodyMessage = getMessageForTask(taskType, plantName);
+
       const id = await Notifications.scheduleNotificationAsync({
         content: {
-          title: "Hora de regar! 💧",
-          body: `Sua ${plantName} está com sede.`,
+          title: "Jardim Chamando 🌿",
+          body: bodyMessage,
           sound: true,
+          data: { plantName, taskType },
+          categoryIdentifier: 'PLANT_CARE', // For interactive notifications (Snooze/Done) in future
           priority: Notifications.AndroidNotificationPriority.HIGH,
         },
         trigger: {

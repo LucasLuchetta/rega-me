@@ -19,14 +19,14 @@ interface PlantContextData {
   loadData: () => Promise<void>;
   addNewPlant: (plantData: PlantData) => Promise<void>;
   removePlant: (id: number) => Promise<void>;
-  completeTask: (taskId: number, frequency: number, plantName?: string) => Promise<void>;
+  completeTask: (taskId: number, frequency: number, plantName?: string, type?: string) => Promise<void>;
   snoozeTask: (taskId: number, days: number, plantName?: string) => Promise<void>;
   anticipateTask: (taskId: number, frequency: number, plantName?: string) => Promise<void>;
   completeAllInRoom: (room: string) => Promise<void>;
   addTaskToPlant: (task: Task) => Promise<void>;
   getPlantTasks: (plantId: number) => Promise<any[]>;
   getHistory: () => Promise<any[]>;
-  getPlantHistory: (plantId: number) => Promise<any[]>; // Correção: Função exposta
+  getPlantHistory: (plantId: number) => Promise<any[]>;
   addPlantPhoto: (plantId: number, uri: string) => Promise<void>;
   removePlantPhoto: (photoId: number) => Promise<void>;
   getPlantPhotos: (plantId: number) => Promise<any[]>;
@@ -99,9 +99,8 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
           });
         }
 
-        // Agenda notificação (com tratamento de erro interno)
         const secondsUntilNotify = plantData.frequencyDays * 24 * 60 * 60; 
-        await NotificationService.scheduleWateringReminder(plantData.name, secondsUntilNotify);
+        await NotificationService.scheduleWateringReminder(plantData.name, secondsUntilNotify, 'water');
       }
       await loadData();
     } catch (error) {
@@ -123,7 +122,6 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     try {
       await PlantDAO.updatePlant(plant);
       if (frequency && plant.id) {
-          // Assuming 'water' is the main task type we want to update the frequency for
           await TaskDAO.updateTaskFrequency(plant.id, 'water', frequency);
       }
       await loadData();
@@ -142,7 +140,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
           const diffSeconds = (due - now) / 1000;
           if (diffSeconds > 0) {
              const plant = plants.find(p => p.id === task.plant_id);
-             if(plant) await NotificationService.scheduleWateringReminder(plant.name, diffSeconds);
+             if(plant) await NotificationService.scheduleWateringReminder(plant.name, diffSeconds, task.type);
           }
       }
       await loadData();
@@ -167,7 +165,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       await TaskDAO.snoozeTask(taskId, days);
       if (plantName) {
          const secondsUntilNext = days * 24 * 60 * 60;
-         await NotificationService.scheduleWateringReminder(plantName, secondsUntilNext);
+         await NotificationService.scheduleWateringReminder(plantName, secondsUntilNext, 'water'); // Assume water for snooze for now
       }
       await loadData();
     } catch (error) {
@@ -179,7 +177,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     try {
       const tasksInRoom = dueTasks.filter(t => t.room === room);
       const promises = tasksInRoom.map(t => 
-        completeTask(t.id, t.frequency_days, t.plant_name)
+        completeTask(t.id, t.frequency_days, t.plant_name, t.type)
       );
       await Promise.all(promises);
       Alert.alert("Sucesso", `Todas as plantas da ${room} foram cuidadas! 🌱`);
@@ -189,12 +187,12 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const completeTask = async (taskId: number, frequency: number, plantName?: string) => {
+  const completeTask = async (taskId: number, frequency: number, plantName?: string, type: string = 'water') => {
     try {
       await TaskDAO.completeTask(taskId, frequency);
       if (plantName && frequency > 0) {
           const secondsUntilNext = frequency * 24 * 60 * 60;
-          await NotificationService.scheduleWateringReminder(plantName, secondsUntilNext);
+          await NotificationService.scheduleWateringReminder(plantName, secondsUntilNext, type);
       }
       await loadData();
     } catch (error) {
@@ -216,7 +214,6 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Correção: Buscando histórico específico
   const getPlantHistory = async (plantId: number) => {
     try {
       const result: any = await TaskDAO.getHistoryByPlantId(plantId);
@@ -261,7 +258,6 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     loadData();
-    // Tentativa segura de pedir permissão
     NotificationService.requestPermissions();
   }, []);
 
