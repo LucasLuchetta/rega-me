@@ -13,6 +13,9 @@ const OptionPill = ({ label, selected, onPress }: any) => (
   <TouchableOpacity 
     onPress={onPress}
     style={tw`px-4 py-2 rounded-full mr-2 mb-2 border ${selected ? 'bg-sage-100 border-sage-500' : 'bg-canvas-dark border-gray-200'}`}
+    accessibilityRole="radio"
+    accessibilityState={{ checked: selected }}
+    accessibilityLabel={label}
   >
     <Text style={tw`${selected ? 'text-sage-800 font-bold' : 'text-gray-600'}`}>{label}</Text>
   </TouchableOpacity>
@@ -250,12 +253,14 @@ export default function AddPlant() {
             placeholder="Nome (ex: Filó)"
             value={name} onChangeText={setName}
             placeholderTextColor="#9CA3AF"
+            accessibilityLabel="Nome da planta"
           />
           <TextInput 
             style={tw`bg-white border border-gray-100 rounded-xl p-4 text-sage-900 font-medium`}
             placeholder="Espécie (Científico ou Popular)"
             value={species} onChangeText={setSpecies}
             placeholderTextColor="#9CA3AF"
+            accessibilityLabel="Espécie da planta"
           />
         </View>
 
@@ -285,6 +290,7 @@ export default function AddPlant() {
             style={tw`bg-white border border-gray-100 rounded-xl p-4 text-sage-900`}
             placeholder="Outro ambiente..." value={room} onChangeText={setRoom}
             placeholderTextColor="#9CA3AF"
+            accessibilityLabel="Nome do ambiente personalizado"
           />
         </View>
 
@@ -329,7 +335,7 @@ export default function AddPlant() {
 
         <View style={tw`mb-4`}>
           <Text style={tw`text-sage-900 mb-2 font-bold`}>Tamanho do Vaso</Text>
-          <View style={tw`flex-row flex-wrap`}>
+          <View style={tw`flex-row flex-wrap`} accessibilityRole="radiogroup" accessibilityLabel="Tamanho do Vaso">
             {['Pequeno', 'Médio', 'Grande'].map(opt => (
               <OptionPill key={opt} label={opt} selected={potSize === opt} onPress={() => setPotSize(opt)} />
             ))}
