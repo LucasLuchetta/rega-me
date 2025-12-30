@@ -91,7 +91,7 @@ export const NotificationService = {
         },
         trigger: {
           type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
-          seconds: secondsFromNow, 
+          seconds: secondsFromNow > 0 ? secondsFromNow : 1, // Garante que não seja negativo
           repeats: false, 
         },
       });

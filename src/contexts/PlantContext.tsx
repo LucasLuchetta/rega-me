@@ -10,6 +10,9 @@ interface PlantData extends Plant {
   frequencyDays: number;
   fertilizeFrequency?: number;
   pruneFrequency?: number;
+  mistFrequency?: number;
+  pesticideFrequency?: number;
+  repotFrequency?: number;
 }
 
 interface PlantContextData {
@@ -67,37 +70,21 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       });
       
       if (result.insertId) {
-        const nextDueDate = new Date();
-        nextDueDate.setDate(nextDueDate.getDate() + plantData.frequencyDays);
-
-        await TaskDAO.addTask({
-          plant_id: result.insertId,
-          type: 'water',
-          frequency_days: plantData.frequencyDays,
-          next_due: nextDueDate.toISOString()
-        });
-
-        if (plantData.fertilizeFrequency && plantData.fertilizeFrequency > 0) {
-          const nextDueFert = new Date();
-          nextDueFert.setDate(nextDueFert.getDate() + plantData.fertilizeFrequency);
-          await TaskDAO.addTask({
-            plant_id: result.insertId,
-            type: 'fertilize',
-            frequency_days: plantData.fertilizeFrequency,
-            next_due: nextDueFert.toISOString()
-          });
-        }
-
-        if (plantData.pruneFrequency && plantData.pruneFrequency > 0) {
-          const nextDuePrune = new Date();
-          nextDuePrune.setDate(nextDuePrune.getDate() + plantData.pruneFrequency);
-          await TaskDAO.addTask({
-            plant_id: result.insertId,
-            type: 'prune',
-            frequency_days: plantData.pruneFrequency,
-            next_due: nextDuePrune.toISOString()
-          });
-        }
+        // Função auxiliar para adicionar tarefa e notificação
+        const addInitialTask = async (type: any, freq: number) => {
+          if (freq && freq > 0) {
+            const nextDue = new Date();
+            nextDue.setDate(nextDue.getDate() + freq);
+            await TaskDAO.addTask({
+              plant_id: result.insertId,
+              type: type,
+              frequency_days: freq,
+              next_due: nextDue.toISOString()
+            });
+            const secondsUntilNotify = freq * 24 * 60 * 60;
+            await NotificationService.scheduleTaskNotification(plantData.name, type, secondsUntilNotify);
+          }
+        };
 
         const secondsUntilNotify = plantData.frequencyDays * 24 * 60 * 60; 
         await NotificationService.scheduleWateringReminder(plantData.name, secondsUntilNotify, 'water');
@@ -160,7 +147,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const snoozeTask = async (taskId: number, days: number, plantName?: string) => {
+  const snoozeTask = async (taskId: number, days: number, plantName?: string, taskType?: string) => {
     try {
       await TaskDAO.snoozeTask(taskId, days);
       if (plantName) {
@@ -189,7 +176,9 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
 
   const completeTask = async (taskId: number, frequency: number, plantName?: string, type: string = 'water') => {
     try {
+      // Primeiro completamos a tarefa no banco
       await TaskDAO.completeTask(taskId, frequency);
+
       if (plantName && frequency > 0) {
           const secondsUntilNext = frequency * 24 * 60 * 60;
           await NotificationService.scheduleWateringReminder(plantName, secondsUntilNext, type);
@@ -200,8 +189,8 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const anticipateTask = async (taskId: number, frequency: number, plantName?: string) => {
-      await completeTask(taskId, frequency, plantName);
+  const anticipateTask = async (taskId: number, frequency: number, plantName?: string, taskType?: string) => {
+      await completeTask(taskId, frequency, plantName, taskType);
   };
 
   const getHistory = async () => {

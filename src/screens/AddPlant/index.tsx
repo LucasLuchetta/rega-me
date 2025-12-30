@@ -42,6 +42,9 @@ export default function AddPlant() {
   const [frequency, setFrequency] = useState('');
   const [fertilizeFreq, setFertilizeFreq] = useState('');
   const [pruneFreq, setPruneFreq] = useState('');
+  const [mistFreq, setMistFreq] = useState('');
+  const [pesticideFreq, setPesticideFreq] = useState('');
+  const [repotFreq, setRepotFreq] = useState('');
   const [potSize, setPotSize] = useState('Médio');
   const [potMaterial, setPotMaterial] = useState('Plástico');
   const [drainage, setDrainage] = useState(1);
@@ -147,11 +150,17 @@ export default function AddPlant() {
       const freqDays = parseInt(frequency);
       const fertDays = fertilizeFreq ? parseInt(fertilizeFreq) : 0;
       const pruneDays = pruneFreq ? parseInt(pruneFreq) : 0;
+      const mistDays = mistFreq ? parseInt(mistFreq) : 0;
+      const pesticideDays = pesticideFreq ? parseInt(pesticideFreq) : 0;
+      const repotDays = repotFreq ? parseInt(repotFreq) : 0;
 
       await addNewPlant({
         name, species, room, frequencyDays: freqDays,
         fertilizeFrequency: fertDays,
         pruneFrequency: pruneDays,
+        mistFrequency: mistDays,
+        pesticideFrequency: pesticideDays,
+        repotFrequency: repotDays,
         pot_size: potSize, pot_material: potMaterial, drainage,
         photo_uri: photoUri
       });

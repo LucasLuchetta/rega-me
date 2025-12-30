@@ -49,7 +49,8 @@ export default function Orakul() {
           case 'water': return <Droplets size={20} color="#4ade80" />;
           case 'fertilize': return <Sprout size={20} color="#eab308" />;
           case 'prune': return <Scissors size={20} color="#ef4444" />;
-          case 'mist': return <ShieldAlert size={20} color="#a855f7" />;
+          case 'mist': return <Droplets size={20} color="#38bdf8" />; // Sky Blue for mist
+          case 'pesticide': return <ShieldAlert size={20} color="#9333ea" />; // Purple for pesticide
           case 'repot': return <Box size={20} color="#f97316" />;
           default: return <Droplets size={20} color="#4ade80" />;
       }
@@ -61,11 +62,11 @@ export default function Orakul() {
       "O que deseja fazer?",
       [
         { text: "Adiar 1 dia", onPress: async () => {
-          await snoozeTask(task.id, 1, task.plant_name);
+          await snoozeTask(task.id, 1, task.plant_name, task.type);
           loadFuture();
         }},
         { text: "Concluir Hoje", onPress: async () => {
-          await completeTask(task.id, task.frequency_days, task.plant_name);
+          await completeTask(task.id, task.frequency_days, task.plant_name, task.type);
           loadFuture();
         }},
         { text: "Cancelar", style: "cancel" }
@@ -73,27 +74,47 @@ export default function Orakul() {
     );
   };
 
+  const translateType = (type: string) => {
+    switch(type) {
+      case 'water': return 'Rega';
+      case 'fertilize': return 'Adubo';
+      case 'prune': return 'Poda';
+      case 'mist': return 'Borrifar';
+      case 'pesticide': return 'Pesticida';
+      case 'repot': return 'Troca de Vaso';
+      default: return type;
+    }
+  };
+
   const renderItem = ({ item }: { item: any }) => (
-    <TouchableOpacity
-      onPress={() => handleTaskAction(item)}
-      style={tw`bg-white p-4 rounded-xl mb-3 flex-row items-center border-l-4 border-green-500 shadow-sm`}
-    >
-      <View style={tw`mr-4 items-center justify-center bg-gray-100 w-12 h-12 rounded-lg`}>
-         {getIcon(item.type)}
-      </View>
-      <View style={tw`flex-1`}>
-        <Text style={tw`font-bold text-gray-800 text-lg`}>{item.plant_name}</Text>
-        <Text style={tw`text-gray-500 uppercase text-xs font-semibold tracking-wider`}>
-          {item.type === 'water' ? 'Rega' : item.type === 'fertilize' ? 'Adubo' : item.type}
-        </Text>
-      </View>
-      <View style={tw`flex-row items-center`}>
-         <Clock size={14} color="#166534" style={tw`mr-1`} />
-         <Text style={tw`text-green-800 font-bold text-xs`}>
-            {new Date(item.next_due).toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
-         </Text>
-      </View>
-    </TouchableOpacity>
+    <View style={tw`bg-white p-4 rounded-xl mb-3 flex-row items-center border-l-4 border-green-500 shadow-sm justify-between`}>
+      <TouchableOpacity
+        onPress={() => handleTaskAction(item)}
+        style={tw`flex-1 flex-row items-center`}
+      >
+        <View style={tw`mr-4 items-center justify-center bg-gray-100 w-12 h-12 rounded-lg`}>
+           {getIcon(item.type)}
+        </View>
+        <View style={tw`flex-1`}>
+          <Text style={tw`font-bold text-gray-800 text-lg`}>{item.plant_name}</Text>
+          <Text style={tw`text-gray-500 uppercase text-xs font-semibold tracking-wider`}>
+            {translateType(item.type)}
+          </Text>
+        </View>
+      </TouchableOpacity>
+
+      {/* Botão de Check Rápido (1 Touch) */}
+      <TouchableOpacity
+        onPress={async () => {
+          // Feedback tátil ou visual simples antes de recarregar
+          await completeTask(item.id, item.frequency_days, item.plant_name, item.type);
+          loadFuture();
+        }}
+        style={tw`h-12 w-12 bg-green-50 rounded-full items-center justify-center border border-green-200 shadow-sm ml-2`}
+      >
+        <Check size={24} color="#166534" />
+      </TouchableOpacity>
+    </View>
   );
 
   return (
