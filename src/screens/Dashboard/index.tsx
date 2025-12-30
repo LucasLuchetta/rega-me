@@ -191,7 +191,7 @@ export default function Dashboard() {
 
         {/* My Jungle Section */}
         <View style={tw`flex-row items-center justify-between mt-4 mb-4`}>
-            <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Minha Selva</Text>
+            <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Minhas Plantas</Text>
 
             <View style={tw`flex-row bg-gray-100 p-1 rounded-lg`}>
                 <TouchableOpacity

@@ -93,7 +93,7 @@ export default function PlantDetails() {
       {/* Imagem de Capa Imersiva */}
       <View style={tw`h-[45%] w-full relative`}>
           <Image 
-            source={coverImage ? { uri: coverImage } : require('../../../assets/icon.png')} // Fallback image
+            source={coverImage ? { uri: coverImage } : require('../../../assets/plant-placeholder.png')} // Fallback image
             style={tw`w-full h-full`} 
             resizeMode="cover" 
           />

@@ -7,7 +7,7 @@ import tw from '../../utils/tw';
 import * as ImagePicker from 'expo-image-picker';
 import plantsData from '../../database/plants_pt.json';
 
-const COMMON_ROOMS = ['Sala', 'Quarto', 'Cozinha', 'Varanda', 'Banheiro', 'Jardim'];
+const COMMON_ROOMS = [' Quarto ',' Sala ', ' Cozinha ', ' Varanda ', ' Banheiro ', ' Jardim '];
 
 const CARE_TYPES = [
     { id: 'water', label: 'Rega', icon: Droplets, color: tw.color('sky-500'), bg: 'bg-sky-50' },
@@ -352,6 +352,7 @@ export default function AddPlant() {
             {COMMON_ROOMS.map(r => (
               <TouchableOpacity 
                 key={r} onPress={() => setRoom(r)}
+                items-center justify-center
                 style={tw`px-5 py-2.5 rounded-full mr-2 border ${room === r ? 'bg-sage-600 border-sage-600' : 'bg-white border-gray-200'}`}
                 accessibilityRole="radio"
                 accessibilityState={{ checked: room === r }}

@@ -44,13 +44,13 @@ export default function EditPlantModal({ visible, onClose, plant, onSave }: Edit
         <View style={tw`bg-white rounded-t-3xl p-6`}>
             <View style={tw`flex-row justify-between mb-6`}>
                 <Text style={tw`text-xl font-bold`}>Editar Planta</Text>
-                <TouchableOpacity onPress={onClose}><Text style={tw`text-blue-600`}>Cancelar</Text></TouchableOpacity>
+                <TouchableOpacity onPress={onClose}><Text style={tw`text-blue-600`}> Cancelar </Text></TouchableOpacity>
             </View>
 
             <View style={tw`items-center mb-6`}>
               <TouchableOpacity onPress={pickImage} style={tw`relative`}>
                 <Image
-                  source={photoUri ? { uri: photoUri } : require('../../../../assets/icon.png')}
+                  source={photoUri ? { uri: photoUri } : require('../../../../assets/plant-placeholder.png')}
                   style={tw`w-24 h-24 rounded-full bg-gray-200`}
                 />
                 <View style={tw`absolute bottom-0 right-0 bg-sage-600 p-2 rounded-full border-2 border-white`}>

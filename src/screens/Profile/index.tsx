@@ -65,7 +65,7 @@ export default function Profile() {
         <ScrollView contentContainerStyle={tw`flex-grow`}>
           <View style={tw`flex-1 px-6 pt-10`}>
             <Text style={tw`font-headline text-3xl text-sage-900 mb-2`}>
-              Bem-vindo ao seu Santuário
+              Bem-vindo ao seu Jardim
             </Text>
             <Text style={tw`font-body text-gray-500 mb-8`}>
               Para criar o jardim perfeito, precisamos te conhecer um pouco melhor.

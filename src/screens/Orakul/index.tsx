@@ -122,7 +122,7 @@ export default function Orakul() {
       <View style={tw`flex-1 pt-5`}>
         <View style={tw`px-5 mb-6 flex-row items-center`}>
           <CalendarDays color="#166534" size={28} />
-          <Text style={tw`text-2xl font-bold text-gray-800 ml-3`}>Previsão</Text>
+          <Text style={tw`text-2xl font-bold text-gray-800 ml-3`}>Calendário</Text>
         </View>
 
         {/* Timeline Horizontal */}
