@@ -54,6 +54,11 @@ export const initDB = async () => {
         created_at TEXT NOT NULL,
         FOREIGN KEY (plant_id) REFERENCES plants (id) ON DELETE CASCADE
       );
+
+      -- INDICES
+      CREATE INDEX IF NOT EXISTS idx_tasks_plant_id ON tasks(plant_id);
+      CREATE INDEX IF NOT EXISTS idx_history_task_id ON history(task_id);
+      CREATE INDEX IF NOT EXISTS idx_photos_plant_id ON plant_photos(plant_id);
     `);
     console.log("Banco de dados inicializado com sucesso!");
   } catch (error) {

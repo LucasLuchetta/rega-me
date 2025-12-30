@@ -67,6 +67,14 @@ export default function AddPlant() {
   const [newCareFrequency, setNewCareFrequency] = useState('');
 
   const [searchText, setSearchText] = useState('');
+  const [debouncedSearchText, setDebouncedSearchText] = useState('');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchText(searchText);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchText]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', (e: any) => {
@@ -94,10 +102,10 @@ export default function AddPlant() {
     return unsubscribe;
   }, [navigation, name, photoUri, loading]);
 
-  const filteredPlants = plantsData.filter((p: any) => 
-    (p.common && p.common[0] && p.common[0].toLowerCase().includes(searchText.toLowerCase())) ||
-    (p.latin && p.latin.toLowerCase().includes(searchText.toLowerCase()))
-  );
+  const filteredPlants = React.useMemo(() => plantsData.filter((p: any) =>
+    (p.common && p.common[0] && p.common[0].toLowerCase().includes(debouncedSearchText.toLowerCase())) ||
+    (p.latin && p.latin.toLowerCase().includes(debouncedSearchText.toLowerCase()))
+  ), [debouncedSearchText]);
 
   const handleSelectFromJSON = (plant: any) => {
     // Fill data but allow user to confirm
