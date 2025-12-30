@@ -17,5 +17,7 @@
   "cancel": "Cancel",
   "success_message": "All plants in {{room}} have been cared for! 🌱",
   "error_message": "Could not update the room.",
-  "weather_suggestion": "It's very humid today, would you like to postpone watering?"
+  "weather_suggestion": "It's very humid today, would you like to postpone watering?",
+  "view_list": "View as List",
+  "view_gallery": "View as Gallery"
 }

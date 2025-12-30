@@ -17,5 +17,7 @@
   "cancel": "Cancelar",
   "success_message": "Todas as plantas da {{room}} foram cuidadas! 🌱",
   "error_message": "Não foi possível atualizar o ambiente.",
-  "weather_suggestion": "Está muito úmido hoje, deseja adiar a rega?"
+  "weather_suggestion": "Está muito úmido hoje, deseja adiar a rega?",
+  "view_list": "Visualizar em Lista",
+  "view_gallery": "Visualizar em Galeria"
 }
