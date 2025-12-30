@@ -35,21 +35,51 @@ export const NotificationService = {
     }
   },
 
-  scheduleWateringReminder: async (plantName: string, secondsFromNow: number) => {
+  scheduleTaskNotification: async (plantName: string, taskType: string, secondsFromNow: number) => {
     try {
       const hasPermission = await NotificationService.requestPermissions();
       if (!hasPermission) return;
 
+      let title = "Hora de cuidar! 🌱";
+      let body = `Sua ${plantName} precisa de atenção.`;
+
+      switch (taskType) {
+        case 'water':
+          title = "Hora de regar! 💧";
+          body = `Sua ${plantName} está com sede.`;
+          break;
+        case 'fertilize':
+          title = "Hora de adubar! 🧪";
+          body = `Nutrientes para sua ${plantName}.`;
+          break;
+        case 'prune':
+          title = "Hora da poda! ✂️";
+          body = `Vamos deixar sua ${plantName} mais bonita?`;
+          break;
+        case 'mist':
+          title = "Hora de borrifar! 🌫️";
+          body = `Aumente a umidade da ${plantName}.`;
+          break;
+        case 'pesticide':
+          title = "Controle de pragas 🛡️";
+          body = `Proteja sua ${plantName} hoje.`;
+          break;
+        case 'repot':
+          title = "Troca de vaso 🪴";
+          body = `Sua ${plantName} precisa de mais espaço.`;
+          break;
+      }
+
       const id = await Notifications.scheduleNotificationAsync({
         content: {
-          title: "Hora de regar! 💧",
-          body: `Sua ${plantName} está com sede.`,
+          title,
+          body,
           sound: true,
           priority: Notifications.AndroidNotificationPriority.HIGH,
         },
         trigger: {
           type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
-          seconds: secondsFromNow, 
+          seconds: secondsFromNow > 0 ? secondsFromNow : 1, // Garante que não seja negativo
           repeats: false, 
         },
       });

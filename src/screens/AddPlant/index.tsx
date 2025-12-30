@@ -45,6 +45,9 @@ export default function AddPlant() {
   const [frequency, setFrequency] = useState('');
   const [fertilizeFreq, setFertilizeFreq] = useState('');
   const [pruneFreq, setPruneFreq] = useState('');
+  const [mistFreq, setMistFreq] = useState('');
+  const [pesticideFreq, setPesticideFreq] = useState('');
+  const [repotFreq, setRepotFreq] = useState('');
   const [potSize, setPotSize] = useState('Médio');
   const [potMaterial, setPotMaterial] = useState('Plástico');
   const [drainage, setDrainage] = useState(1);
@@ -70,6 +73,9 @@ export default function AddPlant() {
     // Sugestões genéricas para adubo e poda (podem ser refinadas)
     setFertilizeFreq('30');
     setPruneFreq('60');
+    setMistFreq('');
+    setPesticideFreq('');
+    setRepotFreq('');
     
     setModalVisible(false);
     
@@ -135,11 +141,17 @@ export default function AddPlant() {
       const freqDays = parseInt(frequency);
       const fertDays = fertilizeFreq ? parseInt(fertilizeFreq) : 0;
       const pruneDays = pruneFreq ? parseInt(pruneFreq) : 0;
+      const mistDays = mistFreq ? parseInt(mistFreq) : 0;
+      const pesticideDays = pesticideFreq ? parseInt(pesticideFreq) : 0;
+      const repotDays = repotFreq ? parseInt(repotFreq) : 0;
 
       await addNewPlant({
         name, species, room, frequencyDays: freqDays,
         fertilizeFrequency: fertDays,
         pruneFrequency: pruneDays,
+        mistFrequency: mistDays,
+        pesticideFrequency: pesticideDays,
+        repotFrequency: repotDays,
         pot_size: potSize, pot_material: potMaterial, drainage,
         photo_uri: photoUri
       });
@@ -234,6 +246,30 @@ export default function AddPlant() {
                 <TextInput
                   style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800`}
                   placeholder="Ex: 60" keyboardType="numeric" value={pruneFreq} onChangeText={setPruneFreq}
+                />
+            </View>
+          </View>
+
+          <View style={tw`flex-row justify-between mb-2`}>
+            <View style={tw`flex-1 mr-2`}>
+                <Text style={tw`text-xs text-gray-500 mb-1`}>Borrifar 🌫️</Text>
+                <TextInput
+                  style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800`}
+                  placeholder="Ex: 2" keyboardType="numeric" value={mistFreq} onChangeText={setMistFreq}
+                />
+            </View>
+            <View style={tw`flex-1 mr-2`}>
+                <Text style={tw`text-xs text-gray-500 mb-1`}>Pesticida 🦠</Text>
+                <TextInput
+                  style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800`}
+                  placeholder="Ex: 15" keyboardType="numeric" value={pesticideFreq} onChangeText={setPesticideFreq}
+                />
+            </View>
+            <View style={tw`flex-1`}>
+                <Text style={tw`text-xs text-gray-500 mb-1`}>Troca 🪴</Text>
+                <TextInput
+                  style={tw`bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800`}
+                  placeholder="Ex: 365" keyboardType="numeric" value={repotFreq} onChangeText={setRepotFreq}
                 />
             </View>
           </View>

@@ -1,6 +1,6 @@
 import { executeSql } from './db';
 
-export type TaskType = 'water' | 'fertilize' | 'mist' | 'prune' | 'repot';
+export type TaskType = 'water' | 'fertilize' | 'mist' | 'prune' | 'repot' | 'pesticide';
 
 export interface Task {
   id?: number;
