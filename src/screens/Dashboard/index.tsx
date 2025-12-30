@@ -56,7 +56,11 @@ export default function Dashboard() {
     const config = WeatherService.getWeatherIconConfig(weather.conditionCode, weather.isDay);
     const Icon = config.icon;
     return (
-        <View style={tw`flex-row items-center bg-white px-4 py-2 rounded-full shadow-sm border border-sage-100`}>
+        <View
+            style={tw`flex-row items-center bg-white px-4 py-2 rounded-full shadow-sm border border-sage-100`}
+            accessibilityLabel={`Temperatura atual: ${weather.temp} graus Celsius`}
+            accessibilityRole="text"
+        >
             <Icon size={16} color={tw.color('sage-600')} />
             <Text style={tw`ml-2 text-sage-800 font-bold text-sm`}>{weather.temp}°</Text>
         </View>
@@ -68,6 +72,7 @@ export default function Dashboard() {
   const renderPlantItem = ({ item }: { item: any }) => {
     // Check if this plant has a due task
     const hasTask = dueTasks.some(t => t.plant_id === item.id);
+    const accessLabel = `${item.name}, ${item.species || 'Espécie desconhecida'}, em ${item.room}. ${hasTask ? 'Tem cuidados pendentes.' : 'Tudo em dia.'}`;
 
     if (viewMode === 'list') {
       return (
@@ -75,6 +80,8 @@ export default function Dashboard() {
           style={tw`bg-white p-4 rounded-2xl mb-3 flex-row items-center shadow-sm border ${hasTask ? 'border-clay-300' : 'border-sage-50'}`}
           onPress={() => navigation.navigate('PlantDetails', { plant: item })}
           activeOpacity={0.7}
+          accessibilityLabel={accessLabel}
+          accessibilityRole="button"
         >
            <Image
               source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/icon.png')}
@@ -99,6 +106,8 @@ export default function Dashboard() {
             style={[tw`bg-white rounded-3xl mb-4 shadow-sm border border-sage-50 overflow-hidden`, { width: CARD_WIDTH }]}
             onPress={() => navigation.navigate('PlantDetails', { plant: item })}
             activeOpacity={0.7}
+            accessibilityLabel={accessLabel}
+            accessibilityRole="button"
         >
             <Image
                 source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/icon.png')}
@@ -214,6 +223,9 @@ export default function Dashboard() {
                     onPress={() => handleRoomPress(room)}
                     style={tw`mr-3 px-4 py-2 rounded-full border ${activeTab === room ? 'bg-sage-600 border-sage-600' : 'bg-transparent border-gray-200'}`}
                     activeOpacity={0.7}
+                    accessibilityRole="tab"
+                    accessibilityLabel={`Filtrar por sala: ${room === 'All' ? 'Todas' : room}`}
+                    accessibilityState={{ selected: activeTab === room }}
                 >
                     <Text style={tw`font-bold ${activeTab === room ? 'text-white' : 'text-gray-500'}`}>
                         {room === 'All' ? 'Todos' : room}
