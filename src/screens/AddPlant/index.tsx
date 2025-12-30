@@ -290,7 +290,7 @@ export default function AddPlant() {
                          { text: "Cancelar", style: "cancel" }
                      ]);
                 }}
-                style={tw`w-40 h-40 bg-sage-50 rounded-[40px] items-center justify-center overflow-hidden border-2 border-dashed border-sage-200 shadow-inner`}
+                style={tw`w-40 h-40 bg-sage-50 rounded-[40px] items-center justify-center overflow-hidden border-2 border-dashed border-sage-200`}
                 accessibilityLabel="Adicionar foto da planta"
                 accessibilityHint="Toque duas vezes para escolher entre tirar uma foto ou selecionar da galeria"
                 accessibilityRole="button"
