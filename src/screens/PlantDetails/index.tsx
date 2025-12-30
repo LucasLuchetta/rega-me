@@ -119,7 +119,7 @@ export default function PlantDetails() {
           <View style={tw`absolute top-12 left-6 right-6 flex-row justify-between z-10`}>
             <TouchableOpacity
               onPress={() => navigation.goBack()}
-              style={tw`w-10 h-10 bg-white/20 backdrop-blur-md rounded-full items-center justify-center border border-white/30`}
+              style={tw`w-10 h-10 bg-white/20 rounded-full items-center justify-center border border-white/30`}
               accessibilityLabel="Voltar"
               accessibilityRole="button"
             >
@@ -140,7 +140,7 @@ export default function PlantDetails() {
                     }},
                     {text: 'Cancelar', style: "cancel"}
                 ])}
-                style={tw`w-10 h-10 bg-white/20 backdrop-blur-md rounded-full items-center justify-center border border-white/30`}
+                style={tw`w-10 h-10 bg-white/20 rounded-full items-center justify-center border border-white/30`}
                 accessibilityLabel="Opções da planta"
                 accessibilityRole="button"
             >
