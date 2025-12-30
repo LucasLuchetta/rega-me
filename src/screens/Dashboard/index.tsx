@@ -125,7 +125,7 @@ export default function Dashboard() {
 
                     <View style={tw`flex-row gap-2 mt-3`}>
                          <TouchableOpacity
-                            onPress={() => completeTask(item.id, item.frequency_days, item.plant_name)}
+                            onPress={() => completeTask(item.id, item.frequency_days, item.plant_name, item.type)}
                             style={tw`flex-1 ${colorClass} py-2.5 rounded-xl items-center flex-row justify-center shadow-sm`}
                          >
                             <Check size={14} color="white" style={tw`mr-1.5`} />
