@@ -1,0 +1,15 @@
+
+> plantcare@1.0.0 web /app
+> expo start --web
+
+Starting project at /app
+Starting Metro Bundler
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web ./index.js ▓▓▓▓▓▓▓▓░░░░░░░░ 52.9% (139/303)
+Web ./index.js ▓▓▓▓▓▓▓▓░░░░░░░░ 52.9% ( 295/2133)
+Web ./index.js ▓▓▓▓▓▓▓▓░░░░░░░░ 52.9% (1158/2161)
+Web ./index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 94.5% (2232/2296)
+Web Bundled 16719ms index.js (2570 modules)
+ LOG  [web] Logs will appear in the browser console
