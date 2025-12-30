@@ -10,6 +10,7 @@ import { WeatherService, WeatherData } from '../../services/WeatherService';
 import '../../i18n';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
+import TaskItem from './TaskItem';
 
 const { width } = Dimensions.get('window');
 const GAP = 16;
@@ -18,7 +19,7 @@ const CARD_WIDTH = (width - (PADDING * 2) - GAP) / 2;
 
 export default function Dashboard() {
   const { t } = useTranslation();
-  const { plants, dueTasks, completeTask, loadData } = usePlants();
+  const { plants, dueTasks, loadData } = usePlants();
   const navigation = useNavigation<any>();
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [viewMode, setViewMode] = useState<'list' | 'gallery'>('list');
@@ -62,87 +63,7 @@ export default function Dashboard() {
     );
   };
 
-  const renderTaskItem = ({ item }: { item: any }) => {
-     let Icon = Droplets;
-     let label = t('care');
-     let colorClass = "bg-sage-500";
-     let iconColor = tw.color('sage-600');
-     let bgIcon = "bg-sage-100";
-
-     switch (item.type) {
-        case 'fertilize':
-            Icon = Sprout;
-            label = t('fertilize');
-            colorClass = "bg-clay-400";
-            iconColor = tw.color('clay-600');
-            bgIcon = "bg-clay-100";
-            break;
-        case 'prune':
-            Icon = Scissors;
-            label = t('prune');
-            colorClass = "bg-red-400";
-            iconColor = tw.color('red-600');
-            bgIcon = "bg-red-100";
-            break;
-        case 'mist':
-            Icon = Wind;
-            label = t('mist');
-            colorClass = "bg-sky-400";
-            iconColor = tw.color('sky-600');
-            bgIcon = "bg-sky-100";
-            break;
-        case 'repot':
-            Icon = Box;
-            label = t('repot');
-            colorClass = "bg-orange-400";
-            iconColor = tw.color('orange-600');
-            bgIcon = "bg-orange-100";
-            break;
-        default:
-            Icon = Droplets;
-            label = t('water');
-            colorClass = "bg-sky-500";
-            iconColor = tw.color('sky-600');
-            bgIcon = "bg-sky-100";
-     }
-
-     return (
-        <TouchableOpacity
-            activeOpacity={0.9}
-            onPress={() => navigation.navigate('PlantDetails', { plant: plants.find(p => p.id === item.plant_id) })}
-            style={tw`bg-white w-72 p-4 rounded-3xl mr-4 shadow-sm border border-sage-100 mb-4`}
-        >
-            <View style={tw`flex-row`}>
-                <Image
-                    source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/icon.png')}
-                    style={tw`w-20 h-24 rounded-2xl bg-sage-50`}
-                    resizeMode="cover"
-                />
-                <View style={tw`flex-1 ml-4 justify-between py-1`}>
-                    <View>
-                        <Text style={tw`font-bold text-sage-900 text-lg`} numberOfLines={1}>{item.plant_name}</Text>
-                        <View style={tw`flex-row items-center mt-1`}>
-                             <View style={tw`${bgIcon} p-1 rounded-full mr-1.5`}>
-                                 <Icon size={10} color={iconColor} />
-                             </View>
-                             <Text style={tw`text-sage-500 text-xs font-medium uppercase tracking-wide`}>{item.type}</Text>
-                        </View>
-                    </View>
-
-                    <View style={tw`flex-row gap-2 mt-3`}>
-                         <TouchableOpacity
-                            onPress={() => completeTask(item.id, item.frequency_days, item.plant_name, item.type)}
-                            style={tw`flex-1 ${colorClass} py-2.5 rounded-xl items-center flex-row justify-center shadow-sm`}
-                         >
-                            <Check size={14} color="white" style={tw`mr-1.5`} />
-                            <Text style={tw`text-white font-bold text-xs`}>{label}</Text>
-                         </TouchableOpacity>
-                    </View>
-                </View>
-            </View>
-        </TouchableOpacity>
-     );
-  };
+  const renderTaskItem = ({ item }: { item: any }) => <TaskItem item={item} />;
 
   const renderPlantItem = ({ item }: { item: any }) => {
     // Check if this plant has a due task
@@ -237,7 +158,7 @@ export default function Dashboard() {
                 data={dueTasks}
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={(item, index) => item?.id?.toString() || index.toString()}
                 renderItem={renderTaskItem}
                 contentContainerStyle={{ paddingRight: 24, paddingBottom: 10 }}
                 style={tw`mb-4`}
@@ -305,7 +226,16 @@ export default function Dashboard() {
       <FlatList
         ListHeaderComponent={RenderHeader}
         data={filteredPlants}
-        keyExtractor={item => item.id.toString()}
+        ListEmptyComponent={
+          <View style={tw`items-center justify-center py-10 px-6`}>
+            <Text style={tw`text-sage-400 text-center text-base mb-2`}>
+              {activeTab === 'All'
+                ? "Sua selva está vazia! Que tal adicionar sua primeira planta?"
+                : `Nenhuma planta encontrada em '${activeTab}'.`}
+            </Text>
+          </View>
+        }
+        keyExtractor={(item, index) => item?.id?.toString() || index.toString()}
         renderItem={renderPlantItem}
         numColumns={viewMode === 'gallery' ? 2 : 1}
         // Force re-render when switching columns
