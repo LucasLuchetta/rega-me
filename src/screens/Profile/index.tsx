@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { usePlants } from '../../contexts/PlantContext';
-import { Leaf, Sun, Clock, Check, ArrowRight, Plus } from 'lucide-react-native';
+import { Leaf, Sun, Clock, Check, ArrowRight, Trophy, Flame, History, Droplets, Scissors, Box, CheckCircle2, Sprout, User } from 'lucide-react-native';
 import tw from '../../utils/tw';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,6 +15,7 @@ export default function Profile() {
   const [hasProfile, setHasProfile] = useState(false);
   const [step, setStep] = useState(1);
   const [profileData, setProfileData] = useState({
+    name: '',
     skill: '',
     environment: '',
     commitment: '',
@@ -23,13 +24,15 @@ export default function Profile() {
   const navigation = useNavigation();
 
   // Load profile on mount
-  React.useEffect(() => {
+  useEffect(() => {
     const checkProfile = async () => {
       try {
         const savedProfile = await AsyncStorage.getItem(PROFILE_KEY);
         if (savedProfile) {
+          const parsed = JSON.parse(savedProfile);
+          // Ensure name exists if it was saved before this update
+          setProfileData({ name: '', ...parsed });
           setHasProfile(true);
-          setProfileData(JSON.parse(savedProfile));
         }
       } catch (e) {
         console.error("Failed to load profile", e);
@@ -59,119 +62,144 @@ export default function Profile() {
   if (!hasProfile) {
     return (
       <SafeAreaView style={tw`flex-1 bg-canvas`}>
-        <View style={tw`flex-1 px-6 pt-10`}>
-          <Text style={tw`font-headline text-3xl text-sage-900 mb-2`}>
-            Bem-vindo ao seu Santuário
-          </Text>
-          <Text style={tw`font-body text-gray-500 mb-8`}>
-            Para criar o jardim perfeito, precisamos te conhecer um pouco melhor.
-          </Text>
+        <ScrollView contentContainerStyle={tw`flex-grow`}>
+          <View style={tw`flex-1 px-6 pt-10`}>
+            <Text style={tw`font-headline text-3xl text-sage-900 mb-2`}>
+              Bem-vindo ao seu Santuário
+            </Text>
+            <Text style={tw`font-body text-gray-500 mb-8`}>
+              Para criar o jardim perfeito, precisamos te conhecer um pouco melhor.
+            </Text>
 
-          {step === 1 && (
-            <View>
-              <Text style={tw`font-subheadline text-xl text-sage-700 mb-6`}>
-                Qual seu nível com plantas?
-              </Text>
+            {step === 1 && (
+              <View>
+                <Text style={tw`font-subheadline text-xl text-sage-700 mb-6`}>
+                  Como você gostaria de ser chamado?
+                </Text>
 
-              <Option
-                title="Mato até cacto"
-                subtitle="Preciso de plantas de aço."
-                icon={<Leaf size={24} color="#5D8C7B" />}
-                selected={profileData.skill === 'beginner'}
-                onPress={() => setProfileData({...profileData, skill: 'beginner'})}
-              />
-              <Option
-                title="Tenho algumas sobreviventes"
-                subtitle="Me viro bem, mas quero aprender."
-                icon={<Leaf size={24} color="#5D8C7B" />}
-                selected={profileData.skill === 'intermediate'}
-                onPress={() => setProfileData({...profileData, skill: 'intermediate'})}
-              />
-              <Option
-                title="Mestre Jardinheiro"
-                subtitle="Minha casa é uma selva."
-                icon={<Leaf size={24} color="#5D8C7B" />}
-                selected={profileData.skill === 'expert'}
-                onPress={() => setProfileData({...profileData, skill: 'expert'})}
-              />
+                <View style={tw`bg-white p-4 rounded-2xl border-2 border-sage-100 flex-row items-center mb-6`}>
+                  <User size={24} color="#5D8C7B" style={tw`mr-3`} />
+                  <TextInput
+                    style={tw`flex-1 text-lg text-sage-900 font-bold`}
+                    placeholder="Seu nome"
+                    placeholderTextColor="#9CA3AF"
+                    value={profileData.name}
+                    onChangeText={(text) => setProfileData({...profileData, name: text})}
+                  />
+                </View>
+              </View>
+            )}
+
+            {step === 2 && (
+              <View>
+                <Text style={tw`font-subheadline text-xl text-sage-700 mb-6`}>
+                  Qual seu nível com plantas?
+                </Text>
+
+                <Option
+                  title="Mato até cacto"
+                  subtitle="Preciso de plantas de aço."
+                  icon={<Leaf size={24} color="#5D8C7B" />}
+                  selected={profileData.skill === 'beginner'}
+                  onPress={() => setProfileData({...profileData, skill: 'beginner'})}
+                />
+                <Option
+                  title="Tenho algumas sobreviventes"
+                  subtitle="Me viro bem, mas quero aprender."
+                  icon={<Leaf size={24} color="#5D8C7B" />}
+                  selected={profileData.skill === 'intermediate'}
+                  onPress={() => setProfileData({...profileData, skill: 'intermediate'})}
+                />
+                <Option
+                  title="Mestre Jardinheiro"
+                  subtitle="Minha casa é uma selva."
+                  icon={<Leaf size={24} color="#5D8C7B" />}
+                  selected={profileData.skill === 'expert'}
+                  onPress={() => setProfileData({...profileData, skill: 'expert'})}
+                />
+              </View>
+            )}
+
+            {step === 3 && (
+              <View>
+                <Text style={tw`font-subheadline text-xl text-sage-700 mb-6`}>
+                  Como é o seu ambiente?
+                </Text>
+
+                <Option
+                  title="Janela Ensolarada"
+                  subtitle="Muita luz direta na maior parte do dia."
+                  icon={<Sun size={24} color="#E59866" />}
+                  selected={profileData.environment === 'sunny'}
+                  onPress={() => setProfileData({...profileData, environment: 'sunny'})}
+                />
+                <Option
+                  title="Sombra Parcial"
+                  subtitle="Luz indireta ou filtrada."
+                  icon={<Sun size={24} color="#A3BFB0" />}
+                  selected={profileData.environment === 'partial'}
+                  onPress={() => setProfileData({...profileData, environment: 'partial'})}
+                />
+                <Option
+                  title="Luz Artificial"
+                  subtitle="Pouca ou nenhuma luz natural."
+                  icon={<Sun size={24} color="#9CA3AF" />}
+                  selected={profileData.environment === 'low'}
+                  onPress={() => setProfileData({...profileData, environment: 'low'})}
+                />
+              </View>
+            )}
+
+            {step === 4 && (
+              <View>
+                <Text style={tw`font-subheadline text-xl text-sage-700 mb-6`}>
+                  Quanto tempo quer dedicar?
+                </Text>
+
+                <Option
+                  title="Só no fim de semana"
+                  subtitle="Quero algo que viva sozinho."
+                  icon={<Clock size={24} color="#5D8C7B" />}
+                  selected={profileData.commitment === 'low'}
+                  onPress={() => setProfileData({...profileData, commitment: 'low'})}
+                />
+                <Option
+                  title="Alguns minutos por dia"
+                  subtitle="Posso regar e checar regularmente."
+                  icon={<Clock size={24} color="#5D8C7B" />}
+                  selected={profileData.commitment === 'medium'}
+                  onPress={() => setProfileData({...profileData, commitment: 'medium'})}
+                />
+                <Option
+                  title="É meu hobby principal"
+                  subtitle="Quero cuidar, podar e propagar."
+                  icon={<Clock size={24} color="#5D8C7B" />}
+                  selected={profileData.commitment === 'high'}
+                  onPress={() => setProfileData({...profileData, commitment: 'high'})}
+                />
+              </View>
+            )}
+
+            <View style={tw`flex-1 justify-end pb-8 mt-10`}>
+              <TouchableOpacity
+                style={tw`bg-sage-500 p-4 rounded-full flex-row items-center justify-center shadow-lg`}
+                onPress={() => {
+                  if (step === 1 && !profileData.name.trim()) {
+                    Alert.alert("Nome necessário", "Por favor, diga-nos como te chamar.");
+                    return;
+                  }
+                  if (step < 4) setStep(step + 1);
+                  else handleFinish();
+                }}
+              >
+                <Text style={tw`text-white font-bold text-lg mr-2`}>
+                  {step === 4 ? "Finalizar Perfil" : "Continuar"}
+                </Text>
+                <ArrowRight size={20} color="white" />
+              </TouchableOpacity>
             </View>
-          )}
-
-          {step === 2 && (
-            <View>
-              <Text style={tw`font-subheadline text-xl text-sage-700 mb-6`}>
-                Como é o seu ambiente?
-              </Text>
-
-              <Option
-                title="Janela Ensolarada"
-                subtitle="Muita luz direta na maior parte do dia."
-                icon={<Sun size={24} color="#E59866" />}
-                selected={profileData.environment === 'sunny'}
-                onPress={() => setProfileData({...profileData, environment: 'sunny'})}
-              />
-              <Option
-                title="Sombra Parcial"
-                subtitle="Luz indireta ou filtrada."
-                icon={<Sun size={24} color="#A3BFB0" />}
-                selected={profileData.environment === 'partial'}
-                onPress={() => setProfileData({...profileData, environment: 'partial'})}
-              />
-              <Option
-                title="Luz Artificial"
-                subtitle="Pouca ou nenhuma luz natural."
-                icon={<Sun size={24} color="#9CA3AF" />}
-                selected={profileData.environment === 'low'}
-                onPress={() => setProfileData({...profileData, environment: 'low'})}
-              />
-            </View>
-          )}
-
-          {step === 3 && (
-            <View>
-              <Text style={tw`font-subheadline text-xl text-sage-700 mb-6`}>
-                Quanto tempo quer dedicar?
-              </Text>
-
-              <Option
-                title="Só no fim de semana"
-                subtitle="Quero algo que viva sozinho."
-                icon={<Clock size={24} color="#5D8C7B" />}
-                selected={profileData.commitment === 'low'}
-                onPress={() => setProfileData({...profileData, commitment: 'low'})}
-              />
-              <Option
-                title="Alguns minutos por dia"
-                subtitle="Posso regar e checar regularmente."
-                icon={<Clock size={24} color="#5D8C7B" />}
-                selected={profileData.commitment === 'medium'}
-                onPress={() => setProfileData({...profileData, commitment: 'medium'})}
-              />
-              <Option
-                title="É meu hobby principal"
-                subtitle="Quero cuidar, podar e propagar."
-                icon={<Clock size={24} color="#5D8C7B" />}
-                selected={profileData.commitment === 'high'}
-                onPress={() => setProfileData({...profileData, commitment: 'high'})}
-              />
-            </View>
-          )}
-
-          <View style={tw`flex-1 justify-end pb-8`}>
-            <TouchableOpacity
-              style={tw`bg-sage-500 p-4 rounded-full flex-row items-center justify-center shadow-lg`}
-              onPress={() => {
-                if (step < 3) setStep(step + 1);
-                else handleFinish();
-              }}
-            >
-              <Text style={tw`text-white font-bold text-lg mr-2`}>
-                {step === 3 ? "Finalizar Perfil" : "Continuar"}
-              </Text>
-              <ArrowRight size={20} color="white" />
-            </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     );
   }
@@ -195,9 +223,6 @@ const Option = ({ title, subtitle, icon, selected, onPress }: any) => (
   </TouchableOpacity>
 );
 
-// Standard Profile Component (Existing functionality refactored)
-import { Trophy, Flame, History, Droplets, Scissors, Box, CheckCircle2 } from 'lucide-react-native';
-
 function StandardProfile({ profileData }: any) {
   const { plants, getHistory } = usePlants();
   const [history, setHistory] = useState<any[]>([]);
@@ -212,7 +237,7 @@ function StandardProfile({ profileData }: any) {
   };
 
   // Trigger loadData on mount
-  React.useEffect(() => { loadData(); }, []);
+  useEffect(() => { loadData(); }, []);
 
   const totalTasks = history.length;
   const level = Math.floor(totalTasks / 15) + 1;
@@ -270,7 +295,7 @@ function StandardProfile({ profileData }: any) {
                 <Text style={tw`text-white font-bold text-xs`}>Lvl {level}</Text>
             </View>
           </View>
-          <Text style={tw`font-headline text-2xl text-sage-900`}>Você</Text>
+          <Text style={tw`font-headline text-2xl text-sage-900`}>{profileData.name || "Você"}</Text>
           <Text style={tw`text-sage-600 font-subheadline font-medium mb-6`}>{getTitle()}</Text>
           
           <View style={tw`w-full max-w-xs`}>
