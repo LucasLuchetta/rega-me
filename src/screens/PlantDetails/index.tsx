@@ -106,10 +106,21 @@ export default function PlantDetails() {
             <TouchableOpacity
                 onPress={() => Alert.alert("Opções", "Escolha uma ação", [
                     {text: 'Editar Planta', onPress: () => setEditModalVisible(true)},
-                    {text: 'Deletar', style: 'destructive', onPress: () => { removePlant(plant.id); navigation.goBack(); }},
-                    {text: 'Cancelar'}
+                    {text: 'Deletar', style: 'destructive', onPress: () => {
+                         Alert.alert(
+                             "Tem certeza?",
+                             "Isso apagará a planta e todo o histórico de cuidados permanentemente.",
+                             [
+                                 { text: "Cancelar", style: "cancel" },
+                                 { text: "Sim, Deletar", style: "destructive", onPress: () => { removePlant(plant.id); navigation.goBack(); } }
+                             ]
+                         );
+                    }},
+                    {text: 'Cancelar', style: "cancel"}
                 ])}
                 style={tw`w-10 h-10 bg-white/20 backdrop-blur-md rounded-full items-center justify-center border border-white/30`}
+                accessibilityLabel="Opções da planta"
+                accessibilityRole="button"
             >
                 <MoreHorizontal size={24} color="white" />
             </TouchableOpacity>

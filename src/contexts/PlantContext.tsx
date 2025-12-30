@@ -82,7 +82,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
               next_due: nextDue.toISOString()
             });
             const secondsUntilNotify = freq * 24 * 60 * 60;
-            await NotificationService.scheduleTaskNotification(plantData.name, type, secondsUntilNotify);
+            await NotificationService.scheduleWateringReminder(plantData.name, secondsUntilNotify, type);
           }
         };
 

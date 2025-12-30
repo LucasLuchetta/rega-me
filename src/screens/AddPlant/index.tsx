@@ -306,6 +306,8 @@ export default function AddPlant() {
                         style={tw`bg-gray-50 w-20 p-2 rounded-lg text-center font-bold text-sage-900`}
                         placeholder="7" keyboardType="numeric" value={frequency} onChangeText={setFrequency}
                         accessibilityLabel="Frequência de rega em dias"
+                        accessibilityHint="Digite o número de dias entre cada rega"
+                        returnKeyType="done"
                     />
                 </View>
                 <View style={tw`flex-row items-center justify-between mb-4 border-b border-gray-50 pb-4`}>
@@ -317,6 +319,8 @@ export default function AddPlant() {
                         style={tw`bg-gray-50 w-20 p-2 rounded-lg text-center font-bold text-sage-900`}
                         placeholder="30" keyboardType="numeric" value={fertilizeFreq} onChangeText={setFertilizeFreq}
                         accessibilityLabel="Frequência de adubação em dias"
+                        accessibilityHint="Digite o número de dias entre cada adubação"
+                        returnKeyType="done"
                     />
                 </View>
                 <View style={tw`flex-row items-center justify-between`}>
@@ -328,6 +332,8 @@ export default function AddPlant() {
                         style={tw`bg-gray-50 w-20 p-2 rounded-lg text-center font-bold text-sage-900`}
                         placeholder="60" keyboardType="numeric" value={pruneFreq} onChangeText={setPruneFreq}
                         accessibilityLabel="Frequência de poda em dias"
+                        accessibilityHint="Digite o número de dias entre cada poda"
+                        returnKeyType="done"
                     />
                 </View>
             </View>
@@ -335,7 +341,7 @@ export default function AddPlant() {
 
         <View style={tw`mb-4`}>
           <Text style={tw`text-sage-900 mb-2 font-bold`}>Tamanho do Vaso</Text>
-          <View style={tw`flex-row flex-wrap`} accessibilityRole="radiogroup" accessibilityLabel="Tamanho do Vaso">
+          <View style={tw`flex-row flex-wrap`} accessibilityRole="radiogroup" accessibilityLabel="Opções de Tamanho do Vaso">
             {['Pequeno', 'Médio', 'Grande'].map(opt => (
               <OptionPill key={opt} label={opt} selected={potSize === opt} onPress={() => setPotSize(opt)} />
             ))}
