@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Modal, TextInput, Alert, Image, StatusBar, ActivityIndicator } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { usePlants } from '../../contexts/PlantContext';
-import { Trash2, Plus, Camera, Droplets, Clock, CheckCircle2, Scissors, Sprout, ShieldAlert, Box, ChevronLeft, MoreHorizontal, Wind, ThermometerSun, Filter, Calendar } from 'lucide-react-native';
+import { Trash2, Plus, Camera, Droplets, Clock, CheckCircle2, Scissors, Sprout, ShieldAlert, Box, ChevronLeft, MoreHorizontal, Wind, ThermometerSun, Filter, Calendar, X } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import tw from '../../utils/tw';
 import EditPlantModal from './components/EditPlantModal';
@@ -31,6 +31,8 @@ export default function PlantDetails() {
   const [newFrequency, setNewFrequency] = useState('');
   const [filterType, setFilterType] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [actionModalVisible, setActionModalVisible] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<any>(null);
 
   useEffect(() => {
       loadData();
@@ -57,46 +59,8 @@ export default function PlantDetails() {
   };
 
   const handleAction = (task: any) => {
-      Alert.alert("Ação Rápida", `O que fazer com ${task.type}?`, [
-          {
-            text: "Adiar 2 dias",
-            onPress: async () => {
-              setActionLoading(task.id);
-              await snoozeTask(task.id, 2, plant.name);
-              await loadData();
-              setActionLoading(null);
-            }
-          },
-          {
-            text: "Marcar Feito",
-            onPress: async () => {
-              setActionLoading(task.id);
-              await anticipateTask(task.id, task.frequency_days, plant.name);
-              await loadData();
-              setActionLoading(null);
-            }
-          },
-          {
-            text: "Excluir",
-            style: "destructive",
-            onPress: () => {
-                Alert.alert("Confirmar exclusão", `Deseja remover o cuidado de ${task.type}?`, [
-                    { text: "Cancelar", style: "cancel" },
-                    {
-                        text: "Sim, excluir",
-                        style: "destructive",
-                        onPress: async () => {
-                            setActionLoading(task.id);
-                            await removeTask(task.id);
-                            await loadData();
-                            setActionLoading(null);
-                        }
-                    }
-                ]);
-            }
-          },
-          { text: "Cancelar", style: "cancel" }
-      ]);
+      setSelectedTask(task);
+      setActionModalVisible(true);
   };
 
   const pickImage = async () => {
@@ -339,6 +303,76 @@ export default function PlantDetails() {
 
                 <TouchableOpacity onPress={handleAddTask} style={tw`bg-sage-600 p-4 rounded-2xl items-center shadow-lg shadow-sage-600/30`}>
                     <Text style={tw`text-white font-bold text-lg`}>Salvar Rotina</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+      </Modal>
+
+      <Modal visible={actionModalVisible} transparent animationType="fade" onRequestClose={() => setActionModalVisible(false)}>
+        <View style={tw`flex-1 justify-center items-center bg-black/50 p-6`}>
+            <View style={tw`bg-white rounded-3xl p-6 w-full max-w-sm relative shadow-xl`}>
+                <TouchableOpacity
+                    onPress={() => setActionModalVisible(false)}
+                    style={tw`absolute top-4 right-4 z-10 p-2 bg-gray-50 rounded-full`}
+                    hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+                    accessibilityLabel="Fechar"
+                    accessibilityRole="button"
+                >
+                    <X size={20} color={tw.color('gray-400')} />
+                </TouchableOpacity>
+
+                <Text style={tw`text-xl font-serif font-bold text-sage-900 mb-2`}>Ação Rápida</Text>
+                <Text style={tw`text-sage-500 mb-6`}>O que fazer com <Text style={tw`font-bold`}>{CARE_TYPES.find(c => c.id === selectedTask?.type)?.label || selectedTask?.type}</Text>?</Text>
+
+                <TouchableOpacity
+                    onPress={async () => {
+                        setActionModalVisible(false);
+                        setActionLoading(selectedTask.id);
+                        await anticipateTask(selectedTask.id, selectedTask.frequency_days, plant.name);
+                        await loadData();
+                        setActionLoading(null);
+                    }}
+                    style={tw`bg-sage-600 p-4 rounded-2xl items-center mb-3 flex-row justify-center shadow-sm`}
+                >
+                    <CheckCircle2 size={20} color="white" style={tw`mr-2`} />
+                    <Text style={tw`text-white font-bold`}>Marcar Feito</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={async () => {
+                        setActionModalVisible(false);
+                        setActionLoading(selectedTask.id);
+                        await snoozeTask(selectedTask.id, 2, plant.name);
+                        await loadData();
+                        setActionLoading(null);
+                    }}
+                    style={tw`bg-sage-50 p-4 rounded-2xl items-center mb-3 flex-row justify-center border border-sage-100`}
+                >
+                    <Clock size={20} color={tw.color('sage-700')} style={tw`mr-2`} />
+                    <Text style={tw`text-sage-700 font-bold`}>Adiar 2 dias</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={() => {
+                        setActionModalVisible(false);
+                        Alert.alert("Confirmar exclusão", `Deseja remover o cuidado de ${selectedTask.type}?`, [
+                        { text: "Cancelar", style: "cancel" },
+                        {
+                            text: "Sim, excluir",
+                            style: "destructive",
+                            onPress: async () => {
+                                setActionLoading(selectedTask.id);
+                                await removeTask(selectedTask.id);
+                                await loadData();
+                                setActionLoading(null);
+                            }
+                        }
+                    ]);
+                    }}
+                    style={tw`bg-red-50 p-4 rounded-2xl items-center flex-row justify-center border border-red-100`}
+                >
+                    <Trash2 size={20} color={tw.color('red-500')} style={tw`mr-2`} />
+                    <Text style={tw`text-red-500 font-bold`}>Excluir</Text>
                 </TouchableOpacity>
             </View>
         </View>

@@ -245,27 +245,6 @@ function StandardProfile({ profileData }: any) {
   const xpNextLevel = 15;
   const progressPercent = (xpCurrent / xpNextLevel) * 100;
 
-    const calculateStreak = () => {
-    if (history.length === 0) return 0;
-    const dates = history.map((h: any) => new Date(h.date_performed).toISOString().split('T')[0]);
-    const uniqueDates = [...new Set(dates)].sort().reverse();
-    let streak = 0;
-    const today = new Date().toISOString().split('T')[0];
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-    if (uniqueDates[0] !== today && uniqueDates[0] !== yesterday) return 0;
-    let currentDate = new Date(uniqueDates[0]);
-    for (let i = 0; i < uniqueDates.length; i++) {
-        if (i === 0) { streak++; continue; }
-        const prevDate = new Date(uniqueDates[i]);
-        const diffTime = Math.abs(currentDate.getTime() - prevDate.getTime());
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-        if (diffDays === 1) { streak++; currentDate = prevDate; } else { break; }
-    }
-    return streak;
-  };
-
-  const currentStreak = calculateStreak();
-
    const getTitle = () => {
     if (level < 5) return "Jardineiro Aprendiz";
     if (level < 15) return "Guardião da Natureza";
@@ -312,17 +291,6 @@ function StandardProfile({ profileData }: any) {
         {/* Stats Grid */}
         <View style={tw`px-5 mb-6`}>
           <View style={tw`flex-row flex-wrap justify-between`}>
-            {/* Streak Card */}
-            <View style={tw`w-full bg-clay-500 p-5 rounded-3xl shadow-lg shadow-clay-500/20 mb-4 flex-row items-center justify-between overflow-hidden relative`}>
-                <View style={tw`absolute right-0 top-0 bottom-0 w-32 bg-white/10 -mr-10`} />
-                <View>
-                    <Text style={tw`text-white text-3xl font-extrabold`}>{currentStreak} dias</Text>
-                    <Text style={tw`text-clay-100 text-xs font-bold uppercase`}>Sequência 🔥</Text>
-                </View>
-                <View style={tw`bg-white/20 p-3 rounded-2xl`}>
-                    <Flame size={32} color="white" fill="white" />
-                </View>
-            </View>
             
             <View style={tw`w-[48%] bg-white p-5 rounded-3xl shadow-sm mb-3 border border-gray-50`}>
               <View style={tw`bg-sage-50 w-10 h-10 rounded-xl items-center justify-center mb-3`}>
