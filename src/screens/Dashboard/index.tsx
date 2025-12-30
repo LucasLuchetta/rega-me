@@ -265,12 +265,18 @@ export default function Dashboard() {
                 <TouchableOpacity
                     onPress={() => setViewMode('list')}
                     style={tw`p-1.5 rounded-md ${viewMode === 'list' ? 'bg-white shadow-sm' : ''}`}
+                    accessibilityLabel={t('view_list')}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: viewMode === 'list' }}
                 >
                     <ListIcon size={16} color={viewMode === 'list' ? '#166534' : '#9ca3af'} />
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => setViewMode('gallery')}
                     style={tw`p-1.5 rounded-md ${viewMode === 'gallery' ? 'bg-white shadow-sm' : ''}`}
+                    accessibilityLabel={t('view_gallery')}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: viewMode === 'gallery' }}
                 >
                     <Grid size={16} color={viewMode === 'gallery' ? '#166534' : '#9ca3af'} />
                 </TouchableOpacity>
