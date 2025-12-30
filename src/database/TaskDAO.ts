@@ -109,5 +109,9 @@ export const TaskDAO = {
   updateTaskFrequency: async (plantId: number, type: string, newFrequency: number) => {
     const sql = `UPDATE tasks SET frequency_days = ? WHERE plant_id = ? AND type = ?`;
     return await executeSql(sql, [newFrequency, plantId, type]);
+  },
+
+  deleteTask: async (taskId: number) => {
+    return await executeSql(`DELETE FROM tasks WHERE id = ?`, [taskId]);
   }
 };

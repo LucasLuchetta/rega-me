@@ -19,7 +19,7 @@ export default function PlantDetails() {
   const route = useRoute<any>();
   const { plant: initialPlant } = route.params;
   const [plant, setPlant] = useState(initialPlant);
-  const { getPlantTasks, addTaskToPlant, removePlant, snoozeTask, anticipateTask, addPlantPhoto, getPlantPhotos, getPlantHistory, updatePlant, plants } = usePlants();
+  const { getPlantTasks, addTaskToPlant, removePlant, snoozeTask, anticipateTask, addPlantPhoto, getPlantPhotos, getPlantHistory, updatePlant, plants, removeTask } = usePlants();
   const navigation = useNavigation();
 
   const [tasks, setTasks] = useState<any[]>([]);
@@ -74,6 +74,25 @@ export default function PlantDetails() {
               await anticipateTask(task.id, task.frequency_days, plant.name);
               await loadData();
               setActionLoading(null);
+            }
+          },
+          {
+            text: "Excluir",
+            style: "destructive",
+            onPress: () => {
+                Alert.alert("Confirmar exclusão", `Deseja remover o cuidado de ${task.type}?`, [
+                    { text: "Cancelar", style: "cancel" },
+                    {
+                        text: "Sim, excluir",
+                        style: "destructive",
+                        onPress: async () => {
+                            setActionLoading(task.id);
+                            await removeTask(task.id);
+                            await loadData();
+                            setActionLoading(null);
+                        }
+                    }
+                ]);
             }
           },
           { text: "Cancelar", style: "cancel" }

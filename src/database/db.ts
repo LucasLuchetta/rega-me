@@ -67,9 +67,73 @@ export const initDB = async () => {
   }
 };
 
+// In-memory store for web simulation
+const webStore: any = {
+  plants: [],
+  tasks: [],
+  history: [],
+  plant_photos: []
+};
+
+let plantIdCounter = 1;
+let taskIdCounter = 1;
+
 export const executeSql = async (sql: string, params: any[] = []) => {
   if (Platform.OS === 'web') {
-    console.warn("Web environment: SQL execution simulated.");
+    console.warn("Web environment: SQL execution simulated with in-memory store.");
+    const sqlUpper = sql.trim().toUpperCase();
+
+    // Simple parser for web simulation
+    if (sqlUpper.startsWith('INSERT INTO PLANTS')) {
+       // Assumes params order matches table schema roughly: name, species, room, etc.
+       // Current addPlant params: name, species, room, photo_uri, pot_size, pot_material, drainage
+       const newPlant = {
+           id: plantIdCounter++,
+           name: params[0],
+           species: params[1],
+           room: params[2],
+           photo_uri: params[3],
+           pot_size: params[4],
+           pot_material: params[5],
+           drainage: params[6],
+           created_at: new Date().toISOString()
+       };
+       webStore.plants.push(newPlant);
+       return { insertId: newPlant.id, rowsAffected: 1, rows: { _array: [], length: 0, item: () => null } };
+    }
+
+    if (sqlUpper.startsWith('INSERT INTO TASKS')) {
+        const newTask = {
+            id: taskIdCounter++,
+            plant_id: params[0],
+            type: params[1],
+            frequency_days: params[2],
+            last_performed: params[3],
+            next_due: params[4]
+        };
+        webStore.tasks.push(newTask);
+        return { insertId: newTask.id, rowsAffected: 1, rows: { _array: [], length: 0, item: () => null } };
+    }
+
+    if (sqlUpper.startsWith('SELECT * FROM PLANTS')) {
+        // Handle sort if needed, but for now just return all
+        return { rows: { _array: [...webStore.plants], length: webStore.plants.length, item: (i:number) => webStore.plants[i] } };
+    }
+
+    if (sqlUpper.startsWith('SELECT * FROM TASKS WHERE PLANT_ID')) {
+        const pid = params[0];
+        const tasks = webStore.tasks.filter((t: any) => t.plant_id === pid);
+        return { rows: { _array: tasks, length: tasks.length, item: (i:number) => tasks[i] } };
+    }
+
+    if (sqlUpper.startsWith('DELETE FROM TASKS WHERE ID')) {
+        const tid = params[0];
+        const initialLen = webStore.tasks.length;
+        webStore.tasks = webStore.tasks.filter((t: any) => t.id !== tid);
+        return { rowsAffected: initialLen - webStore.tasks.length, rows: { _array: [], length: 0, item: () => null } };
+    }
+
+    // Default empty for unhandled queries
     return {
       rows: {
         _array: [],
