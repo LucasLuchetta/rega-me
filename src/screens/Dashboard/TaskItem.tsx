@@ -71,7 +71,7 @@ const TaskItem = React.memo(({ item }: { item: any }) => {
        >
            <View style={tw`flex-row`}>
                <Image
-                   source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/icon.png')}
+                   source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/plant-placeholder.png')}
                    style={tw`w-20 h-24 rounded-2xl bg-sage-50`}
                    resizeMode="cover"
                />

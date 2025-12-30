@@ -84,7 +84,7 @@ export default function Dashboard() {
           accessibilityRole="button"
         >
            <Image
-              source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/icon.png')}
+              source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/plant-placeholder.png')}
               style={tw`w-14 h-14 rounded-full bg-sage-100 mr-4`}
             />
             <View style={tw`flex-1`}>
@@ -110,7 +110,7 @@ export default function Dashboard() {
             accessibilityRole="button"
         >
             <Image
-                source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/icon.png')}
+                source={item.photo_uri ? { uri: item.photo_uri } : require('../../../assets/plant-placeholder.png')}
                 style={tw`w-full h-32 bg-sage-100`}
                 resizeMode="cover"
             />
