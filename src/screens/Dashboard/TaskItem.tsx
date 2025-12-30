@@ -6,7 +6,7 @@ import tw from '../../utils/tw';
 import { useTranslation } from 'react-i18next';
 import { usePlants } from '../../contexts/PlantContext';
 
-export default function TaskItem({ item }: { item: any }) {
+const TaskItem = React.memo(({ item }: { item: any }) => {
     const { t } = useTranslation();
     const navigation = useNavigation<any>();
     const { completeTask, plants } = usePlants();
@@ -110,4 +110,6 @@ export default function TaskItem({ item }: { item: any }) {
            </View>
        </TouchableOpacity>
     );
-}
+});
+
+export default TaskItem;

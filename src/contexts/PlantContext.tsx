@@ -250,14 +250,16 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     NotificationService.requestPermissions();
   }, []);
 
+  const value = React.useMemo(() => ({
+    plants, dueTasks, loading, loadData, addNewPlant, removePlant,
+    completeTask, snoozeTask, anticipateTask, completeAllInRoom,
+    addTaskToPlant, getPlantTasks, getHistory, getPlantHistory,
+    addPlantPhoto, removePlantPhoto, getPlantPhotos,
+    updatePlant
+  }), [plants, dueTasks, loading]);
+
   return (
-    <PlantContext.Provider value={{ 
-      plants, dueTasks, loading, loadData, addNewPlant, removePlant,
-      completeTask, snoozeTask, anticipateTask, completeAllInRoom,
-      addTaskToPlant, getPlantTasks, getHistory, getPlantHistory,
-      addPlantPhoto, removePlantPhoto, getPlantPhotos,
-      updatePlant
-    }}>
+    <PlantContext.Provider value={value}>
       {children}
     </PlantContext.Provider>
   );

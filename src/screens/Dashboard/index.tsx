@@ -40,18 +40,18 @@ export default function Dashboard() {
     })();
   }, []);
 
-  const rooms = ['All', ...Array.from(new Set(plants.map(p => p.room))).sort()];
+  const rooms = React.useMemo(() => ['All', ...Array.from(new Set(plants.map(p => p.room))).sort()], [plants]);
 
   // Filter plants based on active room
-  const filteredPlants = activeTab === 'All'
+  const filteredPlants = React.useMemo(() => activeTab === 'All'
     ? plants
-    : plants.filter(p => p.room === activeTab);
+    : plants.filter(p => p.room === activeTab), [activeTab, plants]);
 
   const handleRoomPress = (room: string) => {
     setActiveTab(room);
   };
 
-  const WeatherPill = () => {
+  const WeatherPill = useCallback(() => {
     if (!weather) return null;
     const config = WeatherService.getWeatherIconConfig(weather.conditionCode, weather.isDay);
     const Icon = config.icon;
@@ -65,11 +65,11 @@ export default function Dashboard() {
             <Text style={tw`ml-2 text-sage-800 font-bold text-sm`}>{weather.temp}°</Text>
         </View>
     );
-  };
+  }, [weather]);
 
-  const renderTaskItem = ({ item }: { item: any }) => <TaskItem item={item} />;
+  const renderTaskItem = useCallback(({ item }: { item: any }) => <TaskItem item={item} />, []);
 
-  const renderPlantItem = ({ item }: { item: any }) => {
+  const renderPlantItem = useCallback(({ item }: { item: any }) => {
     // Check if this plant has a due task
     const hasTask = dueTasks.some(t => t.plant_id === item.id);
     const accessLabel = `${item.name}, ${item.species || 'Espécie desconhecida'}, em ${item.room}. ${hasTask ? 'Tem cuidados pendentes.' : 'Tudo em dia.'}`;
@@ -123,7 +123,7 @@ export default function Dashboard() {
             )}
         </TouchableOpacity>
     );
-  };
+  }, [viewMode, dueTasks, navigation]);
 
   const RenderHeader = () => (
     <View style={tw`px-6 pt-6 pb-2`}>
