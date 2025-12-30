@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, Dimensions, ScrollView, Animated } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, ScrollView, Animated, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { usePlants } from '../../contexts/PlantContext';
 import { Plus, MapPin, Droplets, Check, Sprout, Scissors, Wind, Box, Sun, Grid, List as ListIcon } from 'lucide-react-native';
@@ -12,12 +12,12 @@ import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import TaskItem from './TaskItem';
 
-const { width } = Dimensions.get('window');
 const GAP = 16;
 const PADDING = 24;
-const CARD_WIDTH = (width - (PADDING * 2) - GAP) / 2;
 
 export default function Dashboard() {
+  const { width } = useWindowDimensions();
+  const CARD_WIDTH = (width - (PADDING * 2) - GAP) / 2;
   const { t } = useTranslation();
   const { plants, dueTasks, loadData } = usePlants();
   const navigation = useNavigation<any>();
@@ -51,7 +51,7 @@ export default function Dashboard() {
     setActiveTab(room);
   };
 
-  const WeatherPill = useCallback(() => {
+  const renderWeatherPill = () => {
     if (!weather) return null;
     const config = WeatherService.getWeatherIconConfig(weather.conditionCode, weather.isDay);
     const Icon = config.icon;
@@ -65,7 +65,7 @@ export default function Dashboard() {
             <Text style={tw`ml-2 text-sage-800 font-bold text-sm`}>{weather.temp}°</Text>
         </View>
     );
-  }, [weather]);
+  };
 
   const renderTaskItem = useCallback(({ item }: { item: any }) => <TaskItem item={item} />, []);
 
@@ -123,9 +123,9 @@ export default function Dashboard() {
             )}
         </TouchableOpacity>
     );
-  }, [viewMode, dueTasks, navigation]);
+  }, [viewMode, dueTasks, navigation, CARD_WIDTH]);
 
-  const RenderHeader = () => (
+  const renderHeader = () => (
     <View style={tw`px-6 pt-6 pb-2`}>
         {/* Header Title */}
         <View style={tw`flex-row justify-between items-start mb-6`}>
@@ -135,7 +135,7 @@ export default function Dashboard() {
                 </Text>
                 <Text style={tw`text-3xl font-serif font-medium text-sage-900`}>{t('greeting')}</Text>
             </View>
-            <WeatherPill />
+            {renderWeatherPill()}
         </View>
 
          {/* Suggestion based on weather */}
@@ -239,7 +239,7 @@ export default function Dashboard() {
   return (
     <SafeAreaView style={tw`flex-1 bg-sage-50`}>
       <FlatList
-        ListHeaderComponent={RenderHeader}
+        ListHeaderComponent={renderHeader()}
         data={filteredPlants}
         ListEmptyComponent={
           <View style={tw`items-center justify-center py-10 px-6`}>
