@@ -192,7 +192,12 @@ export default function AddPlant() {
         {/* Header Clean */}
         <View style={tw`flex-row items-center justify-between mb-6`}>
              <Text style={tw`font-serif text-3xl text-sage-900`}>Nova Planta</Text>
-             <TouchableOpacity onPress={() => navigation.goBack()} style={tw`p-2 bg-gray-100 rounded-full`}>
+             <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={tw`p-2 bg-gray-100 rounded-full`}
+                accessibilityLabel="Fechar tela de nova planta"
+                accessibilityRole="button"
+             >
                  <X size={20} color="#666" />
              </TouchableOpacity>
         </View>
@@ -208,6 +213,9 @@ export default function AddPlant() {
                      ]);
                 }}
                 style={tw`w-40 h-40 bg-sage-50 rounded-[40px] items-center justify-center overflow-hidden border-2 border-dashed border-sage-200 shadow-inner`}
+                accessibilityLabel="Adicionar foto da planta"
+                accessibilityHint="Toque duas vezes para escolher entre tirar uma foto ou selecionar da galeria"
+                accessibilityRole="button"
             >
                 {photoUri ? (
                     <Image source={{ uri: photoUri }} style={tw`w-full h-full`} />
@@ -223,6 +231,8 @@ export default function AddPlant() {
         <TouchableOpacity 
           onPress={() => setModalVisible(true)}
           style={tw`bg-white border border-sage-100 p-4 rounded-xl flex-row items-center mb-8 shadow-sm`}
+          accessibilityLabel="Não sabe o nome? Buscar em nossa enciclopédia"
+          accessibilityRole="button"
         >
           <View style={tw`bg-sage-100 p-2 rounded-full mr-3`}>
             <Search color="#38544A" size={18} />
@@ -256,11 +266,16 @@ export default function AddPlant() {
             showsHorizontalScrollIndicator={false}
             style={tw`mb-3`}
             contentContainerStyle={tw`pr-4`}
+            accessibilityRole="radiogroup"
+            accessibilityLabel="Selecione um ambiente"
           >
             {COMMON_ROOMS.map(r => (
               <TouchableOpacity 
                 key={r} onPress={() => setRoom(r)}
                 style={tw`px-5 py-2.5 rounded-full mr-2 border ${room === r ? 'bg-sage-600 border-sage-600' : 'bg-white border-gray-200'}`}
+                accessibilityRole="radio"
+                accessibilityState={{ checked: room === r }}
+                accessibilityLabel={r}
               >
                 <Text style={tw`${room === r ? 'text-white font-bold' : 'text-gray-500'}`}>{r}</Text>
               </TouchableOpacity>
@@ -284,6 +299,7 @@ export default function AddPlant() {
                     <TextInput
                         style={tw`bg-gray-50 w-20 p-2 rounded-lg text-center font-bold text-sage-900`}
                         placeholder="7" keyboardType="numeric" value={frequency} onChangeText={setFrequency}
+                        accessibilityLabel="Frequência de rega em dias"
                     />
                 </View>
                 <View style={tw`flex-row items-center justify-between mb-4 border-b border-gray-50 pb-4`}>
@@ -294,6 +310,7 @@ export default function AddPlant() {
                     <TextInput
                         style={tw`bg-gray-50 w-20 p-2 rounded-lg text-center font-bold text-sage-900`}
                         placeholder="30" keyboardType="numeric" value={fertilizeFreq} onChangeText={setFertilizeFreq}
+                        accessibilityLabel="Frequência de adubação em dias"
                     />
                 </View>
                 <View style={tw`flex-row items-center justify-between`}>
@@ -304,6 +321,7 @@ export default function AddPlant() {
                     <TextInput
                         style={tw`bg-gray-50 w-20 p-2 rounded-lg text-center font-bold text-sage-900`}
                         placeholder="60" keyboardType="numeric" value={pruneFreq} onChangeText={setPruneFreq}
+                        accessibilityLabel="Frequência de poda em dias"
                     />
                 </View>
             </View>
@@ -321,6 +339,8 @@ export default function AddPlant() {
         <TouchableOpacity
           onPress={handleSave} disabled={loading}
           style={tw`p-5 rounded-2xl items-center mb-10 shadow-lg shadow-sage-500/30 mt-4 ${loading ? 'bg-sage-300' : 'bg-sage-600'}`}
+          accessibilityRole="button"
+          accessibilityLabel="Salvar e adicionar planta ao jardim"
         >
           {loading ? <ActivityIndicator color="white" /> : <Text style={tw`text-white font-bold text-lg`}>Adicionar ao Jardim</Text>}
         </TouchableOpacity>
