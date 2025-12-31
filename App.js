@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { initDB } from './src/database/db';
 import { PlantProvider } from './src/contexts/PlantContext';
+import { NotificationService } from './src/services/NotificationService';
 import AppNavigator from './src/navigation/AppNavigator';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';

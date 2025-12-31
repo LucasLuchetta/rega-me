@@ -108,6 +108,35 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       return dates;
   };
 
+  const resyncNotifications = async () => {
+    try {
+      console.log('Resyncing notifications...');
+      await NotificationService.cancelAll();
+      const result: any = await TaskDAO.getAllFutureTasks();
+      const tasks = result.rows?._array || [];
+
+      for (const task of tasks) {
+        if (!task.next_due) continue;
+
+        // Use the due date but apply the user's preferred times
+        const dueDate = new Date(task.next_due);
+        const times = notificationSettings.times || ['08:00'];
+
+        for (const timeStr of times) {
+           const [h, m] = timeStr.split(':').map(Number);
+           const triggerDate = new Date(dueDate);
+           triggerDate.setHours(h, m, 0, 0);
+
+           if (triggerDate > new Date()) {
+               await NotificationService.scheduleWateringReminder(task.plant_name, triggerDate, task.type);
+           }
+        }
+      }
+    } catch (error) {
+      console.error("Error resyncing notifications:", error);
+    }
+  };
+
   const loadData = async () => {
     setLoading(true);
     try {
@@ -116,6 +145,9 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       const tasksData = await TaskDAO.getDueTasks();
       setPlants(plantsData);
       setDueTasks(tasksData.rows?._array || []); 
+
+      // Resync notifications whenever data is loaded to ensure consistency
+      resyncNotifications();
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
     } finally {
@@ -213,12 +245,12 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     try {
       await TaskDAO.addTask(task);
       if (task.next_due) {
-          const now = new Date().getTime();
-          const due = new Date(task.next_due).getTime();
-          const diffSeconds = (due - now) / 1000;
-          if (diffSeconds > 0) {
+          const due = new Date(task.next_due);
+          // Ensure we don't schedule if it's already past, although NotificationService might handle it.
+          // Using Date object directly avoids the seconds calculation issue.
+          if (due > new Date()) {
              const plant = plants.find(p => p.id === task.plant_id);
-             if(plant) await NotificationService.scheduleWateringReminder(plant.name, diffSeconds, task.type);
+             if(plant) await NotificationService.scheduleWateringReminder(plant.name, due, task.type);
           }
       }
       await loadData();

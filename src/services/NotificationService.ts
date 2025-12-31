@@ -82,10 +82,15 @@ export const NotificationService = {
       let trigger: any;
 
       if (triggerInput instanceof Date) {
+          // Ensure we don't schedule in the past
+          if (triggerInput.getTime() <= Date.now()) {
+            console.log("Ignorando notificação para data passada:", triggerInput);
+            return null;
+          }
           trigger = triggerInput;
       } else {
           // If seconds provided
-          const seconds = triggerInput > 0 ? triggerInput : 1;
+          const seconds = typeof triggerInput === 'number' && triggerInput > 0 ? triggerInput : 1;
           trigger = {
               type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
               seconds: seconds,
