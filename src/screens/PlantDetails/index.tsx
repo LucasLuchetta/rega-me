@@ -378,7 +378,7 @@ export default function PlantDetails() {
                     onPress={async () => {
                         setActionModalVisible(false);
                         setActionLoading(selectedTask.id);
-                        await snoozeTask(selectedTask.id, 2, plant.name);
+                        await snoozeTask(selectedTask.id, 2, plant.name, selectedTask.type);
                         await loadData();
                         setActionLoading(null);
                     }}
