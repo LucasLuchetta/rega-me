@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, TextInput } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, TextInput, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { usePlants } from '../../contexts/PlantContext';
-import { Leaf, Sun, Clock, Check, ArrowRight, Trophy, Flame, History, Droplets, Scissors, Box, CheckCircle2, Sprout, User } from 'lucide-react-native';
+import { Leaf, Sun, Clock, Check, ArrowRight, Trophy, Flame, History, Droplets, Scissors, Box, CheckCircle2, Sprout, User, Bell, Plus, Trash2 } from 'lucide-react-native';
 import tw from '../../utils/tw';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NotificationService } from '../../services/NotificationService';
 
 // Keys for persistence
 const PROFILE_KEY = '@plantcare_profile';
@@ -224,9 +225,18 @@ const Option = ({ title, subtitle, icon, selected, onPress }: any) => (
 );
 
 function StandardProfile({ profileData }: any) {
-  const { plants, getHistory } = usePlants();
+  const { plants, getHistory, notificationSettings, updateNotificationSettings } = usePlants();
   const [history, setHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+
+  // Local state for immediate UI feedback, synced with context
+  const [notifTimes, setNotifTimes] = useState<string[]>(notificationSettings.times || ['08:00']);
+
+  useEffect(() => {
+    if (notificationSettings.times && notificationSettings.times.length > 0) {
+        setNotifTimes(notificationSettings.times);
+    }
+  }, [notificationSettings]);
 
   const loadData = async () => {
     if (!getHistory) return;
@@ -234,6 +244,30 @@ function StandardProfile({ profileData }: any) {
     const data = await getHistory();
     setHistory(data || []);
     setLoading(false);
+  };
+
+  const handleTimeChange = (text: string, index: number) => {
+      const newTimes = [...notifTimes];
+      newTimes[index] = text;
+      setNotifTimes(newTimes);
+
+      // Save logic (could be debounced)
+      // Only save if format is valid? Or just save all
+      // We will update context with all strings, Context might filter invalid ones during calculation but saving raw is fine.
+      updateNotificationSettings(newTimes);
+  };
+
+  const addTime = () => {
+      const newTimes = [...notifTimes, '08:00'];
+      setNotifTimes(newTimes);
+      updateNotificationSettings(newTimes);
+  };
+
+  const removeTime = (index: number) => {
+      const newTimes = [...notifTimes];
+      newTimes.splice(index, 1);
+      setNotifTimes(newTimes);
+      updateNotificationSettings(newTimes);
   };
 
   // Trigger loadData on mount
@@ -286,6 +320,52 @@ function StandardProfile({ profileData }: any) {
               <View style={[tw`h-full bg-sage-500 rounded-full`, { width: `${progressPercent}%` }]} />
             </View>
           </View>
+        </View>
+
+        {/* Notification Settings */}
+        <View style={tw`px-5 mb-6`}>
+            <View style={tw`bg-white p-5 rounded-3xl shadow-sm border border-gray-50`}>
+                <View style={tw`flex-row items-center mb-4`}>
+                    <Bell size={20} color="#5D8C7B" />
+                    <Text style={tw`text-lg font-bold text-gray-800 ml-2`}>Horários de Notificação</Text>
+                </View>
+
+                {notifTimes.map((time, index) => (
+                    <View key={index} style={tw`flex-row justify-between items-center mb-3`}>
+                        <View style={tw`bg-gray-50 px-3 py-2 rounded-xl border border-gray-200 flex-1 mr-3`}>
+                             <TextInput
+                                style={tw`font-bold text-sage-900 text-lg text-center`}
+                                value={time}
+                                placeholder="08:00"
+                                keyboardType="numbers-and-punctuation"
+                                maxLength={5}
+                                onChangeText={(text) => handleTimeChange(text, index)}
+                             />
+                        </View>
+                        {notifTimes.length > 1 && (
+                            <TouchableOpacity onPress={() => removeTime(index)} style={tw`p-3 bg-red-50 rounded-xl`}>
+                                <Trash2 size={20} color="#ef4444" />
+                            </TouchableOpacity>
+                        )}
+                    </View>
+                ))}
+
+                <TouchableOpacity
+                    onPress={addTime}
+                    style={tw`flex-row items-center justify-center p-3 rounded-xl border-2 border-dashed border-gray-300 mb-4`}
+                >
+                    <Plus size={20} color="#9CA3AF" />
+                    <Text style={tw`text-gray-500 font-bold ml-2`}>Adicionar Horário</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={() => NotificationService.testNotification()}
+                    style={tw`bg-sage-50 p-3 rounded-xl items-center border border-sage-100`}
+                >
+                    <Text style={tw`text-sage-700 font-bold`}>Testar Notificação Agora</Text>
+                </TouchableOpacity>
+
+            </View>
         </View>
 
         {/* Stats Grid */}

@@ -5,6 +5,9 @@ import { PlantDAO, Plant } from '../database/PlantDAO';
 import { TaskDAO, Task } from '../database/TaskDAO';
 import { executeSql } from '../database/db';
 import { NotificationService } from '../services/NotificationService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const NOTIFICATION_SETTINGS_KEY = '@plantcare_notification_settings';
 
 interface PlantData extends Plant {
   frequencyDays: number;
@@ -15,11 +18,17 @@ interface PlantData extends Plant {
   repotFrequency?: number;
 }
 
+interface NotificationSettings {
+  times: string[];
+}
+
 interface PlantContextData {
   plants: Plant[];
   dueTasks: any[];
   loading: boolean;
+  notificationSettings: NotificationSettings;
   loadData: () => Promise<void>;
+  updateNotificationSettings: (times: string[]) => Promise<void>;
   addNewPlant: (plantData: PlantData) => Promise<void>;
   removePlant: (id: number) => Promise<void>;
   completeTask: (taskId: number, frequency: number, plantName?: string, type?: string) => Promise<void>;
@@ -43,10 +52,66 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
   const [plants, setPlants] = useState<Plant[]>([]);
   const [dueTasks, setDueTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [notificationSettings, setNotificationSettings] = useState<NotificationSettings>({
+      times: ['08:00']
+  });
+
+  const loadNotificationSettings = async () => {
+      try {
+          const savedSettings = await AsyncStorage.getItem(NOTIFICATION_SETTINGS_KEY);
+          if (savedSettings) {
+              const parsed = JSON.parse(savedSettings);
+              // Migration logic: check if it's the old format (object with 'time' and 'frequency')
+              if (parsed.times && Array.isArray(parsed.times)) {
+                  setNotificationSettings({ times: parsed.times });
+              } else if (parsed.time) {
+                  // Migrate old single time
+                  const times = [parsed.time];
+                  // If old frequency was 2, we could add a second time, but simplified to just primary time is safer
+                  // or: if (parsed.frequency > 1) times.push('17:00'); // arbitrary logic
+                  setNotificationSettings({ times });
+              }
+          }
+      } catch (e) {
+          console.log("Error loading notification settings", e);
+      }
+  };
+
+  const updateNotificationSettings = async (times: string[]) => {
+      try {
+          const newSettings = { times };
+          await AsyncStorage.setItem(NOTIFICATION_SETTINGS_KEY, JSON.stringify(newSettings));
+          setNotificationSettings(newSettings);
+      } catch (e) {
+          console.error("Failed to save notification settings", e);
+      }
+  };
+
+  // Helper to calculate target notification date based on user settings
+  const calculateTargetDate = (days: number): Date[] => {
+      const today = new Date();
+      const targetDate = new Date(today);
+      targetDate.setDate(today.getDate() + days);
+
+      const dates: Date[] = [];
+      const times = notificationSettings.times || ['08:00'];
+
+      times.forEach(timeStr => {
+          const [h, m] = timeStr.split(':').map(Number);
+          if (!isNaN(h) && !isNaN(m)) {
+              const date = new Date(targetDate);
+              date.setHours(h, m, 0, 0);
+              dates.push(date);
+          }
+      });
+
+      return dates;
+  };
 
   const loadData = async () => {
     setLoading(true);
     try {
+      await loadNotificationSettings();
       const plantsData = await PlantDAO.getPlants();
       const tasksData = await TaskDAO.getDueTasks();
       setPlants(plantsData);
@@ -98,8 +163,10 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
             });
 
             // Agenda a notificação
-            const secondsUntilNotify = task.freq * 24 * 60 * 60;
-            await NotificationService.scheduleWateringReminder(plantData.name, secondsUntilNotify, task.type);
+            const targetDates = calculateTargetDate(task.freq);
+            for (const date of targetDates) {
+                await NotificationService.scheduleWateringReminder(plantData.name, date, task.type);
+            }
           }
         }
       }
@@ -175,8 +242,10 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     try {
       await TaskDAO.snoozeTask(taskId, days);
       if (plantName) {
-         const secondsUntilNext = days * 24 * 60 * 60;
-         await NotificationService.scheduleWateringReminder(plantName, secondsUntilNext, 'water'); // Assume water for snooze for now
+         const targetDates = calculateTargetDate(days);
+         for (const date of targetDates) {
+            await NotificationService.scheduleWateringReminder(plantName, date, 'water');
+         }
       }
       await loadData();
     } catch (error) {
@@ -204,8 +273,10 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       await TaskDAO.completeTask(taskId, frequency);
 
       if (plantName && frequency > 0) {
-          const secondsUntilNext = frequency * 24 * 60 * 60;
-          await NotificationService.scheduleWateringReminder(plantName, secondsUntilNext, type);
+          const targetDates = calculateTargetDate(frequency);
+          for (const date of targetDates) {
+             await NotificationService.scheduleWateringReminder(plantName, date, type);
+          }
       }
       await loadData();
     } catch (error) {
@@ -275,12 +346,12 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const value = React.useMemo(() => ({
-    plants, dueTasks, loading, loadData, addNewPlant, removePlant,
-    completeTask, snoozeTask, anticipateTask, completeAllInRoom,
+    plants, dueTasks, loading, notificationSettings, loadData, updateNotificationSettings,
+    addNewPlant, removePlant, completeTask, snoozeTask, anticipateTask, completeAllInRoom,
     addTaskToPlant, getPlantTasks, getHistory, getPlantHistory,
     addPlantPhoto, removePlantPhoto, getPlantPhotos,
     updatePlant, removeTask
-  }), [plants, dueTasks, loading]);
+  }), [plants, dueTasks, loading, notificationSettings]);
 
   return (
     <PlantContext.Provider value={value}>
