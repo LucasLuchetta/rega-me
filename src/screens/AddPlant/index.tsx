@@ -199,7 +199,14 @@ export default function AddPlant() {
   };
 
   const handleRemoveTask = (type: string) => {
-      setTasks(tasks.filter(t => t.type !== type));
+      Alert.alert(
+          "Remover cuidado",
+          "Tem certeza que deseja remover este cuidado da lista?",
+          [
+              { text: "Cancelar", style: "cancel" },
+              { text: "Remover", style: "destructive", onPress: () => setTasks(tasks.filter(t => t.type !== type)) }
+          ]
+      );
   };
 
   const validateForm = () => {

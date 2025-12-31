@@ -34,6 +34,7 @@ export default function PlantDetails() {
   const [actionModalVisible, setActionModalVisible] = useState(false);
   const [optionsModalVisible, setOptionsModalVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState<any>(null);
+  const [savingTask, setSavingTask] = useState(false);
 
   useEffect(() => {
       loadData();
@@ -53,10 +54,15 @@ export default function PlantDetails() {
 
   const handleAddTask = async () => {
     if (!newFrequency) return;
-    await addTaskToPlant({
-        plant_id: plant.id, type: selectedType as any, frequency_days: parseInt(newFrequency), next_due: new Date().toISOString()
-    });
-    setModalVisible(false); setNewFrequency(''); loadData();
+    setSavingTask(true);
+    try {
+        await addTaskToPlant({
+            plant_id: plant.id, type: selectedType as any, frequency_days: parseInt(newFrequency), next_due: new Date().toISOString()
+        });
+        setModalVisible(false); setNewFrequency(''); loadData();
+    } finally {
+        setSavingTask(false);
+    }
   };
 
   const handleAction = (task: any) => {
@@ -162,12 +168,15 @@ export default function PlantDetails() {
                     const config = CARE_TYPES.find(c => c.id === task.type) || CARE_TYPES[0];
                     const Icon = config.icon;
                     const isLast = index === tasks.length - 1;
+                    const nextDate = new Date(task.next_due).toLocaleDateString('pt-BR', {day: '2-digit', month: 'short'});
                     return (
                         <TouchableOpacity
                             key={task.id}
                             onPress={() => handleAction(task)}
                             disabled={actionLoading === task.id}
                             style={[tw`flex-row items-center p-4`, !isLast && tw`border-b border-sage-50`]}
+                            accessibilityRole="button"
+                            accessibilityLabel={`${config.label}, repetir a cada ${task.frequency_days} dias. Próximo cuidado em ${nextDate}`}
                         >
                             <View style={[tw`w-12 h-12 rounded-2xl items-center justify-center mr-4`, { backgroundColor: `${config.color}15` }]}>
                                 <Icon size={22} color={config.color} />
@@ -289,8 +298,14 @@ export default function PlantDetails() {
                 />
                 <Text style={tw`text-sage-400 text-xs mb-6 ml-1`}>Ex: 7 (semanal), 30 (mensal)</Text>
 
-                <TouchableOpacity onPress={handleAddTask} style={tw`bg-sage-600 p-4 rounded-2xl items-center shadow-lg shadow-sage-600/30`}>
-                    <Text style={tw`text-white font-bold text-lg`}>Salvar Rotina</Text>
+                <TouchableOpacity
+                    onPress={handleAddTask}
+                    style={tw`bg-sage-600 p-4 rounded-2xl items-center shadow-lg shadow-sage-600/30`}
+                    disabled={savingTask}
+                    accessibilityRole="button"
+                    accessibilityState={{ busy: savingTask }}
+                >
+                    {savingTask ? <ActivityIndicator color="white" /> : <Text style={tw`text-white font-bold text-lg`}>Salvar Rotina</Text>}
                 </TouchableOpacity>
             </View>
         </View>
