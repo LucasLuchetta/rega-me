@@ -82,7 +82,7 @@ export const NotificationService = {
       let trigger: any;
 
       if (triggerInput instanceof Date) {
-          trigger = { date: triggerInput };
+          trigger = triggerInput;
       } else {
           // If seconds provided
           const seconds = triggerInput > 0 ? triggerInput : 1;

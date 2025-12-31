@@ -32,7 +32,7 @@ interface PlantContextData {
   addNewPlant: (plantData: PlantData) => Promise<void>;
   removePlant: (id: number) => Promise<void>;
   completeTask: (taskId: number, frequency: number, plantName?: string, type?: string) => Promise<void>;
-  snoozeTask: (taskId: number, days: number, plantName?: string) => Promise<void>;
+  snoozeTask: (taskId: number, days: number, plantName?: string, taskType?: string) => Promise<void>;
   anticipateTask: (taskId: number, frequency: number, plantName?: string) => Promise<void>;
   completeAllInRoom: (room: string) => Promise<void>;
   addTaskToPlant: (task: Task) => Promise<void>;
@@ -244,7 +244,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       if (plantName) {
          const targetDates = calculateTargetDate(days);
          for (const date of targetDates) {
-            await NotificationService.scheduleWateringReminder(plantName, date, 'water');
+            await NotificationService.scheduleWateringReminder(plantName, date, taskType || 'water');
          }
       }
       await loadData();
