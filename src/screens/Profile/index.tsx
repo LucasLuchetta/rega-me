@@ -52,7 +52,7 @@ export default function Profile() {
         "Agora que conhecemos você, que tal adicionar as plantas que você já tem em casa?",
         [
             { text: "Agora não", style: 'cancel' },
-            { text: "Vamos lá!", onPress: () => navigation.navigate('Jardim', { screen: 'AddPlant' }) }
+            { text: "Vamos lá!", onPress: () => navigation.navigate('Dashboard') }
         ]
       );
     } catch (e) {
@@ -340,10 +340,16 @@ function StandardProfile({ profileData }: any) {
                                 keyboardType="numbers-and-punctuation"
                                 maxLength={5}
                                 onChangeText={(text) => handleTimeChange(text, index)}
+                                accessibilityLabel={`Horário da notificação ${index + 1}`}
                              />
                         </View>
                         {notifTimes.length > 1 && (
-                            <TouchableOpacity onPress={() => removeTime(index)} style={tw`p-3 bg-red-50 rounded-xl`}>
+                            <TouchableOpacity
+                                onPress={() => removeTime(index)}
+                                style={tw`p-3 bg-red-50 rounded-xl`}
+                                accessibilityLabel={`Remover horário ${time}`}
+                                accessibilityRole="button"
+                            >
                                 <Trash2 size={20} color="#ef4444" />
                             </TouchableOpacity>
                         )}

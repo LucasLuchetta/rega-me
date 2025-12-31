@@ -243,11 +243,27 @@ export default function Dashboard() {
         data={filteredPlants}
         ListEmptyComponent={
           <View style={tw`items-center justify-center py-10 px-6`}>
-            <Text style={tw`text-sage-400 text-center text-base mb-2`}>
-              {activeTab === 'All'
-                ? "Sua selva está vazia! Que tal adicionar sua primeira planta?"
-                : `Nenhuma planta encontrada em '${activeTab}'.`}
+            <View style={tw`bg-sage-100 w-20 h-20 rounded-full items-center justify-center mb-4`}>
+                <Sprout size={40} color={tw.color('sage-500')} />
+            </View>
+            <Text style={tw`text-sage-800 font-bold text-lg mb-2`}>
+               {activeTab === 'All' ? "Sua selva está silenciosa..." : `Nada em '${activeTab}'`}
             </Text>
+            <Text style={tw`text-sage-400 text-center text-sm mb-6 leading-5`}>
+              {activeTab === 'All'
+                ? "Que tal dar vida a este espaço? Adicione sua primeira planta!"
+                : "Não encontramos plantas neste ambiente."}
+            </Text>
+            {activeTab === 'All' && (
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('AddPlant')}
+                    style={tw`bg-sage-600 px-6 py-3 rounded-xl shadow-sm`}
+                    accessibilityRole="button"
+                    accessibilityLabel="Começar agora, adicionar planta"
+                >
+                    <Text style={tw`text-white font-bold`}>Começar Agora</Text>
+                </TouchableOpacity>
+            )}
           </View>
         }
         keyExtractor={(item, index) => item?.id?.toString() || index.toString()}
