@@ -66,6 +66,18 @@ export const TaskDAO = {
     return await executeSql(sql, [today.toISOString(), futureDate.toISOString()]);
   },
 
+  getAllFutureTasks: async () => {
+    const now = new Date().toISOString();
+    const sql = `
+      SELECT t.*, p.name as plant_name
+      FROM tasks t
+      JOIN plants p ON t.plant_id = p.id
+      WHERE t.next_due > ?
+      ORDER BY t.next_due ASC
+    `;
+    return await executeSql(sql, [now]);
+  },
+
   completeTask: async (taskId: number, frequencyDays: number) => {
     const now = new Date();
     const nextDue = new Date();
