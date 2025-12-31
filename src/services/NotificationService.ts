@@ -73,12 +73,25 @@ export const NotificationService = {
     }
   },
 
-  scheduleWateringReminder: async (plantName: string, secondsFromNow: number, taskType: string = 'water') => {
+  scheduleWateringReminder: async (plantName: string, triggerInput: number | Date, taskType: string = 'water') => {
     try {
       const hasPermission = await NotificationService.requestPermissions();
       if (!hasPermission) return;
 
       const bodyMessage = getMessageForTask(taskType, plantName);
+      let trigger: any;
+
+      if (triggerInput instanceof Date) {
+          trigger = { date: triggerInput };
+      } else {
+          // If seconds provided
+          const seconds = triggerInput > 0 ? triggerInput : 1;
+          trigger = {
+              type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+              seconds: seconds,
+              repeats: false,
+          };
+      }
 
       const id = await Notifications.scheduleNotificationAsync({
         content: {
@@ -89,17 +102,39 @@ export const NotificationService = {
           categoryIdentifier: 'PLANT_CARE', // For interactive notifications (Snooze/Done) in future
           priority: Notifications.AndroidNotificationPriority.HIGH,
         },
-        trigger: {
-          type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
-          seconds: secondsFromNow > 0 ? secondsFromNow : 1, // Garante que não seja negativo
-          repeats: false, 
-        },
+        trigger,
       });
       return id;
     } catch (error) {
       console.warn("Falha ao agendar notificação (Limitação do Expo Go):", error);
       return null;
     }
+  },
+
+  testNotification: async () => {
+      try {
+        const hasPermission = await NotificationService.requestPermissions();
+        if (!hasPermission) {
+            console.log("Sem permissão para testar notificação");
+            return;
+        }
+
+        await Notifications.scheduleNotificationAsync({
+            content: {
+                title: "Teste de Notificação 🔔",
+                body: "Se você está vendo isso, suas notificações estão funcionando!",
+                sound: true,
+                priority: Notifications.AndroidNotificationPriority.HIGH,
+            },
+            trigger: {
+                type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+                seconds: 5,
+                repeats: false,
+            }
+        });
+      } catch (error) {
+          console.error("Erro ao testar notificação:", error);
+      }
   },
 
   cancelAll: async () => {
