@@ -82,14 +82,27 @@ export const NotificationService = {
       let trigger: any;
 
       if (triggerInput instanceof Date) {
-          // Ensure we don't schedule in the past
-          if (triggerInput.getTime() <= Date.now()) {
+          const now = Date.now();
+          const triggerTime = triggerInput.getTime();
+
+          // Verifica se é passado
+          if (triggerTime <= now) {
             console.log("Ignorando notificação para data passada:", triggerInput);
             return null;
           }
-          trigger = triggerInput;
+
+          // CORREÇÃO AQUI:
+          // Em vez de passar a Data direto, calculamos os segundos até lá.
+          // Isso força o uso do sistema de Timer (igual ao seu teste) que é muito mais confiável.
+          const secondsUntilTrigger = Math.floor((triggerTime - now) / 1000);
+
+          trigger = {
+            type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+            seconds: secondsUntilTrigger,
+            repeats: false,
+          };
       } else {
-          // If seconds provided
+          // Lógica existente para segundos
           const seconds = typeof triggerInput === 'number' && triggerInput > 0 ? triggerInput : 1;
           trigger = {
               type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
@@ -104,14 +117,17 @@ export const NotificationService = {
           body: bodyMessage,
           sound: true,
           data: { plantName, taskType },
-          categoryIdentifier: 'PLANT_CARE', // For interactive notifications (Snooze/Done) in future
+          // categoryIdentifier: 'PLANT_CARE', // Comentei para evitar problemas se a categoria não tiver sido criada explicitamente
           priority: Notifications.AndroidNotificationPriority.HIGH,
         },
         trigger,
       });
+      
+      console.log(`Notificação agendada para ${plantName} em ${trigger.seconds} segundos.`);
       return id;
+
     } catch (error) {
-      console.warn("Falha ao agendar notificação (Limitação do Expo Go):", error);
+      console.warn("Falha ao agendar notificação:", error);
       return null;
     }
   },
