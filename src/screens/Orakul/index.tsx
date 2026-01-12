@@ -143,7 +143,11 @@ export default function Orakul() {
                             <Text style={tw`text-xs mb-1 font-medium capitalize ${isSelected ? 'text-green-100' : 'text-gray-400'}`}>
                                 {date.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '')}
                             </Text>
-                            <Text style={tw`text-2xl font-bold ${isSelected ? 'text-white' : 'text-gray-800'}`}>
+                            <Text
+                                style={tw`text-xl font-bold ${isSelected ? 'text-white' : 'text-gray-800'}`}
+                                numberOfLines={1}
+                                adjustsFontSizeToFit
+                            >
                                 {date.getDate()}
                             </Text>
                             <View style={tw`mt-2 h-1.5 w-1.5 rounded-full ${hasTask ? (isSelected ? 'bg-white' : 'bg-green-500') : 'bg-transparent'}`} />
