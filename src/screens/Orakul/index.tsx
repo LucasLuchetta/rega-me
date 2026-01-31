@@ -138,15 +138,16 @@ export default function Orakul() {
                             key={index}
                             onPress={() => setSelectedDate(date)}
                             activeOpacity={0.7}
-                            style={tw`items-center justify-center w-16 h-22 rounded-2xl mr-3 ${isSelected ? 'bg-green-600 shadow-md' : 'bg-white border border-gray-100'}`}
+                            style={tw`items-center justify-center w-20 h-24 rounded-2xl mr-3 ${isSelected ? 'bg-green-600 shadow-md' : 'bg-white border border-gray-100'}`}
                         >
                             <Text style={tw`text-xs mb-1 font-medium capitalize ${isSelected ? 'text-green-100' : 'text-gray-400'}`}>
                                 {date.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '')}
                             </Text>
                             <Text
-                                style={tw`text-xl font-bold ${isSelected ? 'text-white' : 'text-gray-800'}`}
+                                style={tw`text-xl font-bold text-center ${isSelected ? 'text-white' : 'text-gray-800'}`}
                                 numberOfLines={1}
                                 adjustsFontSizeToFit
+                                minimumFontScale={0.5}
                             >
                                 {date.getDate()}
                             </Text>
