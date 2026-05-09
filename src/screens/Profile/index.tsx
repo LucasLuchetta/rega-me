@@ -65,21 +65,38 @@ export default function Profile() {
       <SafeAreaView style={tw`flex-1 bg-canvas`}>
         <ScrollView contentContainerStyle={tw`flex-grow`}>
           <View style={tw`flex-1 px-6 pt-10`}>
-            <Text style={tw`font-headline text-3xl text-sage-900 mb-2`}>
-              Bem-vindo ao seu Jardim
-            </Text>
-            <Text style={tw`font-body text-gray-500 mb-8`}>
-              Para criar o jardim perfeito, precisamos te conhecer um pouco melhor.
-            </Text>
+            <View style={tw`mb-8`}>
+              <Text style={tw`font-headline text-3xl text-sage-900 mb-2`}>
+                Bem-vindo ao seu Jardim
+              </Text>
+              <Text style={tw`font-body text-gray-500 mb-6`}>
+                Para criar o jardim perfeito, precisamos te conhecer um pouco melhor.
+              </Text>
+
+              <View style={tw`flex-row gap-2`}>
+                {[1, 2, 3, 4].map((s) => (
+                  <View
+                    key={s}
+                    style={tw`flex-1 h-2 rounded-full ${s <= step ? 'bg-sage-500' : 'bg-gray-200'}`}
+                  />
+                ))}
+              </View>
+              <Text style={tw`text-xs text-gray-500 font-medium mt-2`}>Passo {step} de 4</Text>
+            </View>
 
             {step === 1 && (
               <View>
-                <Text style={tw`font-subheadline text-xl text-sage-700 mb-6`}>
+                <Text style={tw`font-subheadline text-xl text-sage-700 mb-4`}>
                   Como você gostaria de ser chamado?
                 </Text>
+                <Text style={tw`text-gray-500 text-sm mb-6`}>
+                  Isso ajuda a personalizar sua experiência no app.
+                </Text>
 
-                <View style={tw`bg-white p-4 rounded-2xl border-2 border-sage-100 flex-row items-center mb-6`}>
-                  <User size={24} color="#5D8C7B" style={tw`mr-3`} />
+                <View style={tw`bg-white p-5 rounded-3xl border-2 border-sage-100 flex-row items-center shadow-sm`}>
+                  <View style={tw`bg-sage-50 p-3 rounded-full mr-4`}>
+                    <User size={24} color="#5D8C7B" />
+                  </View>
                   <TextInput
                     style={tw`flex-1 text-lg text-sage-900 font-bold`}
                     placeholder="Seu nome"
@@ -93,28 +110,31 @@ export default function Profile() {
 
             {step === 2 && (
               <View>
-                <Text style={tw`font-subheadline text-xl text-sage-700 mb-6`}>
+                <Text style={tw`font-subheadline text-xl text-sage-700 mb-4`}>
                   Qual seu nível com plantas?
+                </Text>
+                <Text style={tw`text-gray-500 text-sm mb-6`}>
+                  Isso ajuda a gente recomendar plantas ideais para você.
                 </Text>
 
                 <Option
-                  title="Mato até cacto"
-                  subtitle="Preciso de plantas de aço."
-                  icon={<Leaf size={24} color="#5D8C7B" />}
+                  title="🌱 Mato até cacto"
+                  subtitle="Sou iniciante e preciso de plantas bem resistentes."
+                  icon={<Leaf size={24} color="#ef4444" />}
                   selected={profileData.skill === 'beginner'}
                   onPress={() => setProfileData({...profileData, skill: 'beginner'})}
                 />
                 <Option
-                  title="Tenho algumas sobreviventes"
-                  subtitle="Me viro bem, mas quero aprender."
-                  icon={<Leaf size={24} color="#5D8C7B" />}
+                  title="🌿 Tenho algumas sobreviventes"
+                  subtitle="Tenho experiência, mas sempre quero aprender mais."
+                  icon={<Leaf size={24} color="#f59e0b" />}
                   selected={profileData.skill === 'intermediate'}
                   onPress={() => setProfileData({...profileData, skill: 'intermediate'})}
                 />
                 <Option
-                  title="Mestre Jardinheiro"
-                  subtitle="Minha casa é uma selva."
-                  icon={<Leaf size={24} color="#5D8C7B" />}
+                  title="🌳 Mestre Jardinheiro"
+                  subtitle="Minha casa é uma floresta e adoro propagar plantas."
+                  icon={<Leaf size={24} color="#16a34a" />}
                   selected={profileData.skill === 'expert'}
                   onPress={() => setProfileData({...profileData, skill: 'expert'})}
                 />
@@ -123,28 +143,31 @@ export default function Profile() {
 
             {step === 3 && (
               <View>
-                <Text style={tw`font-subheadline text-xl text-sage-700 mb-6`}>
+                <Text style={tw`font-subheadline text-xl text-sage-700 mb-4`}>
                   Como é o seu ambiente?
+                </Text>
+                <Text style={tw`text-gray-500 text-sm mb-6`}>
+                  Escolha o que mais combina com seu espaço.
                 </Text>
 
                 <Option
-                  title="Janela Ensolarada"
-                  subtitle="Muita luz direta na maior parte do dia."
-                  icon={<Sun size={24} color="#E59866" />}
+                  title="☀️ Janela Ensolarada"
+                  subtitle="Muita luz direta, ideal para suculentas e girassóis."
+                  icon={<Sun size={24} color="#fbbf24" />}
                   selected={profileData.environment === 'sunny'}
                   onPress={() => setProfileData({...profileData, environment: 'sunny'})}
                 />
                 <Option
-                  title="Sombra Parcial"
-                  subtitle="Luz indireta ou filtrada."
-                  icon={<Sun size={24} color="#A3BFB0" />}
+                  title="🌤️ Sombra Parcial"
+                  subtitle="Luz indireta, perfeito para a maioria das plantas."
+                  icon={<Sun size={24} color="#a78bfa" />}
                   selected={profileData.environment === 'partial'}
                   onPress={() => setProfileData({...profileData, environment: 'partial'})}
                 />
                 <Option
-                  title="Luz Artificial"
-                  subtitle="Pouca ou nenhuma luz natural."
-                  icon={<Sun size={24} color="#9CA3AF" />}
+                  title="💡 Luz Artificial"
+                  subtitle="Pouca luz natural, funciona com lâmpadas LED."
+                  icon={<Sun size={24} color="#6b7280" />}
                   selected={profileData.environment === 'low'}
                   onPress={() => setProfileData({...profileData, environment: 'low'})}
                 />
@@ -153,28 +176,31 @@ export default function Profile() {
 
             {step === 4 && (
               <View>
-                <Text style={tw`font-subheadline text-xl text-sage-700 mb-6`}>
+                <Text style={tw`font-subheadline text-xl text-sage-700 mb-4`}>
                   Quanto tempo quer dedicar?
+                </Text>
+                <Text style={tw`text-gray-500 text-sm mb-6`}>
+                  Vamos ajustar as notificações e recomendações baseado no seu tempo.
                 </Text>
 
                 <Option
-                  title="Só no fim de semana"
-                  subtitle="Quero algo que viva sozinho."
-                  icon={<Clock size={24} color="#5D8C7B" />}
+                  title="⏰ Só no fim de semana"
+                  subtitle="Plantas que precisam de menos atenção."
+                  icon={<Clock size={24} color="#8b5cf6" />}
                   selected={profileData.commitment === 'low'}
                   onPress={() => setProfileData({...profileData, commitment: 'low'})}
                 />
                 <Option
-                  title="Alguns minutos por dia"
-                  subtitle="Posso regar e checar regularmente."
-                  icon={<Clock size={24} color="#5D8C7B" />}
+                  title="📅 Alguns minutos por dia"
+                  subtitle="Rotina diária leve de cuidados."
+                  icon={<Clock size={24} color="#3b82f6" />}
                   selected={profileData.commitment === 'medium'}
                   onPress={() => setProfileData({...profileData, commitment: 'medium'})}
                 />
                 <Option
-                  title="É meu hobby principal"
-                  subtitle="Quero cuidar, podar e propagar."
-                  icon={<Clock size={24} color="#5D8C7B" />}
+                  title="🌱 É meu hobby principal"
+                  subtitle="Cuidados intensivos, propagação e experimentação."
+                  icon={<Clock size={24} color="#10b981" />}
                   selected={profileData.commitment === 'high'}
                   onPress={() => setProfileData({...profileData, commitment: 'high'})}
                 />
@@ -183,7 +209,7 @@ export default function Profile() {
 
             <View style={tw`flex-1 justify-end pb-8 mt-10`}>
               <TouchableOpacity
-                style={tw`bg-sage-500 p-4 rounded-full flex-row items-center justify-center shadow-lg`}
+                style={tw`bg-sage-500 p-5 rounded-3xl flex-row items-center justify-center shadow-lg`}
                 onPress={() => {
                   if (step === 1 && !profileData.name.trim()) {
                     Alert.alert("Nome necessário", "Por favor, diga-nos como te chamar.");
@@ -211,9 +237,9 @@ export default function Profile() {
 const Option = ({ title, subtitle, icon, selected, onPress }: any) => (
   <TouchableOpacity
     onPress={onPress}
-    style={tw`p-5 rounded-2xl mb-4 border-2 flex-row items-center ${selected ? 'border-sage-500 bg-sage-50' : 'border-gray-100 bg-white'}`}
+    style={tw`p-5 rounded-3xl mb-4 border-2 flex-row items-center shadow-sm ${selected ? 'border-sage-500 bg-sage-50' : 'border-gray-100 bg-white'}`}
   >
-    <View style={tw`mr-4 bg-canvas p-3 rounded-full`}>
+    <View style={tw`mr-4 ${selected ? 'bg-sage-100' : 'bg-gray-100'} p-3 rounded-full`}>
       {icon}
     </View>
     <View style={tw`flex-1`}>
@@ -301,38 +327,43 @@ function StandardProfile({ profileData }: any) {
       <ScrollView contentContainerStyle={{ paddingBottom: 20 }} refreshControl={<RefreshControl refreshing={loading} onRefresh={loadData} />}>
         
         {/* Header Profile */}
-        <View style={tw`bg-white p-6 mb-6 rounded-b-[40px] shadow-sm items-center pt-8`}>
-          <View style={tw`bg-sage-100 w-28 h-28 rounded-full items-center justify-center mb-4 border-4 border-white shadow-md relative`}>
-            <Trophy size={48} color="#5D8C7B" />
-            <View style={tw`absolute -bottom-2 bg-sage-600 px-3 py-1 rounded-full border-2 border-white`}>
-                <Text style={tw`text-white font-bold text-xs`}>Lvl {level}</Text>
+        <View style={tw`bg-white p-8 mb-6 rounded-b-[40px] shadow-md items-center pt-10`}>
+          <View style={tw`bg-gradient-to-br from-sage-100 to-sage-50 w-32 h-32 rounded-full items-center justify-center mb-6 border-4 border-white shadow-lg relative`}>
+            <Trophy size={52} color="#5D8C7B" />
+            <View style={tw`absolute -bottom-2 bg-sage-600 px-4 py-1.5 rounded-full border-2 border-white shadow-md`}>
+                <Text style={tw`text-white font-bold text-sm`}>Lvl {level}</Text>
             </View>
           </View>
-          <Text style={tw`font-headline text-2xl text-sage-900`}>{profileData.name || "Você"}</Text>
-          <Text style={tw`text-sage-600 font-subheadline font-medium mb-6`}>{getTitle()}</Text>
-          
-          <View style={tw`w-full max-w-xs`}>
-            <View style={tw`flex-row justify-between mb-2`}>
-              <Text style={tw`text-xs text-gray-500 font-bold uppercase tracking-wide`}>Próximo Nível</Text>
-              <Text style={tw`text-xs text-gray-400 font-medium`}>{xpCurrent}/{xpNextLevel} XP</Text>
+          <Text style={tw`font-headline text-3xl text-sage-900`}>{profileData.name || "Você"}</Text>
+          <Text style={tw`text-sage-600 font-subheadline font-medium mb-8 text-base`}>{getTitle()}</Text>
+
+          <View style={tw`w-full max-w-sm px-4`}>
+            <View style={tw`flex-row justify-between mb-3`}>
+              <Text style={tw`text-xs text-gray-500 font-bold uppercase tracking-widest`}>Próximo Nível</Text>
+              <Text style={tw`text-xs text-gray-400 font-semibold`}>{xpCurrent}/{xpNextLevel} XP</Text>
             </View>
             <View style={tw`h-3 bg-gray-100 rounded-full overflow-hidden border border-gray-200`}>
-              <View style={[tw`h-full bg-sage-500 rounded-full`, { width: `${progressPercent}%` }]} />
+              <View style={[tw`h-full bg-gradient-to-r from-sage-500 to-sage-400 rounded-full`, { width: `${progressPercent}%` }]} />
             </View>
           </View>
         </View>
 
         {/* Notification Settings */}
         <View style={tw`px-5 mb-6`}>
-            <View style={tw`bg-white p-5 rounded-3xl shadow-sm border border-gray-50`}>
-                <View style={tw`flex-row items-center mb-4`}>
-                    <Bell size={20} color="#5D8C7B" />
-                    <Text style={tw`text-lg font-bold text-gray-800 ml-2`}>Horários de Notificação</Text>
+            <View style={tw`bg-white p-6 rounded-3xl shadow-md border border-gray-50`}>
+                <View style={tw`flex-row items-center mb-6`}>
+                    <View style={tw`bg-blue-50 p-2.5 rounded-full mr-3`}>
+                        <Bell size={22} color="#3b82f6" />
+                    </View>
+                    <View>
+                        <Text style={tw`text-lg font-bold text-gray-800`}>Horários de Notificação</Text>
+                        <Text style={tw`text-xs text-gray-500 mt-0.5`}>Receba lembretes para cuidar das suas plantas</Text>
+                    </View>
                 </View>
 
                 {notifTimes.map((time, index) => (
                     <View key={index} style={tw`flex-row justify-between items-center mb-3`}>
-                        <View style={tw`bg-gray-50 px-3 py-2 rounded-xl border border-gray-200 flex-1 mr-3`}>
+                        <View style={tw`bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 flex-1 mr-3`}>
                              <TextInput
                                 style={tw`font-bold text-sage-900 text-lg text-center`}
                                 value={time}
@@ -346,7 +377,7 @@ function StandardProfile({ profileData }: any) {
                         {notifTimes.length > 1 && (
                             <TouchableOpacity
                                 onPress={() => removeTime(index)}
-                                style={tw`p-3 bg-red-50 rounded-xl`}
+                                style={tw`p-3 bg-red-50 rounded-xl border border-red-100`}
                                 accessibilityLabel={`Remover horário ${time}`}
                                 accessibilityRole="button"
                             >
@@ -358,17 +389,10 @@ function StandardProfile({ profileData }: any) {
 
                 <TouchableOpacity
                     onPress={addTime}
-                    style={tw`flex-row items-center justify-center p-3 rounded-xl border-2 border-dashed border-gray-300 mb-4`}
+                    style={tw`flex-row items-center justify-center p-3.5 rounded-xl border-2 border-dashed border-gray-300 mt-2`}
                 >
                     <Plus size={20} color="#9CA3AF" />
                     <Text style={tw`text-gray-500 font-bold ml-2`}>Adicionar Horário</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    onPress={() => NotificationService.testNotification()}
-                    style={tw`bg-sage-50 p-3 rounded-xl items-center border border-sage-100`}
-                >
-                    <Text style={tw`text-sage-700 font-bold`}>Testar Notificação Agora</Text>
                 </TouchableOpacity>
 
             </View>
@@ -376,54 +400,59 @@ function StandardProfile({ profileData }: any) {
 
         {/* Stats Grid */}
         <View style={tw`px-5 mb-6`}>
-          <View style={tw`flex-row flex-wrap justify-between`}>
-            
-            <View style={tw`w-[48%] bg-white p-5 rounded-3xl shadow-sm mb-3 border border-gray-50`}>
-              <View style={tw`bg-sage-50 w-10 h-10 rounded-xl items-center justify-center mb-3`}>
-                <Sprout size={20} color="#5D8C7B" />
+          <View style={tw`flex-row flex-wrap justify-between gap-3`}>
+
+            <View style={tw`flex-1 bg-gradient-to-br from-sage-50 to-white p-6 rounded-3xl shadow-md border border-sage-100`}>
+              <View style={tw`bg-sage-100 w-11 h-11 rounded-xl items-center justify-center mb-4`}>
+                <Sprout size={22} color="#5D8C7B" />
               </View>
-              <Text style={tw`text-2xl font-bold text-gray-800`}>{plants.length}</Text>
-              <Text style={tw`text-gray-400 text-xs font-medium`}>Plantas</Text>
+              <Text style={tw`text-3xl font-bold text-gray-900`}>{plants.length}</Text>
+              <Text style={tw`text-gray-500 text-sm font-medium mt-1`}>Plantas</Text>
             </View>
 
-            <View style={tw`w-[48%] bg-white p-5 rounded-3xl shadow-sm mb-3 border border-gray-50`}>
-              <View style={tw`bg-sky-50 w-10 h-10 rounded-xl items-center justify-center mb-3`}>
-                <CheckCircle2 size={20} color="#0EA5E9" />
+            <View style={tw`flex-1 bg-gradient-to-br from-blue-50 to-white p-6 rounded-3xl shadow-md border border-blue-100`}>
+              <View style={tw`bg-blue-100 w-11 h-11 rounded-xl items-center justify-center mb-4`}>
+                <CheckCircle2 size={22} color="#0EA5E9" />
               </View>
-              <Text style={tw`text-2xl font-bold text-gray-800`}>{totalTasks}</Text>
-              <Text style={tw`text-gray-400 text-xs font-medium`}>Ações</Text>
+              <Text style={tw`text-3xl font-bold text-gray-900`}>{totalTasks}</Text>
+              <Text style={tw`text-gray-500 text-sm font-medium mt-1`}>Ações</Text>
             </View>
           </View>
         </View>
 
         {/* Histórico Recente */}
         <View style={tw`px-5 pb-10`}>
-            <View style={tw`flex-row items-center mb-4`}>
-                <History size={20} color="#374151" />
-                <Text style={tw`text-lg font-bold text-gray-800 ml-2`}>Histórico Global</Text>
+            <View style={tw`flex-row items-center mb-5`}>
+                <View style={tw`bg-orange-50 p-2.5 rounded-full mr-3`}>
+                    <History size={20} color="#f97316" />
+                </View>
+                <View>
+                    <Text style={tw`text-lg font-bold text-gray-800`}>Histórico Global</Text>
+                    <Text style={tw`text-xs text-gray-500 mt-0.5`}>Últimas atividades com suas plantas</Text>
+                </View>
             </View>
-            
-            <View style={tw`bg-white rounded-2xl p-2 shadow-sm border border-gray-100`}>
+
+            <View style={tw`bg-white rounded-3xl p-4 shadow-md border border-gray-100`}>
                 {history.slice(0, 10).map((item) => (
-                    <View key={item.id} style={tw`p-3 border-b border-gray-50 flex-row items-center justify-between last:border-0`}>
-                        <View style={tw`flex-row items-center`}>
-                            <View style={tw`bg-gray-50 p-2 rounded-full mr-3`}>
+                    <View key={item.id} style={tw`p-4 border-b border-gray-50 flex-row items-center justify-between last:border-0`}>
+                        <View style={tw`flex-row items-center flex-1`}>
+                            <View style={tw`bg-gray-100 p-2.5 rounded-full mr-4`}>
                                 {getTaskIcon(item.type)}
                             </View>
                             <View>
-                                <Text style={tw`text-gray-800 font-medium`}>{item.plant_name}</Text>
-                                <Text style={tw`text-gray-400 text-xs capitalize`}>
-                                    {item.type === 'water' ? 'Rega' : item.type === 'fertilize' ? 'Adubo' : item.type}
+                                <Text style={tw`text-gray-800 font-semibold`}>{item.plant_name}</Text>
+                                <Text style={tw`text-gray-500 text-xs font-medium mt-0.5`}>
+                                    {item.type === 'water' ? '💧 Rega' : item.type === 'prune' ? '✂️ Poda' : item.type === 'repot' ? '🏺 Replantio' : item.type === 'fertilize' ? '🌿 Adubo' : item.type}
                                 </Text>
                             </View>
                         </View>
-                        <Text style={tw`text-gray-400 text-xs`}>
+                        <Text style={tw`text-gray-400 text-xs font-medium`}>
                             {new Date(item.date_performed).toLocaleDateString('pt-BR', {day: '2-digit', month: 'short'})}
                         </Text>
                     </View>
                 ))}
                 {history.length === 0 && (
-                    <Text style={tw`p-4 text-center text-gray-400`}>Nenhuma atividade registrada ainda.</Text>
+                    <Text style={tw`p-6 text-center text-gray-400 font-medium`}>Nenhuma atividade registrada ainda.</Text>
                 )}
             </View>
         </View>
