@@ -82,6 +82,8 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
           const newSettings = { times };
           await AsyncStorage.setItem(NOTIFICATION_SETTINGS_KEY, JSON.stringify(newSettings));
           setNotificationSettings(newSettings);
+          // Resync notifications when user changes preferred times
+          await resyncNotifications();
       } catch (e) {
           console.error("Failed to save notification settings", e);
       }
@@ -144,10 +146,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       const plantsData = await PlantDAO.getPlants();
       const tasksData = await TaskDAO.getDueTasks();
       setPlants(plantsData);
-      setDueTasks(tasksData.rows?._array || []); 
-
-      // Resync notifications whenever data is loaded to ensure consistency
-      resyncNotifications();
+      setDueTasks(tasksData.rows?._array || []);
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
     } finally {
@@ -166,7 +165,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
         pot_material: plantData.pot_material,
         drainage: plantData.drainage
       });
-      
+
       if (result.insertId) {
         const plantId = result.insertId;
 
@@ -193,16 +192,12 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
               frequency_days: task.freq,
               next_due: nextDue.toISOString()
             });
-
-            // Agenda a notificação
-            const targetDates = calculateTargetDate(task.freq);
-            for (const date of targetDates) {
-                await NotificationService.scheduleWateringReminder(plantData.name, date, task.type);
-            }
           }
         }
       }
       await loadData();
+      // Resync notifications AFTER data is loaded to reflect new tasks
+      await resyncNotifications();
     } catch (error) {
       console.error(error);
       Alert.alert("Erro", "Falha ao adicionar planta.");
@@ -213,6 +208,8 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     try {
       await PlantDAO.deletePlant(id);
       await loadData();
+      // Resync notifications AFTER plant is deleted
+      await resyncNotifications();
     } catch (error) {
       console.error(error);
     }
@@ -225,6 +222,8 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
           await TaskDAO.updateTaskFrequency(plant.id, 'water', frequency);
       }
       await loadData();
+      // Resync notifications AFTER plant is updated
+      await resyncNotifications();
     } catch (error) {
       console.error("Erro ao atualizar planta:", error);
       Alert.alert("Erro", "Falha ao atualizar planta.");
@@ -235,6 +234,8 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
     try {
       await TaskDAO.deleteTask(taskId);
       await loadData();
+      // Resync notifications AFTER data is updated
+      await resyncNotifications();
     } catch (error) {
       console.error("Erro ao deletar tarefa:", error);
       Alert.alert("Erro", "Falha ao deletar tarefa.");
@@ -244,16 +245,9 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
   const addTaskToPlant = async (task: Task) => {
     try {
       await TaskDAO.addTask(task);
-      if (task.next_due) {
-          const due = new Date(task.next_due);
-          // Ensure we don't schedule if it's already past, although NotificationService might handle it.
-          // Using Date object directly avoids the seconds calculation issue.
-          if (due > new Date()) {
-             const plant = plants.find(p => p.id === task.plant_id);
-             if(plant) await NotificationService.scheduleWateringReminder(plant.name, due, task.type);
-          }
-      }
       await loadData();
+      // Resync notifications AFTER data is loaded
+      await resyncNotifications();
     } catch (error) {
       console.error(error);
       Alert.alert("Erro", "Falha ao adicionar tarefa extra.");
@@ -273,13 +267,9 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
   const snoozeTask = async (taskId: number, days: number, plantName?: string, taskType?: string) => {
     try {
       await TaskDAO.snoozeTask(taskId, days);
-      if (plantName) {
-         const targetDates = calculateTargetDate(days);
-         for (const date of targetDates) {
-            await NotificationService.scheduleWateringReminder(plantName, date, taskType || 'water');
-         }
-      }
       await loadData();
+      // Resync notifications AFTER data is updated
+      await resyncNotifications();
     } catch (error) {
       console.error(error);
     }
@@ -288,10 +278,12 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
   const completeAllInRoom = async (room: string) => {
     try {
       const tasksInRoom = dueTasks.filter(t => t.room === room);
-      const promises = tasksInRoom.map(t => 
-        completeTask(t.id, t.frequency_days, t.plant_name, t.type)
-      );
-      await Promise.all(promises);
+      for (const task of tasksInRoom) {
+        await TaskDAO.completeTask(task.id, task.frequency_days);
+      }
+      await loadData();
+      // Single resync AFTER all tasks in room are completed
+      await resyncNotifications();
       Alert.alert("Sucesso", `Todas as plantas da ${room} foram cuidadas! 🌱`);
     } catch (error) {
       console.error(error);
@@ -301,16 +293,10 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
 
   const completeTask = async (taskId: number, frequency: number, plantName?: string, type: string = 'water') => {
     try {
-      // Primeiro completamos a tarefa no banco
       await TaskDAO.completeTask(taskId, frequency);
-
-      if (plantName && frequency > 0) {
-          const targetDates = calculateTargetDate(frequency);
-          for (const date of targetDates) {
-             await NotificationService.scheduleWateringReminder(plantName, date, type);
-          }
-      }
       await loadData();
+      // Resync notifications AFTER data is updated
+      await resyncNotifications();
     } catch (error) {
       console.error(error);
     }
@@ -373,8 +359,12 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    loadData();
-    NotificationService.requestPermissions();
+    const initializeApp = async () => {
+      await loadData();
+      await resyncNotifications();
+      NotificationService.requestPermissions();
+    };
+    initializeApp();
   }, []);
 
   const value = React.useMemo(() => ({
