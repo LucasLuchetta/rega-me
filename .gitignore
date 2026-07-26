@@ -49,3 +49,8 @@ google-play-*.json
 .dev.vars*
 !.dev.vars.example
 !.env.example
+
+# O pnpm 11 recria este arquivo sozinho para registrar build scripts, mas o
+# pnpm 10 do build da Cloudflare rejeita um workspace sem o campo "packages".
+# As permissões ficam em package.json > pnpm.onlyBuiltDependencies.
+pnpm-workspace.yaml
