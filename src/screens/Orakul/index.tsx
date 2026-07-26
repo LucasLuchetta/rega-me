@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, FlatList, RefreshControl, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, FlatList, RefreshControl, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TaskDAO } from '../../database/TaskDAO';
 import { usePlants } from '../../contexts/PlantContext';
-import { CalendarDays, Droplets, Sprout, Scissors, ShieldAlert, Box, Check, Clock } from 'lucide-react-native';
+import { Droplets, Sprout, Scissors, ShieldAlert, Box, Check } from 'lucide-react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Alert } from 'react-native';
 import tw from '../../utils/tw';
+import { teardrop } from '../../utils/shape';
 
 export default function Orakul() {
   const [futureTasks, setFutureTasks] = useState<any[]>([]);
@@ -17,7 +18,6 @@ export default function Orakul() {
   const loadFuture = async () => {
     setLoading(true);
     try {
-      // Carrega 14 dias para garantir
       const result: any = await TaskDAO.getFutureTasks(14);
       setFutureTasks(result.rows?._array || []);
     } catch (error) { console.error(error); } finally { setLoading(false); }
@@ -28,32 +28,40 @@ export default function Orakul() {
   const getNextDays = (days: number) => {
     const dates = [];
     for (let i = 0; i < days; i++) {
-        const d = new Date();
-        d.setDate(d.getDate() + i);
-        dates.push(d);
+      const d = new Date();
+      d.setDate(d.getDate() + i);
+      dates.push(d);
     }
     return dates;
   };
 
   const daysList = getNextDays(7);
 
-  // Filtrar tarefas para o dia selecionado
   const filteredTasks = futureTasks.filter(task => {
-      const taskDate = new Date(task.next_due).toISOString().split('T')[0];
-      const selDate = selectedDate.toISOString().split('T')[0];
-      return taskDate === selDate;
+    const taskDate = new Date(task.next_due).toISOString().split('T')[0];
+    const selDate = selectedDate.toISOString().split('T')[0];
+    return taskDate === selDate;
   });
 
-  const getIcon = (type: string) => {
-      switch(type) {
-          case 'water': return <Droplets size={20} color="#4ade80" />;
-          case 'fertilize': return <Sprout size={20} color="#eab308" />;
-          case 'prune': return <Scissors size={20} color="#ef4444" />;
-          case 'mist': return <Droplets size={20} color="#38bdf8" />; // Sky Blue for mist
-          case 'pesticide': return <ShieldAlert size={20} color="#9333ea" />; // Purple for pesticide
-          case 'repot': return <Box size={20} color="#f97316" />;
-          default: return <Droplets size={20} color="#4ade80" />;
-      }
+  const TASK_STYLES: Record<string, { icon: any; color: string; bg: string }> = {
+    water: { icon: Droplets, color: '#D98F5F', bg: '#FBEEE3' },
+    fertilize: { icon: Sprout, color: '#7C9B72', bg: '#EAF1E4' },
+    prune: { icon: Scissors, color: '#C2705A', bg: '#F6E4DF' },
+    mist: { icon: Droplets, color: '#6FA5AE', bg: '#E4F1F3' },
+    pesticide: { icon: ShieldAlert, color: '#9333ea', bg: '#F3E8FF' },
+    repot: { icon: Box, color: '#B0834A', bg: '#F1E7D6' },
+  };
+
+  const translateType = (type: string) => {
+    switch (type) {
+      case 'water': return 'Rega';
+      case 'fertilize': return 'Adubo';
+      case 'prune': return 'Poda';
+      case 'mist': return 'Borrifar';
+      case 'pesticide': return 'Pesticida';
+      case 'repot': return 'Troca de Vaso';
+      default: return type;
+    }
   };
 
   const handleTaskAction = (task: any) => {
@@ -74,119 +82,97 @@ export default function Orakul() {
     );
   };
 
-  const translateType = (type: string) => {
-    switch(type) {
-      case 'water': return 'Rega';
-      case 'fertilize': return 'Adubo';
-      case 'prune': return 'Poda';
-      case 'mist': return 'Borrifar';
-      case 'pesticide': return 'Pesticida';
-      case 'repot': return 'Troca de Vaso';
-      default: return type;
-    }
+  const renderItem = ({ item }: { item: any }) => {
+    const config = TASK_STYLES[item.type] || TASK_STYLES.water;
+    const Icon = config.icon;
+    return (
+      <View style={[tw`p-4 rounded-3xl mb-3 flex-row items-center justify-between`, { backgroundColor: config.bg }]}>
+        <TouchableOpacity onPress={() => handleTaskAction(item)} style={tw`flex-1 flex-row items-center`}>
+          <View style={[tw`items-center justify-center bg-white mr-3.5`, teardrop(44, 14)]}>
+            <Icon size={18} color={config.color} />
+          </View>
+          <View style={tw`flex-1`}>
+            <Text style={[tw`font-bold text-[15px]`, { color: '#3E2A1B' }]}>{item.plant_name}</Text>
+            <Text style={[tw`text-xs mt-0.5`, { color: '#B08A63' }]}>{translateType(item.type)}</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={async () => {
+            await completeTask(item.id, item.frequency_days, item.plant_name, item.type);
+            loadFuture();
+          }}
+          style={tw`w-10 h-10 bg-white rounded-full items-center justify-center ml-2`}
+        >
+          <Check size={18} color={config.color} />
+        </TouchableOpacity>
+      </View>
+    );
   };
 
-  const renderItem = ({ item }: { item: any }) => (
-    <View style={tw`bg-white p-4 rounded-xl mb-3 flex-row items-center border border-gray-100 border-l-4 border-l-sage-500 justify-between`}>
-      <TouchableOpacity
-        onPress={() => handleTaskAction(item)}
-        style={tw`flex-1 flex-row items-center`}
-      >
-        <View style={tw`mr-4 items-center justify-center bg-gray-100 w-12 h-12 rounded-lg`}>
-           {getIcon(item.type)}
-        </View>
-        <View style={tw`flex-1`}>
-          <Text style={tw`font-bold text-gray-800 text-lg`}>{item.plant_name}</Text>
-          <Text style={tw`text-gray-500 uppercase text-xs font-semibold tracking-wider`}>
-            {translateType(item.type)}
-          </Text>
-        </View>
-      </TouchableOpacity>
-
-      {/* Botão de Check Rápido (1 Touch) */}
-      <TouchableOpacity
-        onPress={async () => {
-          // Feedback tátil ou visual simples antes de recarregar
-          await completeTask(item.id, item.frequency_days, item.plant_name, item.type);
-          loadFuture();
-        }}
-        style={tw`h-12 w-12 bg-sage-50 rounded-full items-center justify-center border border-sage-200 ml-2`}
-      >
-        <Check size={24} color="#38544A" />
-      </TouchableOpacity>
-    </View>
-  );
-
   return (
-    <SafeAreaView style={tw`flex-1 bg-gray-50`}>
-      <View style={tw`flex-1 pt-5`}>
-        <View style={tw`px-5 mb-6 flex-row items-center`}>
-          <CalendarDays color="#166534" size={28} />
-          <Text style={tw`text-2xl font-bold text-gray-800 ml-3`}>Calendário</Text>
+    <SafeAreaView style={tw`flex-1 bg-white`}>
+      <View style={tw`flex-1 pt-6`}>
+        <View style={tw`px-6 mb-6`}>
+          <Text style={tw`text-stone-400 text-[11px] font-label uppercase tracking-[2px] mb-2`}>Agenda</Text>
+          <Text style={tw`text-3xl font-light text-stone-900`}>Calendário</Text>
         </View>
 
-        {/* Timeline Horizontal */}
-        <View style={tw`mb-6 pl-5`}>
-            {/* O padding vertical evita que a elevação dos cartões seja cortada
-                pela borda do ScrollView, o que no Android vira uma faixa escura. */}
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingRight: 20, paddingVertical: 6 }}
-            >
-                {daysList.map((date, index) => {
-                    const isSelected = date.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0];
-                    const dateStr = date.toISOString().split('T')[0];
-                    const hasTask = futureTasks.some(t => t.next_due.startsWith(dateStr));
+        {/* Day picker */}
+        <View style={tw`mb-6 pl-6`}>
+          <FlatList
+            data={daysList}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(_, i) => i.toString()}
+            contentContainerStyle={{ paddingRight: 24 }}
+            renderItem={({ item: date }) => {
+              const isSelected = date.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0];
+              const dateStr = date.toISOString().split('T')[0];
+              const hasTask = futureTasks.some(t => t.next_due.startsWith(dateStr));
 
-                    return (
-                        <TouchableOpacity 
-                            key={index}
-                            onPress={() => setSelectedDate(date)}
-                            activeOpacity={0.7}
-                            style={tw`items-center justify-center w-20 h-24 rounded-2xl mr-3 border ${isSelected ? 'bg-sage-500 border-sage-600' : 'bg-white border-gray-100'}`}
-                        >
-                            <Text style={tw`text-xs mb-1 font-medium capitalize ${isSelected ? 'text-sage-50' : 'text-gray-400'}`}>
-                                {date.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '')}
-                            </Text>
-                            <Text
-                                style={tw`text-xl font-bold text-center ${isSelected ? 'text-white' : 'text-gray-800'}`}
-                                numberOfLines={1}
-                                adjustsFontSizeToFit
-                                minimumFontScale={0.5}
-                            >
-                                {date.getDate()}
-                            </Text>
-                            <View style={tw`mt-2 h-1.5 w-1.5 rounded-full ${hasTask ? (isSelected ? 'bg-white' : 'bg-sage-500') : 'bg-transparent'}`} />
-                        </TouchableOpacity>
-                    );
-                })}
-            </ScrollView>
+              return (
+                <TouchableOpacity
+                  onPress={() => setSelectedDate(date)}
+                  activeOpacity={0.7}
+                  style={tw`items-center justify-center w-14 py-2.5 rounded-2xl mr-2.5 ${isSelected ? 'bg-stone-900' : 'bg-stone-50'}`}
+                >
+                  <Text style={tw`text-[10px] mb-1 font-medium capitalize ${isSelected ? 'text-stone-300' : 'text-stone-400'}`}>
+                    {date.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '')}
+                  </Text>
+                  <Text style={tw`text-base font-bold ${isSelected ? 'text-white' : 'text-stone-900'}`}>
+                    {date.getDate()}
+                  </Text>
+                  <View style={[tw`mt-1.5 h-1.5 w-1.5 rounded-full`, { backgroundColor: hasTask ? (isSelected ? '#fff' : '#7C9B72') : 'transparent' }]} />
+                </TouchableOpacity>
+              );
+            }}
+          />
         </View>
 
-        <View style={tw`flex-1 px-5`}>
-            <Text style={tw`text-gray-500 mb-4 font-medium`}>
-                Tarefas para {selectedDate.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' })}
-            </Text>
-            
-            {filteredTasks.length === 0 ? (
-            <View style={tw`flex-1 justify-center items-center opacity-50 pb-20`}>
-                <View style={tw`bg-gray-200 p-4 rounded-full mb-4`}>
-                    <Sprout size={32} color="#9ca3af" />
-                </View>
-                <Text style={tw`text-lg text-gray-400 font-medium`}>Dia livre de regas! 🎉</Text>
-                <Text style={tw`text-sm text-gray-400 mt-1`}>Aproveite para admirar seu jardim.</Text>
+        <View style={tw`flex-1 px-6`}>
+          <Text style={tw`text-stone-400 mb-4 text-xs uppercase tracking-[1px] font-label`}>
+            {selectedDate.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' })}
+          </Text>
+
+          {filteredTasks.length === 0 ? (
+            <View style={tw`flex-1 justify-center items-center pb-24`}>
+              <View style={[tw`bg-stone-50 items-center justify-center mb-4`, teardrop(64, 20)]}>
+                <Text style={{ fontSize: 26 }}>🌿</Text>
+              </View>
+              <Text style={tw`text-[15px] text-stone-900 font-medium`}>Dia livre de regas</Text>
+              <Text style={tw`text-sm text-stone-400 mt-1`}>Aproveite para admirar seu jardim.</Text>
             </View>
-            ) : (
+          ) : (
             <FlatList
-                data={filteredTasks} 
-                keyExtractor={(item) => item.id.toString()} 
-                renderItem={renderItem}
-                refreshControl={<RefreshControl refreshing={loading} onRefresh={loadFuture} colors={['#4ade80']} />}
-                contentContainerStyle={{ paddingBottom: 20 }}
-                showsVerticalScrollIndicator={false}
+              data={filteredTasks}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={renderItem}
+              refreshControl={<RefreshControl refreshing={loading} onRefresh={loadFuture} colors={['#7C9B72']} />}
+              contentContainerStyle={{ paddingBottom: 20 }}
+              showsVerticalScrollIndicator={false}
             />
-            )}
+          )}
         </View>
       </View>
     </SafeAreaView>

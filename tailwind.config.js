@@ -4,33 +4,33 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Digital Sanctuary Palette
+        // Minimal Orgânico Palette — warm off-white, ink text, moss green accent
         sage: {
-          50: '#F4F7F5',
-          100: '#E3EBE6',
-          200: '#C5D6CD',
-          300: '#A3BFB0',
-          400: '#82A894',
-          500: '#5D8C7B', // Primary: Sage Green
-          600: '#4A7062',
-          700: '#38544A',
-          800: '#263831',
-          900: '#151F1B',
+          50: '#FDFDFC',
+          100: '#F5F5F4',
+          200: '#EFEFEA',
+          300: '#D6D6CC',
+          400: '#A6A69E',
+          500: '#8B9A7F',
+          600: '#7C9B72', // Primary: Moss Green
+          700: '#5F7C57',
+          800: '#3F5238',
+          900: '#232320', // Ink
         },
         clay: {
           50: '#FDF8F5',
-          100: '#FAEEE6',
+          100: '#FBEEE3', // Terracotta task surface
           200: '#F5DAC8',
           300: '#EFC5AA',
           400: '#EAA18C',
-          500: '#E59866', // Secondary: Terracotta
-          600: '#B77A52',
+          500: '#D98F5F', // Secondary: Terracotta
+          600: '#B08A63',
           700: '#895B3D',
-          800: '#6D462F',
+          800: '#3E2A1B',
           900: '#422A1C',
         },
         canvas: {
-          DEFAULT: '#FAF9F6', // Off-white / Recycled Paper
+          DEFAULT: '#FDFDFC', // Off-white linen
           dark: '#F0EFE9',
         },
         charcoal: {
@@ -39,13 +39,13 @@ module.exports = {
           dark: '#1E1E1E',
         },
         // Semantic aliases
-        primary: '#5D8C7B',
-        secondary: '#E59866',
-        background: '#FAF9F6',
+        primary: '#7C9B72',
+        secondary: '#D98F5F',
+        background: '#FDFDFC',
         surface: '#FFFFFF',
         text: {
-          primary: '#2E2E2E', // Charcoal
-          secondary: '#6B7280',
+          primary: '#232320',
+          secondary: '#A6A69E',
         },
 
         // Keep existing colors for backward compatibility
@@ -97,6 +97,9 @@ module.exports = {
         body: ['Lato_400Regular', 'sans-serif'],
         sans: ['Lato_400Regular', 'System', 'sans-serif'], // Default to Lato
         serif: ['PlayfairDisplay_400Regular', 'Georgia', 'serif'],
+        // Editorial minimal headline weight used in the "Minimal Orgânico" redesign
+        light: ['Lato_300Light', 'System', 'sans-serif'],
+        label: ['Montserrat_600SemiBold', 'sans-serif'],
       },
       borderRadius: {
         '4xl': '32px',

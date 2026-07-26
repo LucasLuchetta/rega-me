@@ -51,7 +51,7 @@ export default function RoomDetail() {
             <TouchableOpacity onPress={() => navigation.goBack()} style={tw`bg-surface p-2 rounded-full`}>
                 <ArrowLeft size={24} color={tw.color('text-primary')} />
             </TouchableOpacity>
-            <Text style={tw`text-xl font-serif font-bold text-text-primary`}>{room}</Text>
+            <Text style={tw`text-xl font-bold text-text-primary`}>{room}</Text>
             <View style={{ width: 40 }} />
         </View>
 

@@ -22,23 +22,23 @@ function GardenStack() {
         component={Dashboard} 
         options={{ headerShown: false }} 
       />
-      <Stack.Screen 
-        name="AddPlant" 
-        component={AddPlant} 
-        options={{ 
+      <Stack.Screen
+        name="AddPlant"
+        component={AddPlant}
+        options={{
           title: 'Nova Planta',
           headerStyle: { backgroundColor: '#fff' },
-          headerTintColor: '#166534', 
-        }} 
+          headerTintColor: '#7C9B72',
+        }}
       />
-      <Stack.Screen 
-        name="PlantDetails" 
-        component={PlantDetails} 
-        options={{ 
+      <Stack.Screen
+        name="PlantDetails"
+        component={PlantDetails}
+        options={{
           title: 'Detalhes',
           headerStyle: { backgroundColor: '#fff' },
-          headerTintColor: '#166534', 
-        }} 
+          headerTintColor: '#7C9B72',
+        }}
       />
       <Stack.Screen
         name="RoomDetail"
@@ -54,9 +54,15 @@ export default function AppNavigator() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#166534',
-        tabBarInactiveTintColor: '#9ca3af',
-        tabBarStyle: { paddingBottom: 5, height: 60 },
+        tabBarActiveTintColor: '#7C9B72',
+        tabBarInactiveTintColor: '#C6C6BE',
+        tabBarLabelStyle: { fontSize: 10, fontWeight: '600' },
+        tabBarStyle: {
+          paddingBottom: 5,
+          height: 60,
+          backgroundColor: '#FDFDFC',
+          borderTopColor: '#F0F0EB',
+        },
       }}
     >
       <Tab.Screen 

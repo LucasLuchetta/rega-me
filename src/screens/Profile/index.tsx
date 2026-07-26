@@ -5,6 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { usePlants } from '../../contexts/PlantContext';
 import { History, Droplets, Scissors, Box, CheckCircle2, Sprout, User, Bell, BellOff, Plus, Trash2, Send } from 'lucide-react-native';
 import tw from '../../utils/tw';
+import { teardrop } from '../../utils/shape';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NotificationService } from '../../services/NotificationService';
 
@@ -96,7 +97,6 @@ export default function Profile() {
   };
 
   const addTime = () => {
-    // Sugere um horário diferente dos que já existem
     const suggestion = ['08:00', '12:00', '18:00', '21:00'].find(t => !times.includes(t)) || '08:00';
     commitTimes([...times, suggestion]);
   };
@@ -134,31 +134,33 @@ export default function Profile() {
 
   const getTaskIcon = (type: string) => {
     switch (type) {
-      case 'water': return <Droplets size={16} color="#3b82f6" />;
-      case 'prune': return <Scissors size={16} color="#ef4444" />;
-      case 'repot': return <Box size={16} color="#f97316" />;
-      default: return <CheckCircle2 size={16} color="#166534" />;
+      case 'water': return <Droplets size={15} color="#D98F5F" />;
+      case 'prune': return <Scissors size={15} color="#C2705A" />;
+      case 'repot': return <Box size={15} color="#B0834A" />;
+      default: return <CheckCircle2 size={15} color="#7C9B72" />;
     }
   };
 
   const notificationsOff = permission !== 'granted';
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-canvas`}>
+    <SafeAreaView style={tw`flex-1 bg-white`}>
       <ScrollView
         contentContainerStyle={{ paddingBottom: 24 }}
         refreshControl={<RefreshControl refreshing={loading} onRefresh={loadData} />}
         keyboardShouldPersistTaps="handled"
       >
         {/* Cabeçalho */}
-        <View style={tw`px-6 pt-8 pb-6`}>
-          <Text style={tw`text-sage-500 text-xs font-bold uppercase tracking-widest mb-1`}>Perfil</Text>
-          <View style={tw`flex-row items-center bg-white px-4 py-3 rounded-2xl border border-sage-100`}>
-            <User size={20} color="#5D8C7B" />
+        <View style={tw`px-6 pt-6 pb-6`}>
+          <Text style={tw`text-stone-400 text-[11px] font-label uppercase tracking-[2px] mb-4`}>Perfil</Text>
+          <View style={tw`flex-row items-center bg-stone-50 px-4 py-3.5 rounded-2xl`}>
+            <View style={[tw`bg-white items-center justify-center mr-3`, teardrop(32, 10)]}>
+              <User size={16} color="#7C9B72" />
+            </View>
             <TextInput
-              style={tw`flex-1 ml-3 text-lg text-sage-900 font-bold`}
+              style={tw`flex-1 text-[15px] text-stone-900 font-medium`}
               placeholder="Como quer ser chamado?"
-              placeholderTextColor="#9CA3AF"
+              placeholderTextColor="#A8A29E"
               value={name}
               onChangeText={saveName}
               accessibilityLabel="Seu nome"
@@ -168,14 +170,14 @@ export default function Profile() {
 
         {/* Notificações */}
         <View style={tw`px-6 mb-6`}>
-          <View style={tw`bg-white p-6 rounded-3xl border border-sage-100`}>
+          <View style={tw`bg-stone-50 p-5 rounded-3xl`}>
             <View style={tw`flex-row items-center mb-1`}>
-              <View style={tw`bg-sage-50 p-2.5 rounded-full mr-3`}>
-                {notificationsOff ? <BellOff size={22} color="#B77A52" /> : <Bell size={22} color="#5D8C7B" />}
+              <View style={[tw`bg-white items-center justify-center mr-3`, teardrop(38, 12)]}>
+                {notificationsOff ? <BellOff size={18} color="#B08A63" /> : <Bell size={18} color="#7C9B72" />}
               </View>
               <View style={tw`flex-1`}>
-                <Text style={tw`text-lg font-bold text-sage-900`}>Horários dos lembretes</Text>
-                <Text style={tw`text-xs text-gray-500 mt-0.5`}>
+                <Text style={tw`text-[15px] font-medium text-stone-900`}>Horários dos lembretes</Text>
+                <Text style={tw`text-xs text-stone-400 mt-0.5`}>
                   Nos dias de cuidado, você é avisado nestes horários
                 </Text>
               </View>
@@ -184,11 +186,11 @@ export default function Profile() {
             {notificationsOff && (
               <TouchableOpacity
                 onPress={() => Linking.openSettings()}
-                style={tw`bg-clay-50 border border-clay-200 rounded-2xl p-4 mt-4`}
+                style={[tw`rounded-2xl p-4 mt-4`, { backgroundColor: '#FBEEE3' }]}
                 accessibilityRole="button"
               >
-                <Text style={tw`text-clay-800 font-bold mb-1`}>Notificações desligadas</Text>
-                <Text style={tw`text-clay-700 text-xs leading-5`}>
+                <Text style={[tw`font-bold mb-1`, { color: '#3E2A1B' }]}>Notificações desligadas</Text>
+                <Text style={[tw`text-xs leading-5`, { color: '#B08A63' }]}>
                   Sem elas o app não consegue avisar na hora da rega. Toque para liberar nas
                   configurações do aparelho.
                 </Text>
@@ -197,24 +199,24 @@ export default function Profile() {
 
             <View style={tw`mt-5`}>
               {times.map((time, index) => (
-                <View key={`${time}-${index}`} style={tw`flex-row items-center mb-3`}>
+                <View key={`${time}-${index}`} style={tw`flex-row items-center mb-2.5`}>
                   <TouchableOpacity
                     onPress={() => setEditingIndex(index)}
-                    style={tw`flex-1 bg-sage-50 px-4 py-4 rounded-2xl border border-sage-100 mr-3`}
+                    style={tw`flex-1 bg-white px-4 py-4 rounded-2xl mr-2.5`}
                     accessibilityRole="button"
                     accessibilityLabel={`Alterar o horário ${time}`}
                   >
-                    <Text style={tw`font-bold text-sage-900 text-2xl text-center`}>{time}</Text>
+                    <Text style={tw`font-medium text-stone-900 text-2xl text-center`}>{time}</Text>
                   </TouchableOpacity>
 
                   {times.length > 1 && (
                     <TouchableOpacity
                       onPress={() => removeTime(index)}
-                      style={tw`p-4 bg-white rounded-2xl border border-gray-200`}
+                      style={tw`w-14 h-14 bg-white rounded-2xl items-center justify-center`}
                       accessibilityRole="button"
                       accessibilityLabel={`Remover o horário ${time}`}
                     >
-                      <Trash2 size={20} color="#9CA3AF" />
+                      <Trash2 size={18} color="#C6C6BE" />
                     </TouchableOpacity>
                   )}
                 </View>
@@ -223,27 +225,27 @@ export default function Profile() {
 
             <TouchableOpacity
               onPress={addTime}
-              style={tw`flex-row items-center justify-center p-3.5 rounded-2xl border-2 border-dashed border-sage-200`}
+              style={tw`flex-row items-center justify-center p-3.5 rounded-2xl border-[1.5px] border-dashed border-stone-300`}
               accessibilityRole="button"
             >
-              <Plus size={20} color="#5D8C7B" />
-              <Text style={tw`text-sage-600 font-bold ml-2`}>Adicionar horário</Text>
+              <Plus size={18} color="#7C9B72" />
+              <Text style={[tw`font-bold ml-2 text-sm`, { color: '#7C9B72' }]}>Adicionar horário</Text>
             </TouchableOpacity>
 
-            <View style={tw`h-px bg-gray-100 my-5`} />
+            <View style={tw`h-px bg-stone-200 my-5`} />
 
             <TouchableOpacity
               onPress={handleTest}
               disabled={testing}
-              style={tw`flex-row items-center justify-center bg-sage-500 p-4 rounded-2xl ${testing ? 'opacity-60' : ''}`}
+              style={[tw`flex-row items-center justify-center p-4 rounded-2xl ${testing ? 'opacity-60' : ''}`, { backgroundColor: '#7C9B72' }]}
               accessibilityRole="button"
             >
               {testing
                 ? <ActivityIndicator color="white" />
-                : <Send size={18} color="white" />}
+                : <Send size={16} color="white" />}
               <Text style={tw`text-white font-bold ml-2`}>Testar notificação</Text>
             </TouchableOpacity>
-            <Text style={tw`text-xs text-gray-500 text-center mt-3 leading-5`}>
+            <Text style={tw`text-xs text-stone-400 text-center mt-3 leading-5`}>
               {scheduledCount > 0
                 ? `${scheduledCount} ${scheduledCount === 1 ? 'lembrete agendado' : 'lembretes agendados'}. Faça o teste para confirmar que eles chegam no seu aparelho.`
                 : 'Nenhum lembrete agendado ainda — eles aparecem quando suas plantas têm cuidados marcados.'}
@@ -263,45 +265,45 @@ export default function Profile() {
 
         {/* Números do jardim */}
         <View style={tw`px-6 mb-6 flex-row gap-3`}>
-          <View style={tw`flex-1 bg-white p-5 rounded-3xl border border-sage-100`}>
-            <View style={tw`bg-sage-50 w-11 h-11 rounded-xl items-center justify-center mb-3`}>
-              <Sprout size={22} color="#5D8C7B" />
+          <View style={tw`flex-1 bg-stone-50 p-5 rounded-3xl`}>
+            <View style={[tw`bg-white items-center justify-center mb-3`, teardrop(40, 12)]}>
+              <Sprout size={18} color="#7C9B72" />
             </View>
-            <Text style={tw`text-3xl font-bold text-sage-900`}>{plants.length}</Text>
-            <Text style={tw`text-gray-500 text-sm font-medium mt-1`}>Plantas</Text>
+            <Text style={tw`text-3xl font-light text-stone-900`}>{plants.length}</Text>
+            <Text style={tw`text-stone-400 text-sm font-medium mt-0.5`}>Plantas</Text>
           </View>
 
-          <View style={tw`flex-1 bg-white p-5 rounded-3xl border border-sage-100`}>
-            <View style={tw`bg-sage-50 w-11 h-11 rounded-xl items-center justify-center mb-3`}>
-              <CheckCircle2 size={22} color="#5D8C7B" />
+          <View style={tw`flex-1 bg-stone-50 p-5 rounded-3xl`}>
+            <View style={[tw`bg-white items-center justify-center mb-3`, teardrop(40, 12)]}>
+              <CheckCircle2 size={18} color="#7C9B72" />
             </View>
-            <Text style={tw`text-3xl font-bold text-sage-900`}>{history.length}</Text>
-            <Text style={tw`text-gray-500 text-sm font-medium mt-1`}>Cuidados</Text>
+            <Text style={tw`text-3xl font-light text-stone-900`}>{history.length}</Text>
+            <Text style={tw`text-stone-400 text-sm font-medium mt-0.5`}>Cuidados</Text>
           </View>
         </View>
 
         {/* Histórico */}
         <View style={tw`px-6`}>
           <View style={tw`flex-row items-center mb-4`}>
-            <View style={tw`bg-sage-50 p-2.5 rounded-full mr-3`}>
-              <History size={20} color="#5D8C7B" />
+            <View style={[tw`bg-stone-50 items-center justify-center mr-3`, teardrop(36, 12)]}>
+              <History size={16} color="#7C9B72" />
             </View>
-            <Text style={tw`text-lg font-bold text-sage-900`}>Últimos cuidados</Text>
+            <Text style={tw`text-[15px] font-medium text-stone-900`}>Últimos cuidados</Text>
           </View>
 
-          <View style={tw`bg-white rounded-3xl p-2 border border-sage-100`}>
+          <View style={tw`bg-stone-50 rounded-3xl p-2`}>
             {history.slice(0, 10).map((item, index) => (
               <View
                 key={item.id}
-                style={tw`p-4 flex-row items-center justify-between ${index < Math.min(history.length, 10) - 1 ? 'border-b border-gray-50' : ''}`}
+                style={tw`p-4 flex-row items-center justify-between ${index < Math.min(history.length, 10) - 1 ? 'border-b border-stone-200' : ''}`}
               >
                 <View style={tw`flex-row items-center flex-1`}>
-                  <View style={tw`bg-gray-50 p-2.5 rounded-full mr-4`}>
+                  <View style={tw`bg-white p-2.5 rounded-full mr-3.5`}>
                     {getTaskIcon(item.type)}
                   </View>
                   <View style={tw`flex-1`}>
-                    <Text style={tw`text-sage-900 font-semibold`}>{item.plant_name}</Text>
-                    <Text style={tw`text-gray-500 text-xs font-medium mt-0.5`}>
+                    <Text style={tw`text-stone-900 font-medium text-sm`}>{item.plant_name}</Text>
+                    <Text style={tw`text-stone-400 text-xs mt-0.5`}>
                       {item.type === 'water' ? '💧 Rega'
                         : item.type === 'prune' ? '✂️ Poda'
                         : item.type === 'repot' ? '🏺 Replantio'
@@ -310,13 +312,13 @@ export default function Profile() {
                     </Text>
                   </View>
                 </View>
-                <Text style={tw`text-gray-400 text-xs font-medium`}>
+                <Text style={tw`text-stone-300 text-xs font-medium`}>
                   {new Date(item.date_performed).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
                 </Text>
               </View>
             ))}
             {history.length === 0 && (
-              <Text style={tw`p-6 text-center text-gray-400 font-medium`}>
+              <Text style={tw`p-6 text-center text-stone-400 font-medium`}>
                 Nenhum cuidado registrado ainda.
               </Text>
             )}

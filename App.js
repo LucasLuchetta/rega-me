@@ -15,6 +15,7 @@ import { PlayfairDisplay_700Bold } from '@expo-google-fonts/playfair-display/700
 import { Montserrat_400Regular } from '@expo-google-fonts/montserrat/400Regular';
 import { Montserrat_600SemiBold } from '@expo-google-fonts/montserrat/600SemiBold';
 import { Montserrat_700Bold } from '@expo-google-fonts/montserrat/700Bold';
+import { Lato_300Light } from '@expo-google-fonts/lato/300Light';
 import { Lato_400Regular } from '@expo-google-fonts/lato/400Regular';
 import { Lato_700Bold } from '@expo-google-fonts/lato/700Bold';
 
@@ -34,6 +35,7 @@ export default function App() {
           Montserrat_400Regular,
           Montserrat_600SemiBold,
           Montserrat_700Bold,
+          Lato_300Light,
           Lato_400Regular,
           Lato_700Bold,
         });
