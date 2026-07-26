@@ -6,7 +6,10 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "assets": "node scripts/generate-assets.js",
+    "deploy": "wrangler deploy",
+    "site:dev": "wrangler dev"
   },
   "dependencies": {
     "@expo-google-fonts/lato": "^0.4.1",

@@ -37,13 +37,15 @@ yarn-error.*
 play-store-key.json
 google-play-*.json
 
-# Cloudflare / wrangler
-.wrangler/
-.dev.vars*
-
 # typescript
 *.tsbuildinfo
 
 # generated native folders
 /ios
 /android
+
+# Cloudflare / wrangler
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example

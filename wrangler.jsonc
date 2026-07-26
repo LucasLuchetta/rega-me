@@ -2,9 +2,15 @@
   // Site estático do Rega-me (apresentação + política de privacidade exigida
   // pela Google Play). Não há Worker: só a pasta docs/ servida como assets,
   // por isso não existe a chave "main".
+  //
+  // A autoconfiguração da Cloudflare aponta para "dist" e roda `expo export`,
+  // o que publica o app em vez do site. Não reverta para aquele formato.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "rega-me",
   "compatibility_date": "2026-07-26",
+  "observability": {
+    "enabled": true
+  },
   "assets": {
     "directory": "./docs",
     // /privacy-policy serve privacy-policy.html sem exigir a extensão
