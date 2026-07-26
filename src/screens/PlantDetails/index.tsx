@@ -131,7 +131,7 @@ export default function PlantDetails() {
 
           {/* Title Overlay na Imagem */}
           <View style={tw`absolute bottom-10 left-6 right-6`}>
-              <Text style={tw`text-white font-serif font-bold text-4xl shadow-sm mb-1`}>{plant.name}</Text>
+              <Text style={tw`text-white font-bold text-4xl shadow-sm mb-1`}>{plant.name}</Text>
               <Text style={tw`text-sage-100 text-lg italic opacity-90`}>{plant.species}</Text>
           </View>
       </View>
@@ -161,7 +161,7 @@ export default function PlantDetails() {
 
             {/* Seção Cuidado */}
             <View style={tw`flex-row justify-between items-center mb-4`}>
-                <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Cuidados</Text>
+                <Text style={tw`text-xl font-bold text-sage-900`}>Cuidados</Text>
                 <TouchableOpacity onPress={() => setModalVisible(true)} style={tw`bg-sage-100 p-2 rounded-full`}>
                     <Plus size={20} color={tw.color('sage-600')} />
                 </TouchableOpacity>
@@ -213,7 +213,7 @@ export default function PlantDetails() {
 
             {/* Fotos (Timeline Visual) */}
             <View style={tw`flex-row justify-between items-center mb-4`}>
-                 <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Diário Visual</Text>
+                 <Text style={tw`text-xl font-bold text-sage-900`}>Diário Visual</Text>
                  <TouchableOpacity onPress={pickImage} style={tw`bg-sage-100 p-2 rounded-full`}>
                      <Camera size={20} color={tw.color('sage-600')} />
                  </TouchableOpacity>
@@ -227,7 +227,7 @@ export default function PlantDetails() {
 
             {/* Histórico com Filtros */}
             <View style={tw`flex-row justify-between items-center mb-4`}>
-                <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Histórico</Text>
+                <Text style={tw`text-xl font-bold text-sage-900`}>Histórico</Text>
                 <TouchableOpacity onPress={() => {
                     Alert.alert("Filtrar por", "Escolha o tipo de ação", [
                         { text: "Todos", onPress: () => setFilterType(null) },
@@ -278,7 +278,7 @@ export default function PlantDetails() {
         <View style={tw`flex-1 justify-end bg-sage-900/50`}>
             <View style={tw`bg-white rounded-t-[32px] p-6`}>
                 <View style={tw`flex-row justify-between mb-6`}>
-                    <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Novo Cuidado</Text>
+                    <Text style={tw`text-xl font-bold text-sage-900`}>Novo Cuidado</Text>
                     <TouchableOpacity onPress={() => setModalVisible(false)}><Text style={tw`text-sage-500 font-bold`}>Cancelar</Text></TouchableOpacity>
                 </View>
                 <View style={tw`flex-row flex-wrap gap-2 mb-6`}>
@@ -329,7 +329,7 @@ export default function PlantDetails() {
                     <X size={20} color={tw.color('gray-400')} />
                 </TouchableOpacity>
 
-                <Text style={tw`text-xl font-serif font-bold text-sage-900 mb-2`}>Opções da Planta</Text>
+                <Text style={tw`text-xl font-bold text-sage-900 mb-2`}>Opções da Planta</Text>
                 <Text style={tw`text-sage-500 mb-6`}>O que deseja fazer com <Text style={tw`font-bold`}>{plant.name}</Text>?</Text>
 
                 <TouchableOpacity
@@ -376,7 +376,7 @@ export default function PlantDetails() {
                     <X size={20} color={tw.color('gray-400')} />
                 </TouchableOpacity>
 
-                <Text style={tw`text-xl font-serif font-bold text-sage-900 mb-2`}>Ação Rápida</Text>
+                <Text style={tw`text-xl font-bold text-sage-900 mb-2`}>Ação Rápida</Text>
                 <Text style={tw`text-sage-500 mb-6`}>O que fazer com <Text style={tw`font-bold`}>{CARE_TYPES.find(c => c.id === selectedTask?.type)?.label || selectedTask?.type}</Text>?</Text>
 
                 <TouchableOpacity

@@ -256,7 +256,7 @@ export default function AddPlant() {
 
         {/* Header Clean */}
         <View style={tw`flex-row items-center justify-between mb-6`}>
-             <Text style={tw`font-serif text-3xl text-sage-900`}>Nova Planta</Text>
+             <Text style={tw`text-3xl text-sage-900`}>Nova Planta</Text>
              <TouchableOpacity
                 onPress={() => navigation.goBack()}
                 style={tw`p-2 bg-gray-100 rounded-full`}
@@ -309,7 +309,7 @@ export default function AddPlant() {
         </TouchableOpacity>
 
         <View style={tw`mb-6`}>
-          <Text style={tw`text-sage-900 mb-2 font-bold text-lg font-serif`}>Sobre ela</Text>
+          <Text style={tw`text-sage-900 mb-2 font-bold text-lg`}>Sobre ela</Text>
           <TextInput 
             style={tw`bg-white border border-gray-100 rounded-xl p-4 text-sage-900 mb-3 font-medium`}
             placeholder="Nome (ex: Filó)"
@@ -327,7 +327,7 @@ export default function AddPlant() {
         </View>
 
         <View style={tw`mb-6`}>
-          <Text style={tw`text-sage-900 mb-2 font-bold text-lg font-serif`}>Onde ela vive?</Text>
+          <Text style={tw`text-sage-900 mb-2 font-bold text-lg`}>Onde ela vive?</Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -359,7 +359,7 @@ export default function AddPlant() {
 
         <View style={tw`mb-6`}>
             <View style={tw`flex-row justify-between items-center mb-4`}>
-                <Text style={tw`text-sage-900 font-bold text-lg font-serif`}>Cuidados</Text>
+                <Text style={tw`text-sage-900 font-bold text-lg`}>Cuidados</Text>
                 <TouchableOpacity onPress={() => setCareModalVisible(true)} style={tw`bg-sage-100 p-2 rounded-full`}>
                     <Plus size={20} color={tw.color('sage-600')} />
                 </TouchableOpacity>
@@ -419,7 +419,7 @@ export default function AddPlant() {
       <Modal visible={encyclopediaModalVisible} animationType="slide" presentationStyle="pageSheet">
         <View style={tw`flex-1 bg-canvas p-5`}>
             <View style={tw`flex-row justify-between items-center mb-6 mt-2`}>
-                <Text style={tw`text-2xl font-serif text-sage-900`}>Enciclopédia</Text>
+                <Text style={tw`text-2xl text-sage-900`}>Enciclopédia</Text>
                 <TouchableOpacity onPress={() => setEncyclopediaModalVisible(false)} style={tw`bg-gray-100 p-2 rounded-full`}>
                     <X size={20} color="#666" />
                 </TouchableOpacity>
@@ -458,7 +458,7 @@ export default function AddPlant() {
         <View style={tw`flex-1 justify-end bg-sage-900/50`}>
             <View style={tw`bg-white rounded-t-[32px] p-6`}>
                 <View style={tw`flex-row justify-between mb-6`}>
-                    <Text style={tw`text-xl font-serif font-bold text-sage-900`}>Novo Cuidado</Text>
+                    <Text style={tw`text-xl font-bold text-sage-900`}>Novo Cuidado</Text>
                     <TouchableOpacity onPress={() => setCareModalVisible(false)}><Text style={tw`text-sage-500 font-bold`}>Cancelar</Text></TouchableOpacity>
                 </View>
                 <View style={tw`flex-row flex-wrap gap-2 mb-6`}>
