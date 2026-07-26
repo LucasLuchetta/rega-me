@@ -39,7 +39,8 @@
         {
           "android": {
             "enableProguardInReleaseBuilds": true,
-            "enableShrinkResourcesInReleaseBuilds": true
+            "enableShrinkResourcesInReleaseBuilds": true,
+            "extraProguardRules": "# O expo-notifications guarda os lembretes agendados nas SharedPreferences\n# via serializacao Java. writeObject/readObject so sao chamados por reflexao,\n# entao o R8 os remove e a serializacao default explode em\n# NotSerializableException: org.json.JSONObject (campo mBody de\n# NotificationContent). Sem estas regras, nenhum lembrete e agendado em\n# release. O expo-notifications nao traz regras proprias.\n-keepnames class org.json.JSONObject\n-keep class expo.modules.notifications.** { *; }\n-keepclassmembers class * implements java.io.Serializable {\n    static final long serialVersionUID;\n    private static final java.io.ObjectStreamField[] serialPersistentFields;\n    private void writeObject(java.io.ObjectOutputStream);\n    private void readObject(java.io.ObjectInputStream);\n    java.lang.Object writeReplace();\n    java.lang.Object readResolve();\n}"
           }
         }
       ],
