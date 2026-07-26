@@ -12,3 +12,9 @@
 
 /apple-touch-icon.png
   Cache-Control: public, max-age=86400
+
+/splash-icon.png
+  Cache-Control: public, max-age=86400
+
+/plant-placeholder.png
+  Cache-Control: public, max-age=86400
