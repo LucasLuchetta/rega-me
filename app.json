@@ -1,34 +1,72 @@
 {
   "expo": {
-    "name": "rega-me",
+    "name": "Rega-me",
     "slug": "rega-me",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
+    "backgroundColor": "#FAF9F6",
+    "primaryColor": "#5D8C7B",
+    "assetBundlePatterns": [
+      "assets/*.png"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lucasluchetta.regame"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/foreground.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#536343"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.lucasluchetta.regame"
+      "package": "com.lucasluchetta.regame",
+      "versionCode": 1,
+      "blockedPermissions": [
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-sqlite",
-      "expo-localization"
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 220,
+          "resizeMode": "contain",
+          "backgroundColor": "#FAF9F6"
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#5D8C7B",
+          "defaultChannel": "plant-care"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O Rega-me usa suas fotos para você escolher a imagem de cada planta do seu jardim.",
+          "cameraPermission": "O Rega-me usa a câmera para você fotografar suas plantas."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "O Rega-me usa sua localização apenas para mostrar o clima do dia e ajustar os lembretes de rega.",
+          "isAndroidBackgroundLocationEnabled": false,
+          "isAndroidForegroundServiceEnabled": false
+        }
+      ],
+      "expo-font"
     ],
     "extra": {
       "eas": {

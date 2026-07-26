@@ -4,6 +4,7 @@ import tw from '../../../utils/tw';
 import { Plant } from '../../../database/PlantDAO';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'lucide-react-native';
+import { persistImage } from '../../../utils/imageStorage';
 
 interface EditPlantModalProps {
   visible: boolean;
@@ -27,14 +28,14 @@ export default function EditPlantModal({ visible, onClose, plant, onSave }: Edit
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
     if (!result.canceled) {
-      setPhotoUri(result.assets[0].uri);
+      setPhotoUri(persistImage(result.assets[0].uri) ?? '');
     }
   };
 

@@ -1,29 +1,16 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import * as Localization from 'expo-localization';
-import pt from './plants_pt.json';
-import en from './plants_en.json';
+import pt from './pt.json';
 
-const resources = {
-  pt: { translation: pt },
-  en: { translation: en },
-};
-
-const getLanguage = () => {
-    // Tenta pegar a linguagem do dispositivo. Fallback para 'pt'.
-    // expo-localization retorna uma lista de locales
-    const locales = Localization.getLocales();
-    if (locales && locales.length > 0) {
-        return locales[0].languageCode ?? 'pt';
-    }
-    return 'pt';
-};
+// O app é publicado apenas em português. Fixar o idioma evita telas
+// meio traduzidas quando o aparelho está configurado em outra língua.
+export const APP_LOCALE = 'pt-BR';
 
 i18n
   .use(initReactI18next)
   .init({
-    resources,
-    lng: getLanguage(), // Detecta idioma do sistema
+    resources: { pt: { translation: pt } },
+    lng: 'pt',
     fallbackLng: 'pt',
     interpolation: {
       escapeValue: false, // react already safes from xss

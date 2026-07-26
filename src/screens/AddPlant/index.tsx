@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { CheckCircle2, Circle, Search, Camera, ScanLine, X, Plus, Droplets, Scissors, Sprout, ShieldAlert, Box, Wind, Trash2 } from 'lucide-react-native';
 import tw from '../../utils/tw';
 import * as ImagePicker from 'expo-image-picker';
+import { persistImage } from '../../utils/imageStorage';
 import plantsData from '../../database/plants_pt.json';
 
 const COMMON_ROOMS = [' Quarto ',' Sala ', ' Cozinha ', ' Varanda ', ' Banheiro ', ' Jardim '];
@@ -137,14 +138,14 @@ export default function AddPlant() {
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [4, 4],
       quality: 0.8,
     });
 
     if (!result.canceled) {
-      setPhotoUri(result.assets[0].uri);
+      setPhotoUri(persistImage(result.assets[0].uri) ?? '');
       // Simulate auto-identification trigger if name is empty
       if (!name) {
           Alert.alert("Identificação", "Gostaria que tentássemos identificar essa planta?", [
@@ -168,7 +169,7 @@ export default function AddPlant() {
       });
 
       if (!result.canceled) {
-          setPhotoUri(result.assets[0].uri);
+          setPhotoUri(persistImage(result.assets[0].uri) ?? '');
           if (!name) {
              Alert.alert("Identificação", "Gostaria que tentássemos identificar essa planta?", [
                   { text: "Não", style: 'cancel' },

@@ -31,7 +31,7 @@ export const WeatherService = {
         lon: data.results[0].longitude
       };
     } catch (error) {
-      console.warn("Erro ao buscar cidade:", error);
+      if (__DEV__) console.warn("Erro ao buscar cidade:", error);
       return null;
     }
   },
@@ -47,7 +47,7 @@ export const WeatherService = {
           const isRecent = (Date.now() - timestamp) < CACHE_DURATION;
 
           if (isClose && isRecent) {
-              console.log("Using cached weather data");
+              if (__DEV__) console.log("Using cached weather data");
               return data;
           }
       }
@@ -75,7 +75,7 @@ export const WeatherService = {
 
       return weatherData;
     } catch (error) {
-      console.warn("Erro ao buscar clima:", error);
+      if (__DEV__) console.warn("Erro ao buscar clima:", error);
       return null;
     }
   },
