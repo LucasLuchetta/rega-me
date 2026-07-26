@@ -72,13 +72,31 @@ const getMessageForTask = (taskType: string, plantName: string) => {
     return list[Math.floor(Math.random() * list.length)];
 };
 
+/**
+ * No Android 8+, além da permissão geral de notificação, cada canal tem um
+ * interruptor próprio (ex: "Cuidados com as plantas"). O usuário pode liberar
+ * a permissão geral do app e mesmo assim ter esse canal bloqueado à parte —
+ * por isso checamos os dois separadamente em vez de só a permissão geral.
+ */
+const isAndroidChannelBlocked = async (): Promise<boolean> => {
+  if (Platform.OS !== 'android') return false;
+  try {
+    const channel = await Notifications.getNotificationChannelAsync(ANDROID_CHANNEL_ID);
+    return !!channel && channel.importance === Notifications.AndroidImportance.NONE;
+  } catch (error) {
+    console.warn('Não foi possível checar o canal de notificação:', error);
+    return false;
+  }
+};
+
 export const NotificationService = {
   /** Estado atual da permissão, sem abrir o diálogo do sistema. */
-  getPermissionStatus: async (): Promise<'granted' | 'denied' | 'undetermined'> => {
+  getPermissionStatus: async (): Promise<'granted' | 'denied' | 'undetermined' | 'channel-blocked'> => {
     try {
       const { status, canAskAgain } = await Notifications.getPermissionsAsync();
-      if (status === 'granted') return 'granted';
-      return canAskAgain ? 'undetermined' : 'denied';
+      if (status !== 'granted') return canAskAgain ? 'undetermined' : 'denied';
+      if (await isAndroidChannelBlocked()) return 'channel-blocked';
+      return 'granted';
     } catch {
       return 'undetermined';
     }
@@ -95,15 +113,21 @@ export const NotificationService = {
       }
 
       if (finalStatus !== 'granted') {
-        if (__DEV__) console.log('Permissão de notificação negada!');
+        console.log('Permissão de notificação negada!');
         return false;
       }
 
       await ensureAndroidChannel();
+
+      if (await isAndroidChannelBlocked()) {
+        console.log(`Canal "${ANDROID_CHANNEL_ID}" está bloqueado nas configurações do aparelho.`);
+        return false;
+      }
+
       return true;
     } catch (error) {
-      // Silencia o erro no Expo Go para não travar o app
-      if (__DEV__) console.warn("Notificações podem não funcionar neste ambiente:", error);
+      // Loga sempre (inclusive em produção) para dar pra diagnosticar via logcat
+      console.warn("Notificações podem não funcionar neste ambiente:", error);
       return false;
     }
   },
@@ -161,7 +185,7 @@ export const NotificationService = {
       return id;
 
     } catch (error) {
-      if (__DEV__) console.warn("Falha ao agendar notificação:", error);
+      console.warn("Falha ao agendar notificação:", error);
       return null;
     }
   },

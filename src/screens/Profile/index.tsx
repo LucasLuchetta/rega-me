@@ -45,7 +45,7 @@ export default function Profile() {
 
   const [times, setTimes] = useState<string[]>(notificationSettings.times || ['08:00']);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [permission, setPermission] = useState<'granted' | 'denied' | 'undetermined'>('undetermined');
+  const [permission, setPermission] = useState<'granted' | 'denied' | 'undetermined' | 'channel-blocked'>('undetermined');
   const [scheduledCount, setScheduledCount] = useState(0);
   const [testing, setTesting] = useState(false);
 
@@ -121,12 +121,22 @@ export default function Profile() {
     setTesting(true);
     try {
       const sent = await NotificationService.sendTestNotification(5);
+      const statusAfter = await NotificationService.getPermissionStatus();
       await refreshNotificationState();
 
       if (sent) {
         Alert.alert(
           'Teste enviado 🔔',
           'Feche o app agora. Em cerca de 5 segundos o aviso deve aparecer na sua tela.\n\nSe não chegar, as notificações do Rega-me provavelmente estão bloqueadas nas configurações do aparelho.'
+        );
+      } else if (statusAfter === 'channel-blocked') {
+        Alert.alert(
+          'Categoria de notificação bloqueada',
+          'A permissão geral de notificações está liberada, mas a categoria "Cuidados com as plantas" está desligada especificamente.\n\nAbra as configurações do app, entre em Notificações e ative essa categoria.',
+          [
+            { text: 'Agora não', style: 'cancel' },
+            { text: 'Abrir configurações', onPress: () => Linking.openSettings() },
+          ]
         );
       } else {
         Alert.alert(
@@ -200,10 +210,13 @@ export default function Profile() {
                 style={[tw`rounded-2xl p-4 mt-4`, { backgroundColor: '#FBEEE3' }]}
                 accessibilityRole="button"
               >
-                <Text style={[tw`font-bold mb-1`, { color: '#3E2A1B' }]}>Notificações desligadas</Text>
+                <Text style={[tw`font-bold mb-1`, { color: '#3E2A1B' }]}>
+                  {permission === 'channel-blocked' ? 'Categoria de aviso bloqueada' : 'Notificações desligadas'}
+                </Text>
                 <Text style={[tw`text-xs leading-5`, { color: '#B08A63' }]}>
-                  Sem elas o app não consegue avisar na hora da rega. Toque para liberar nas
-                  configurações do aparelho.
+                  {permission === 'channel-blocked'
+                    ? 'A permissão geral está liberada, mas a categoria "Cuidados com as plantas" está desligada. Toque para abrir Notificações do app e ativá-la.'
+                    : 'Sem elas o app não consegue avisar na hora da rega. Toque para liberar nas configurações do aparelho.'}
                 </Text>
               </TouchableOpacity>
             )}
