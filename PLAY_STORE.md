@@ -38,6 +38,29 @@ Cada push no `main` republica o site. Para um domínio próprio depois: **Settin
 
 Para conferir o site localmente antes de subir: `npx wrangler dev`.
 
+### Se a Cloudflare publicar o app em vez do site
+
+Sintoma: a URL abre o app em vez da política. Causa: ao conectar o repositório, a Cloudflare
+detecta o `expo` no `package.json`, assume que é um projeto de front-end e preenche sozinha um
+build command (algo como `npx expo export`), publicando o `dist/` do app.
+
+Correção em **Settings → Build** do projeto:
+
+| Campo | Valor correto |
+| --- | --- |
+| Build command | **vazio** — apague o que a Cloudflare sugeriu |
+| Deploy command | `npx wrangler deploy` |
+| Root directory | `/` |
+| Framework preset | `None` |
+
+Depois salve e use **Deployments → Retry deployment** (ou faça um push novo). Um deploy correto
+mostra no log algo como `Read 9 files from the assets directory .../docs` e **nenhuma** menção a
+`expo export` ou `Metro`.
+
+Se o painel insistir em reinjetar o build command, uma alternativa é apontar **Root directory**
+para `docs` e mover o `wrangler.jsonc` para dentro dela com `"directory": "./"` — assim a
+Cloudflare nem enxerga o `package.json` do app.
+
 ---
 
 ## 2. Ficha da loja (Store listing)

@@ -15,8 +15,10 @@ Notifications.setNotificationHandler({
 // Sem um canal declarado, o Android 8+ entrega os lembretes sem som nem prioridade.
 const ANDROID_CHANNEL_ID = 'plant-care';
 
+let channelReady = false;
+
 const ensureAndroidChannel = async () => {
-  if (Platform.OS !== 'android') return;
+  if (Platform.OS !== 'android' || channelReady) return;
   try {
     await Notifications.setNotificationChannelAsync(ANDROID_CHANNEL_ID, {
       name: 'Cuidados com as plantas',
@@ -26,6 +28,7 @@ const ensureAndroidChannel = async () => {
       lightColor: '#5D8C7B',
       sound: 'default',
     });
+    channelReady = true;
   } catch (error) {
     if (__DEV__) console.warn('Não foi possível criar o canal de notificação:', error);
   }
@@ -70,6 +73,17 @@ const getMessageForTask = (taskType: string, plantName: string) => {
 };
 
 export const NotificationService = {
+  /** Estado atual da permissão, sem abrir o diálogo do sistema. */
+  getPermissionStatus: async (): Promise<'granted' | 'denied' | 'undetermined'> => {
+    try {
+      const { status, canAskAgain } = await Notifications.getPermissionsAsync();
+      if (status === 'granted') return 'granted';
+      return canAskAgain ? 'undetermined' : 'denied';
+    } catch {
+      return 'undetermined';
+    }
+  },
+
   requestPermissions: async () => {
     try {
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
@@ -149,6 +163,47 @@ export const NotificationService = {
     } catch (error) {
       if (__DEV__) console.warn("Falha ao agendar notificação:", error);
       return null;
+    }
+  },
+
+  /**
+   * Dispara um lembrete de teste alguns segundos depois, para o usuário
+   * confirmar que os avisos realmente chegam no aparelho dele.
+   */
+  sendTestNotification: async (delaySeconds: number = 5) => {
+    const hasPermission = await NotificationService.requestPermissions();
+    if (!hasPermission) return false;
+
+    try {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Teste do Rega-me 🌿",
+          body: "Deu certo! É assim que você vai ser avisado na hora de cuidar das suas plantas.",
+          sound: true,
+          data: { test: true },
+          priority: Notifications.AndroidNotificationPriority.HIGH,
+        },
+        trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+          seconds: delaySeconds,
+          repeats: false,
+          channelId: ANDROID_CHANNEL_ID,
+        },
+      });
+      return true;
+    } catch (error) {
+      if (__DEV__) console.warn("Falha ao enviar notificação de teste:", error);
+      return false;
+    }
+  },
+
+  /** Quantos lembretes estão agendados — usado para mostrar o estado ao usuário. */
+  countScheduled: async () => {
+    try {
+      const scheduled = await Notifications.getAllScheduledNotificationsAsync();
+      return scheduled.length;
+    } catch {
+      return 0;
     }
   },
 
