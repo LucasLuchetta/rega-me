@@ -17,8 +17,9 @@ const ANDROID_CHANNEL_ID = 'plant-care';
 
 let channelReady = false;
 
-const ensureAndroidChannel = async () => {
-  if (Platform.OS !== 'android' || channelReady) return;
+/** Retorna null quando o canal está pronto, ou a mensagem do erro que impediu. */
+const ensureAndroidChannel = async (): Promise<string | null> => {
+  if (Platform.OS !== 'android' || channelReady) return null;
   try {
     await Notifications.setNotificationChannelAsync(ANDROID_CHANNEL_ID, {
       name: 'Cuidados com as plantas',
@@ -29,10 +30,16 @@ const ensureAndroidChannel = async () => {
       sound: 'default',
     });
     channelReady = true;
+    return null;
   } catch (error) {
-    if (__DEV__) console.warn('Não foi possível criar o canal de notificação:', error);
+    // Sem canal o Android descarta o aviso em silêncio, então isso não é detalhe.
+    console.warn('Não foi possível criar o canal de notificação:', error);
+    return describeError(error);
   }
 };
+
+const describeError = (error: unknown) =>
+  error instanceof Error ? error.message : String(error);
 
 const getMessageForTask = (taskType: string, plantName: string) => {
     const messages = {
@@ -89,53 +96,83 @@ const isAndroidChannelBlocked = async (): Promise<boolean> => {
   }
 };
 
+/**
+ * Motivo pelo qual o aviso não vai chegar. Cada caso pede uma orientação
+ * diferente ao usuário — juntar tudo em "bloqueado" faz o app acusar o
+ * aparelho de algo que ele não fez.
+ */
+export type NotificationBlocker =
+  /** O usuário nunca respondeu ao diálogo do sistema. */
+  | 'undetermined'
+  /** Permissão de notificação do app negada/desligada. */
+  | 'denied'
+  /** Permissão liberada, mas a categoria "Cuidados com as plantas" está desligada. */
+  | 'channel-blocked'
+  /** Falha técnica (ambiente sem suporte, erro do módulo). Nada a ver com bloqueio. */
+  | 'unavailable';
+
+export type NotificationReadiness =
+  | { ok: true }
+  | { ok: false; reason: NotificationBlocker; detail?: string };
+
+/**
+ * Confere permissão + canal e prepara o que falta. `ask: false` só inspeciona,
+ * sem abrir o diálogo do sistema.
+ */
+const ensureReady = async (ask: boolean): Promise<NotificationReadiness> => {
+  let granted = false;
+  let canAskAgain = true;
+
+  try {
+    const current = await Notifications.getPermissionsAsync();
+    granted = current.status === 'granted';
+    canAskAgain = current.canAskAgain;
+
+    if (!granted && ask) {
+      const asked = await Notifications.requestPermissionsAsync();
+      granted = asked.status === 'granted';
+      canAskAgain = asked.canAskAgain;
+    }
+  } catch (error) {
+    console.warn('Não foi possível checar a permissão de notificação:', error);
+    return { ok: false, reason: 'unavailable', detail: describeError(error) };
+  }
+
+  if (!granted) {
+    return { ok: false, reason: canAskAgain ? 'undetermined' : 'denied' };
+  }
+
+  const channelError = await ensureAndroidChannel();
+  if (channelError) {
+    return { ok: false, reason: 'unavailable', detail: channelError };
+  }
+
+  if (await isAndroidChannelBlocked()) {
+    console.log(`Canal "${ANDROID_CHANNEL_ID}" está bloqueado nas configurações do aparelho.`);
+    return { ok: false, reason: 'channel-blocked' };
+  }
+
+  return { ok: true };
+};
+
 export const NotificationService = {
   /** Estado atual da permissão, sem abrir o diálogo do sistema. */
-  getPermissionStatus: async (): Promise<'granted' | 'denied' | 'undetermined' | 'channel-blocked'> => {
-    try {
-      const { status, canAskAgain } = await Notifications.getPermissionsAsync();
-      if (status !== 'granted') return canAskAgain ? 'undetermined' : 'denied';
-      if (await isAndroidChannelBlocked()) return 'channel-blocked';
-      return 'granted';
-    } catch {
-      return 'undetermined';
-    }
+  getPermissionStatus: async (): Promise<'granted' | NotificationBlocker> => {
+    const readiness = await ensureReady(false);
+    return readiness.ok ? 'granted' : readiness.reason;
   },
 
-  requestPermissions: async () => {
-    try {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
+  /** Pede o que falta e diz exatamente o que impediu, quando impediu. */
+  ensureReady: () => ensureReady(true),
 
-      if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-
-      if (finalStatus !== 'granted') {
-        console.log('Permissão de notificação negada!');
-        return false;
-      }
-
-      await ensureAndroidChannel();
-
-      if (await isAndroidChannelBlocked()) {
-        console.log(`Canal "${ANDROID_CHANNEL_ID}" está bloqueado nas configurações do aparelho.`);
-        return false;
-      }
-
-      return true;
-    } catch (error) {
-      // Loga sempre (inclusive em produção) para dar pra diagnosticar via logcat
-      console.warn("Notificações podem não funcionar neste ambiente:", error);
-      return false;
-    }
-  },
+  requestPermissions: async () => (await ensureReady(true)).ok,
 
   scheduleWateringReminder: async (plantName: string, triggerInput: number | Date, taskType: string = 'water') => {
     try {
-      const hasPermission = await NotificationService.requestPermissions();
-      if (!hasPermission) return;
+      const readiness = await ensureReady(true);
+      // Canal bloqueado não impede agendar: se o usuário reativar a categoria
+      // antes da hora, o lembrete ainda chega. Só permissão ausente inviabiliza.
+      if (!readiness.ok && readiness.reason !== 'channel-blocked') return null;
 
       const bodyMessage = getMessageForTask(taskType, plantName);
       let trigger: any;
@@ -194,9 +231,9 @@ export const NotificationService = {
    * Dispara um lembrete de teste alguns segundos depois, para o usuário
    * confirmar que os avisos realmente chegam no aparelho dele.
    */
-  sendTestNotification: async (delaySeconds: number = 5) => {
-    const hasPermission = await NotificationService.requestPermissions();
-    if (!hasPermission) return false;
+  sendTestNotification: async (delaySeconds: number = 5): Promise<NotificationReadiness> => {
+    const readiness = await ensureReady(true);
+    if (!readiness.ok) return readiness;
 
     try {
       await Notifications.scheduleNotificationAsync({
@@ -214,10 +251,10 @@ export const NotificationService = {
           channelId: ANDROID_CHANNEL_ID,
         },
       });
-      return true;
+      return { ok: true };
     } catch (error) {
-      if (__DEV__) console.warn("Falha ao enviar notificação de teste:", error);
-      return false;
+      console.warn("Falha ao enviar notificação de teste:", error);
+      return { ok: false, reason: 'unavailable', detail: describeError(error) };
     }
   },
 

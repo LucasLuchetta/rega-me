@@ -18,7 +18,7 @@ import Send from 'lucide-react-native/dist/cjs/icons/send';
 import tw from '../../utils/tw';
 import { teardrop } from '../../utils/shape';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NotificationService } from '../../services/NotificationService';
+import { NotificationService, NotificationBlocker } from '../../services/NotificationService';
 
 const PROFILE_KEY = '@plantcare_profile';
 
@@ -45,7 +45,7 @@ export default function Profile() {
 
   const [times, setTimes] = useState<string[]>(notificationSettings.times || ['08:00']);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [permission, setPermission] = useState<'granted' | 'denied' | 'undetermined' | 'channel-blocked'>('undetermined');
+  const [permission, setPermission] = useState<'granted' | NotificationBlocker>('undetermined');
   const [scheduledCount, setScheduledCount] = useState(0);
   const [testing, setTesting] = useState(false);
 
@@ -120,32 +120,42 @@ export default function Profile() {
   const handleTest = async () => {
     setTesting(true);
     try {
-      const sent = await NotificationService.sendTestNotification(5);
-      const statusAfter = await NotificationService.getPermissionStatus();
+      const result = await NotificationService.sendTestNotification(5);
       await refreshNotificationState();
 
-      if (sent) {
+      if (result.ok) {
         Alert.alert(
           'Teste enviado 🔔',
           'Feche o app agora. Em cerca de 5 segundos o aviso deve aparecer na sua tela.\n\nSe não chegar, as notificações do Rega-me provavelmente estão bloqueadas nas configurações do aparelho.'
         );
-      } else if (statusAfter === 'channel-blocked') {
+        return;
+      }
+
+      const settingsButtons = [
+        { text: 'Agora não', style: 'cancel' as const },
+        { text: 'Abrir configurações', onPress: () => Linking.openSettings() },
+      ];
+
+      if (result.reason === 'channel-blocked') {
         Alert.alert(
           'Categoria de notificação bloqueada',
           'A permissão geral de notificações está liberada, mas a categoria "Cuidados com as plantas" está desligada especificamente.\n\nAbra as configurações do app, entre em Notificações e ative essa categoria.',
-          [
-            { text: 'Agora não', style: 'cancel' },
-            { text: 'Abrir configurações', onPress: () => Linking.openSettings() },
-          ]
+          settingsButtons
+        );
+      } else if (result.reason === 'unavailable') {
+        // Aqui a permissão está OK: o que falhou foi o agendamento. Dizer
+        // "bloqueado" mandaria o usuário mexer numa configuração já liberada.
+        Alert.alert(
+          'Não conseguimos enviar o teste',
+          `A permissão está liberada, mas o aparelho recusou o agendamento do aviso.${
+            result.detail ? `\n\nDetalhe técnico: ${result.detail}` : ''
+          }\n\nSe você está usando o app pelo Expo Go, instale a versão gerada do Rega-me: os lembretes não funcionam no Expo Go.`
         );
       } else {
         Alert.alert(
           'Notificações bloqueadas',
           'O aparelho não deixou o app enviar o aviso. Libere as notificações do Rega-me nas configurações para não perder as regas.',
-          [
-            { text: 'Agora não', style: 'cancel' },
-            { text: 'Abrir configurações', onPress: () => Linking.openSettings() },
-          ]
+          settingsButtons
         );
       }
     } finally {
@@ -163,6 +173,27 @@ export default function Profile() {
   };
 
   const notificationsOff = permission !== 'granted';
+
+  // 'unavailable' não é bloqueio: mandar o usuário às configurações onde tudo
+  // já está liberado foi justamente o que confundiu antes.
+  const blockedBanner = {
+    'channel-blocked': {
+      title: 'Categoria de aviso bloqueada',
+      body: 'A permissão geral está liberada, mas a categoria "Cuidados com as plantas" está desligada. Toque para abrir Notificações do app e ativá-la.',
+    },
+    unavailable: {
+      title: 'Não conseguimos preparar os avisos',
+      body: 'A permissão está liberada, mas este ambiente recusou o agendamento. Toque em "Testar notificação" para ver o detalhe do erro.',
+    },
+    denied: {
+      title: 'Notificações desligadas',
+      body: 'Sem elas o app não consegue avisar na hora da rega. Toque para liberar nas configurações do aparelho.',
+    },
+    undetermined: {
+      title: 'Notificações desligadas',
+      body: 'Sem elas o app não consegue avisar na hora da rega. Toque para liberar nas configurações do aparelho.',
+    },
+  }[permission === 'granted' ? 'denied' : permission];
 
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
@@ -206,18 +237,13 @@ export default function Profile() {
 
             {notificationsOff && (
               <TouchableOpacity
-                onPress={() => Linking.openSettings()}
+                onPress={() => { if (permission !== 'unavailable') Linking.openSettings(); }}
+                disabled={permission === 'unavailable'}
                 style={[tw`rounded-2xl p-4 mt-4`, { backgroundColor: '#FBEEE3' }]}
                 accessibilityRole="button"
               >
-                <Text style={[tw`font-bold mb-1`, { color: '#3E2A1B' }]}>
-                  {permission === 'channel-blocked' ? 'Categoria de aviso bloqueada' : 'Notificações desligadas'}
-                </Text>
-                <Text style={[tw`text-xs leading-5`, { color: '#B08A63' }]}>
-                  {permission === 'channel-blocked'
-                    ? 'A permissão geral está liberada, mas a categoria "Cuidados com as plantas" está desligada. Toque para abrir Notificações do app e ativá-la.'
-                    : 'Sem elas o app não consegue avisar na hora da rega. Toque para liberar nas configurações do aparelho.'}
-                </Text>
+                <Text style={[tw`font-bold mb-1`, { color: '#3E2A1B' }]}>{blockedBanner.title}</Text>
+                <Text style={[tw`text-xs leading-5`, { color: '#B08A63' }]}>{blockedBanner.body}</Text>
               </TouchableOpacity>
             )}
 
