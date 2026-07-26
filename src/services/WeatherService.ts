@@ -1,4 +1,10 @@
-import { Cloud, CloudDrizzle, CloudLightning, CloudRain, CloudSnow, CloudSun, Sun } from 'lucide-react-native';
+import Cloud from 'lucide-react-native/dist/cjs/icons/cloud';
+import CloudDrizzle from 'lucide-react-native/dist/cjs/icons/cloud-drizzle';
+import CloudLightning from 'lucide-react-native/dist/cjs/icons/cloud-lightning';
+import CloudRain from 'lucide-react-native/dist/cjs/icons/cloud-rain';
+import CloudSnow from 'lucide-react-native/dist/cjs/icons/cloud-snow';
+import CloudSun from 'lucide-react-native/dist/cjs/icons/cloud-sun';
+import Sun from 'lucide-react-native/dist/cjs/icons/sun';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CACHE_KEY = 'weather_cache';

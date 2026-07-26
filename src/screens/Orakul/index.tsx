@@ -3,7 +3,12 @@ import { View, Text, FlatList, RefreshControl, TouchableOpacity } from 'react-na
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TaskDAO } from '../../database/TaskDAO';
 import { usePlants } from '../../contexts/PlantContext';
-import { Droplets, Sprout, Scissors, ShieldAlert, Box, Check } from 'lucide-react-native';
+import Droplets from 'lucide-react-native/dist/cjs/icons/droplets';
+import Sprout from 'lucide-react-native/dist/cjs/icons/sprout';
+import Scissors from 'lucide-react-native/dist/cjs/icons/scissors';
+import ShieldAlert from 'lucide-react-native/dist/cjs/icons/shield-alert';
+import Box from 'lucide-react-native/dist/cjs/icons/box';
+import Check from 'lucide-react-native/dist/cjs/icons/check';
 import { useFocusEffect } from '@react-navigation/native';
 import { Alert } from 'react-native';
 import tw from '../../utils/tw';

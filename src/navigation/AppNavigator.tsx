@@ -1,7 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Leaf, Calendar, User } from 'lucide-react-native';
+import Leaf from 'lucide-react-native/dist/cjs/icons/leaf';
+import Calendar from 'lucide-react-native/dist/cjs/icons/calendar';
+import User from 'lucide-react-native/dist/cjs/icons/user';
 
 // Telas
 import Dashboard from '../screens/Dashboard';
