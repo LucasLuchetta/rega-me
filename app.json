@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-    "backgroundColor": "#FAF9F6",
+    "backgroundColor": "#FDFDFC",
     "primaryColor": "#5D8C7B",
     "assetBundlePatterns": [
       "assets/*.png"
@@ -47,10 +47,10 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/splash-icon.png",
-          "imageWidth": 220,
+          "image": "./assets/adaptive-icon.png",
+          "imageWidth": 160,
           "resizeMode": "contain",
-          "backgroundColor": "#FAF9F6"
+          "backgroundColor": "#7C9B72"
         }
       ],
       [

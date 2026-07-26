@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import './src/i18n'; // inicializa as traduções antes de qualquer tela montar
 import { initDB } from './src/database/db';
 import { PlantProvider } from './src/contexts/PlantContext';
 import AppNavigator from './src/navigation/AppNavigator';
+import AnimatedSplash from './src/components/AnimatedSplash';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 // Importar pelo caminho de cada peso: o índice do pacote arrasta todos os pesos
@@ -24,6 +25,12 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
+
+  // Esconde o splash nativo assim que o JS sobe, para dar lugar à tela
+  // de carregamento animada (AnimatedSplash) enquanto fontes e banco preparam.
+  useEffect(() => {
+    SplashScreen.hideAsync();
+  }, []);
 
   useEffect(() => {
     async function prepare() {
@@ -54,23 +61,17 @@ export default function App() {
     prepare();
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      // This tells the splash screen to hide immediately! If we call this after
-      // `setAppIsReady`, then we may see a blank screen while the app is
-      // loading its initial state and rendering its first pixels. So instead,
-      // we hide the splash screen once we know the root view has already
-      // performed layout.
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
   if (!appIsReady) {
-    return null;
+    return (
+      <View style={{ flex: 1 }}>
+        <StatusBar style="dark" />
+        <AnimatedSplash />
+      </View>
+    );
   }
 
   return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+    <View style={{ flex: 1 }}>
       <PlantProvider>
         <NavigationContainer>
           <StatusBar style="dark" />
