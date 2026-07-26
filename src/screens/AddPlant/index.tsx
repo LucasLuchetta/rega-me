@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, ActivityIndicator, Modal, FlatList, Image } from 'react-native';
 import { usePlants } from '../../contexts/PlantContext';
 import { useNavigation } from '@react-navigation/native';
-import { CheckCircle2, Circle, Search, Camera, ScanLine, X, Plus, Droplets, Scissors, Sprout, ShieldAlert, Box, Wind, Trash2 } from 'lucide-react-native';
+import { CheckCircle2, Circle, Search, Camera, X, Plus, Droplets, Scissors, Sprout, ShieldAlert, Box, Wind, Trash2 } from 'lucide-react-native';
 import tw from '../../utils/tw';
 import * as ImagePicker from 'expo-image-picker';
 import { persistImage } from '../../utils/imageStorage';
@@ -47,7 +47,6 @@ export default function AddPlant() {
   const { addNewPlant } = usePlants();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
-  const [analyzing, setAnalyzing] = useState(false);
 
   const [name, setName] = useState('');
   const [species, setSpecies] = useState('');
@@ -109,31 +108,35 @@ export default function AddPlant() {
   ), [debouncedSearchText]);
 
   const handleSelectFromJSON = (plant: any) => {
-    // Fill data but allow user to confirm
-    setAnalyzing(true);
-    setTimeout(() => {
-        setAnalyzing(false);
-        setName(plant.common[0] || plant.latin);
-        setSpecies(plant.latin);
+    const smartFreq = estimateFrequency(plant.watering, plant.category);
 
-        const smartFreq = estimateFrequency(plant.watering, plant.category);
+    setName(plant.common[0] || plant.latin);
+    setSpecies(plant.latin);
+    setTasks([
+      { type: 'water', frequency: smartFreq },
+      { type: 'fertilize', frequency: '30' },
+      { type: 'prune', frequency: '60' }
+    ]);
+    setEncyclopediaModalVisible(false);
 
-        // Populate tasks smartly
-        setTasks([
-            { type: 'water', frequency: smartFreq },
-            { type: 'fertilize', frequency: '30' },
-            { type: 'prune', frequency: '60' }
-        ]);
+    Alert.alert(
+      "Dados preenchidos",
+      `Usamos as informações da lista para a ${plant.common[0] || plant.latin}: rega sugerida a cada ${smartFreq} dias.\n\nAjuste o que quiser antes de salvar.`,
+      [{ text: "Certo" }]
+    );
+  };
 
-        setEncyclopediaModalVisible(false);
-
-        // Gamification / Identification Feedback
-        Alert.alert(
-          "Planta Identificada! ✨",
-          `Parece que você tem uma ${plant.common[0] || plant.latin}! \n\nSugerimos rega a cada ${smartFreq} dias.`,
-          [{ text: "Incrível!" }]
-        );
-    }, 1500); // Simulate analysis delay
+  // O app não reconhece a planta pela foto: quem escolhe é o usuário, na lista
+  // ou digitando. A pergunta deixa isso explícito em vez de simular uma análise.
+  const askHowToFillName = () => {
+    Alert.alert(
+      "Como quer preencher?",
+      "O Rega-me não identifica a planta pela foto. Você pode procurar na nossa lista de espécies ou escrever o nome à mão.",
+      [
+        { text: "Escrever à mão", style: 'cancel' },
+        { text: "Procurar na lista", onPress: () => setEncyclopediaModalVisible(true) }
+      ]
+    );
   };
 
   const pickImage = async () => {
@@ -146,13 +149,7 @@ export default function AddPlant() {
 
     if (!result.canceled) {
       setPhotoUri(persistImage(result.assets[0].uri) ?? '');
-      // Simulate auto-identification trigger if name is empty
-      if (!name) {
-          Alert.alert("Identificação", "Gostaria que tentássemos identificar essa planta?", [
-              { text: "Não", style: 'cancel' },
-              { text: "Sim", onPress: () => setEncyclopediaModalVisible(true) }
-          ]);
-      }
+      if (!name) askHowToFillName();
     }
   };
 
@@ -170,12 +167,7 @@ export default function AddPlant() {
 
       if (!result.canceled) {
           setPhotoUri(persistImage(result.assets[0].uri) ?? '');
-          if (!name) {
-             Alert.alert("Identificação", "Gostaria que tentássemos identificar essa planta?", [
-                  { text: "Não", style: 'cancel' },
-                  { text: "Sim", onPress: () => setEncyclopediaModalVisible(true) }
-              ]);
-          }
+          if (!name) askHowToFillName();
       }
   };
 
@@ -257,19 +249,6 @@ export default function AddPlant() {
       setLoading(false);
     }
   };
-
-  if (analyzing) {
-      return (
-          <View style={tw`flex-1 bg-sage-50 justify-center items-center`}>
-              <View style={tw`bg-white p-8 rounded-full mb-6 shadow-lg`}>
-                <ScanLine size={64} color="#5D8C7B" />
-              </View>
-              <Text style={tw`font-serif text-2xl text-sage-900 mb-2`}>Analisando...</Text>
-              <Text style={tw`text-sage-500`}>Consultando nossa enciclopédia botânica</Text>
-              <ActivityIndicator size="large" color="#5D8C7B" style={tw`mt-8`} />
-          </View>
-      );
-  }
 
   return (
     <View style={tw`flex-1 bg-canvas`}>

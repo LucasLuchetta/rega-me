@@ -9,6 +9,7 @@ import { deleteImage } from '../utils/imageStorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NOTIFICATION_SETTINGS_KEY = '@plantcare_notification_settings';
+const DEFAULT_NOTIFICATION_TIMES = ['08:00'];
 
 interface PlantData extends Plant {
   frequencyDays: number;
@@ -57,25 +58,27 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       times: ['08:00']
   });
 
-  const loadNotificationSettings = async () => {
+  // Devolve os horários carregados: quem chama precisa deles na hora, já que
+  // o setState só reflete no próximo render e o resync rodaria com os antigos.
+  const loadNotificationSettings = async (): Promise<string[]> => {
       try {
           const savedSettings = await AsyncStorage.getItem(NOTIFICATION_SETTINGS_KEY);
           if (savedSettings) {
               const parsed = JSON.parse(savedSettings);
-              // Migration logic: check if it's the old format (object with 'time' and 'frequency')
-              if (parsed.times && Array.isArray(parsed.times)) {
-                  setNotificationSettings({ times: parsed.times });
-              } else if (parsed.time) {
-                  // Migrate old single time
-                  const times = [parsed.time];
-                  // If old frequency was 2, we could add a second time, but simplified to just primary time is safer
-                  // or: if (parsed.frequency > 1) times.push('17:00'); // arbitrary logic
+              // Formato antigo: um único campo 'time' em vez da lista 'times'
+              const times = parsed.times && Array.isArray(parsed.times)
+                  ? parsed.times
+                  : parsed.time ? [parsed.time] : null;
+
+              if (times && times.length > 0) {
                   setNotificationSettings({ times });
+                  return times;
               }
           }
       } catch (e) {
           if (__DEV__) console.log("Error loading notification settings", e);
       }
+      return DEFAULT_NOTIFICATION_TIMES;
   };
 
   const updateNotificationSettings = async (times: string[]) => {
@@ -83,8 +86,8 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
           const newSettings = { times };
           await AsyncStorage.setItem(NOTIFICATION_SETTINGS_KEY, JSON.stringify(newSettings));
           setNotificationSettings(newSettings);
-          // Resync notifications when user changes preferred times
-          await resyncNotifications();
+          // Reagenda com os horários novos, não com os que ainda estão no estado
+          await resyncNotifications(times);
       } catch (e) {
           console.error("Failed to save notification settings", e);
       }
@@ -97,7 +100,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       targetDate.setDate(today.getDate() + days);
 
       const dates: Date[] = [];
-      const times = notificationSettings.times || ['08:00'];
+      const times = notificationSettings.times || DEFAULT_NOTIFICATION_TIMES;
 
       times.forEach(timeStr => {
           const [h, m] = timeStr.split(':').map(Number);
@@ -111,7 +114,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
       return dates;
   };
 
-  const resyncNotifications = async () => {
+  const resyncNotifications = async (timesOverride?: string[]) => {
     try {
       if (__DEV__) console.log('Resyncing notifications...');
       await NotificationService.cancelAll();
@@ -123,7 +126,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
 
         // Use the due date but apply the user's preferred times
         const dueDate = new Date(task.next_due);
-        const times = notificationSettings.times || ['08:00'];
+        const times = timesOverride || notificationSettings.times || DEFAULT_NOTIFICATION_TIMES;
 
         for (const timeStr of times) {
            const [h, m] = timeStr.split(':').map(Number);
@@ -372,9 +375,11 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const initializeApp = async () => {
+      // Pede a permissão antes de agendar: sem ela o resync não cria nada
+      await NotificationService.requestPermissions();
+      const times = await loadNotificationSettings();
       await loadData();
-      await resyncNotifications();
-      NotificationService.requestPermissions();
+      await resyncNotifications(times);
     };
     initializeApp();
   }, []);

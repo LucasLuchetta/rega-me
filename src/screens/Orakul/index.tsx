@@ -87,7 +87,7 @@ export default function Orakul() {
   };
 
   const renderItem = ({ item }: { item: any }) => (
-    <View style={tw`bg-white p-4 rounded-xl mb-3 flex-row items-center border-l-4 border-green-500 shadow-sm justify-between`}>
+    <View style={tw`bg-white p-4 rounded-xl mb-3 flex-row items-center border border-gray-100 border-l-4 border-l-sage-500 justify-between`}>
       <TouchableOpacity
         onPress={() => handleTaskAction(item)}
         style={tw`flex-1 flex-row items-center`}
@@ -110,9 +110,9 @@ export default function Orakul() {
           await completeTask(item.id, item.frequency_days, item.plant_name, item.type);
           loadFuture();
         }}
-        style={tw`h-12 w-12 bg-green-50 rounded-full items-center justify-center border border-green-200 shadow-sm ml-2`}
+        style={tw`h-12 w-12 bg-sage-50 rounded-full items-center justify-center border border-sage-200 ml-2`}
       >
-        <Check size={24} color="#166534" />
+        <Check size={24} color="#38544A" />
       </TouchableOpacity>
     </View>
   );
@@ -127,7 +127,13 @@ export default function Orakul() {
 
         {/* Timeline Horizontal */}
         <View style={tw`mb-6 pl-5`}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingRight: 20 }}>
+            {/* O padding vertical evita que a elevação dos cartões seja cortada
+                pela borda do ScrollView, o que no Android vira uma faixa escura. */}
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ paddingRight: 20, paddingVertical: 6 }}
+            >
                 {daysList.map((date, index) => {
                     const isSelected = date.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0];
                     const dateStr = date.toISOString().split('T')[0];
@@ -138,9 +144,9 @@ export default function Orakul() {
                             key={index}
                             onPress={() => setSelectedDate(date)}
                             activeOpacity={0.7}
-                            style={tw`items-center justify-center w-20 h-24 rounded-2xl mr-3 ${isSelected ? 'bg-green-600 shadow-md' : 'bg-white border border-gray-100'}`}
+                            style={tw`items-center justify-center w-20 h-24 rounded-2xl mr-3 border ${isSelected ? 'bg-sage-500 border-sage-600' : 'bg-white border-gray-100'}`}
                         >
-                            <Text style={tw`text-xs mb-1 font-medium capitalize ${isSelected ? 'text-green-100' : 'text-gray-400'}`}>
+                            <Text style={tw`text-xs mb-1 font-medium capitalize ${isSelected ? 'text-sage-50' : 'text-gray-400'}`}>
                                 {date.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '')}
                             </Text>
                             <Text
@@ -151,7 +157,7 @@ export default function Orakul() {
                             >
                                 {date.getDate()}
                             </Text>
-                            <View style={tw`mt-2 h-1.5 w-1.5 rounded-full ${hasTask ? (isSelected ? 'bg-white' : 'bg-green-500') : 'bg-transparent'}`} />
+                            <View style={tw`mt-2 h-1.5 w-1.5 rounded-full ${hasTask ? (isSelected ? 'bg-white' : 'bg-sage-500') : 'bg-transparent'}`} />
                         </TouchableOpacity>
                     );
                 })}

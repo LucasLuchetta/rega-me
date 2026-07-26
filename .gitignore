@@ -44,7 +44,7 @@ google-play-*.json
 /ios
 /android
 
-# wrangler files
+# Cloudflare / wrangler
 .wrangler
 .dev.vars*
 !.dev.vars.example
