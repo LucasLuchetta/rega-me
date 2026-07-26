@@ -37,6 +37,10 @@ yarn-error.*
 play-store-key.json
 google-play-*.json
 
+# Cloudflare / wrangler
+.wrangler/
+.dev.vars*
+
 # typescript
 *.tsbuildinfo
 

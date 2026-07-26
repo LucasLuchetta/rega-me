@@ -4,7 +4,7 @@ Tudo nesta página é para copiar e colar no Play Console. O app é publicado **
 
 - **Package:** `com.lucasluchetta.regame`
 - **Versão inicial:** 1.0.0 (`versionCode` 1, incrementado automaticamente pelo EAS)
-- **Política de privacidade:** `https://<seu-projeto>.pages.dev/privacy-policy` (preencher depois do deploy)
+- **Política de privacidade:** `https://rega-me.<conta>.workers.dev/privacy-policy` (preencher depois do deploy)
 - **E-mail de contato:** lucasluchetta1997@gmail.com
 
 ---
@@ -15,23 +15,28 @@ O Play exige que a URL da política esteja no ar antes da submissão. A pasta `d
 raiz do site: `index.html` (apresentação), `privacy-policy.html`, `404.html`, `style.css`,
 favicons, `_headers` e `_redirects`.
 
+O site é servido pelo runtime de **static assets** da Cloudflare, configurado em
+`wrangler.jsonc` na raiz do repositório: a pasta `docs/` inteira vira o site, sem
+Worker e sem etapa de build.
+
 1. Faça o merge do PR para o `main`.
-2. No painel da Cloudflare: **Workers & Pages → Create → Pages → Connect to Git** e escolha
-   o repositório `rega-me`.
+2. No painel da Cloudflare: **Workers & Pages → Create → Connect to Git**, escolha o
+   repositório `rega-me` e a branch `main`.
 3. Configuração do build:
-   - **Production branch:** `main`
-   - **Framework preset:** `None`
-   - **Build command:** *(deixe vazio — é HTML estático, não há build)*
-   - **Build output directory:** `docs`
-4. Deploy. A URL sai como `https://<nome-do-projeto>.pages.dev`.
+   - **Build command:** *(deixe vazio — é HTML estático)*
+   - **Deploy command:** `npx wrangler deploy` (é o padrão que o painel já sugere)
+   - **Root directory:** `/` — o `wrangler.jsonc` é que aponta para `docs/`
+4. Deploy. A URL sai como `https://rega-me.<sua-conta>.workers.dev`.
 5. Confirme que estes endereços abrem:
-   - `https://<projeto>.pages.dev/` — página inicial
-   - `https://<projeto>.pages.dev/privacy-policy` — **esta é a URL que vai no Play Console**
-   - `https://<projeto>.pages.dev/privacidade` — deve redirecionar para a anterior
+   - `/` — página inicial
+   - `/privacy-policy` — **esta é a URL que vai no Play Console**
+   - `/privacidade` — deve redirecionar para a anterior
 6. Anote a URL final no topo deste arquivo e no campo *Política de privacidade* da ficha.
 
-Cada push no `main` republica o site automaticamente. Se depois quiser um domínio próprio,
-é em **Custom domains** no projeto do Pages — a URL `.pages.dev` continua funcionando.
+Cada push no `main` republica o site. Para um domínio próprio depois: **Settings → Domains
+& Routes → Add** no projeto do Worker.
+
+Para conferir o site localmente antes de subir: `npx wrangler dev`.
 
 ---
 
@@ -81,7 +86,7 @@ Feito para quem tem uma suculenta na janela ou uma floresta na sala.
 ```
 
 **Categoria:** Estilo de vida · **Tags:** plantas, jardinagem, lembretes
-**Site:** `https://<projeto>.pages.dev/`
+**Site:** `https://rega-me.<conta>.workers.dev/`
 
 > ⚠️ Não descreva a busca da enciclopédia como "identificação por foto" ou "IA": o app preenche os
 > dados a partir de uma lista local escolhida por você. Alegação enganosa é motivo de reprovação.
