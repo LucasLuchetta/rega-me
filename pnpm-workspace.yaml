@@ -1,5 +1,3 @@
-# Scripts de build permitidos. esbuild e workerd vêm do wrangler e só são
-# usados para rodar o site localmente com `wrangler dev`.
 allowBuilds:
-  esbuild: true
-  workerd: true
+  esbuild: set this to true or false
+  workerd: set this to true or false

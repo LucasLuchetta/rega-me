@@ -61,6 +61,16 @@ Se o painel insistir em reinjetar o build command, uma alternativa é apontar **
 para `docs` e mover o `wrangler.jsonc` para dentro dela com `"directory": "./"` — assim a
 Cloudflare nem enxerga o `package.json` do app.
 
+### Se o build falhar em `packages field missing or empty`
+
+O ambiente da Cloudflare roda `pnpm install --frozen-lockfile` com pnpm 10, que exige o campo
+`packages` num `pnpm-workspace.yaml`. O pnpm 11 cria esse arquivo sozinho, só com a lista de
+build scripts permitidos, e o build quebra na etapa de instalação.
+
+Por isso os build scripts permitidos ficam em `package.json`, no campo `pnpm.onlyBuiltDependencies`,
+e **não** deve existir `pnpm-workspace.yaml` no projeto — este não é um monorepo. Se o pnpm
+recriar o arquivo ao instalar algo, apague-o e mova as entradas para o `package.json`.
+
 ---
 
 ## 2. Ficha da loja (Store listing)
