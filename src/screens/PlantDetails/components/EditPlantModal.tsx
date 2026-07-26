@@ -3,7 +3,7 @@ import { View, Text, TextInput, Modal, TouchableOpacity, ScrollView, Image } fro
 import tw from '../../../utils/tw';
 import { Plant } from '../../../database/PlantDAO';
 import * as ImagePicker from 'expo-image-picker';
-import { Camera } from 'lucide-react-native';
+import Camera from 'lucide-react-native/dist/cjs/icons/camera';
 import { persistImage } from '../../../utils/imageStorage';
 
 interface EditPlantModalProps {

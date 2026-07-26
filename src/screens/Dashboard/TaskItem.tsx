@@ -1,7 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ActivityIndicator, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Droplets, Sprout, Scissors, Wind, Box, Check } from 'lucide-react-native';
+import Droplets from 'lucide-react-native/dist/cjs/icons/droplets';
+import Sprout from 'lucide-react-native/dist/cjs/icons/sprout';
+import Scissors from 'lucide-react-native/dist/cjs/icons/scissors';
+import Wind from 'lucide-react-native/dist/cjs/icons/wind';
+import Box from 'lucide-react-native/dist/cjs/icons/box';
+import Check from 'lucide-react-native/dist/cjs/icons/check';
 import tw from '../../utils/tw';
 import { teardrop } from '../../utils/shape';
 import { useTranslation } from 'react-i18next';

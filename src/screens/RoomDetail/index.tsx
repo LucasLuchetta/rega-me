@@ -4,7 +4,9 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { usePlants } from '../../contexts/PlantContext';
 import tw from '../../utils/tw';
-import { ArrowLeft, Droplets, Check } from 'lucide-react-native';
+import ArrowLeft from 'lucide-react-native/dist/cjs/icons/arrow-left';
+import Droplets from 'lucide-react-native/dist/cjs/icons/droplets';
+import Check from 'lucide-react-native/dist/cjs/icons/check';
 import { useTranslation } from 'react-i18next';
 
 export default function RoomDetail() {
