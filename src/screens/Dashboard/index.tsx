@@ -7,9 +7,8 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import tw from '../../utils/tw';
 import * as Location from 'expo-location';
 import { WeatherService, WeatherData } from '../../services/WeatherService';
-import '../../i18n';
+import { APP_LOCALE } from '../../i18n';
 import { useTranslation } from 'react-i18next';
-import i18n from 'i18next';
 import TaskItem from './TaskItem';
 
 const GAP = 16;
@@ -36,7 +35,7 @@ export default function Dashboard() {
           const w = await WeatherService.getWeather(location.coords.latitude, location.coords.longitude);
           setWeather(w);
         }
-      } catch (e) { console.log('Weather error', e); }
+      } catch (e) { if (__DEV__) console.log('Weather error', e); }
     })();
   }, []);
 
@@ -131,7 +130,7 @@ export default function Dashboard() {
         <View style={tw`flex-row justify-between items-start mb-6`}>
             <View>
                 <Text style={tw`text-sage-500 text-xs font-bold uppercase tracking-widest mb-1`}>
-                    {new Date().toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'pt-BR', { weekday: 'long', day: 'numeric' })}
+                    {new Date().toLocaleDateString(APP_LOCALE, { weekday: 'long', day: 'numeric' })}
                 </Text>
                 <Text style={tw`text-3xl font-serif font-medium text-sage-900`}>{t('greeting')}</Text>
             </View>

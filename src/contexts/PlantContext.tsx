@@ -5,6 +5,7 @@ import { PlantDAO, Plant } from '../database/PlantDAO';
 import { TaskDAO, Task } from '../database/TaskDAO';
 import { executeSql } from '../database/db';
 import { NotificationService } from '../services/NotificationService';
+import { deleteImage } from '../utils/imageStorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NOTIFICATION_SETTINGS_KEY = '@plantcare_notification_settings';
@@ -73,7 +74,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
               }
           }
       } catch (e) {
-          console.log("Error loading notification settings", e);
+          if (__DEV__) console.log("Error loading notification settings", e);
       }
   };
 
@@ -112,7 +113,7 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
 
   const resyncNotifications = async () => {
     try {
-      console.log('Resyncing notifications...');
+      if (__DEV__) console.log('Resyncing notifications...');
       await NotificationService.cancelAll();
       const result: any = await TaskDAO.getAllFutureTasks();
       const tasks = result.rows?._array || [];
@@ -206,6 +207,11 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
 
   const removePlant = async (id: number) => {
     try {
+      // Apaga as imagens do disco antes de perder a referência no banco
+      const photos = await getPlantPhotos(id);
+      photos.forEach((photo: any) => deleteImage(photo.photo_uri));
+      deleteImage(plants.find(p => p.id === id)?.photo_uri);
+
       await PlantDAO.deletePlant(id);
       await loadData();
       // Resync notifications AFTER plant is deleted
@@ -217,6 +223,10 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
 
   const updatePlant = async (plant: Plant, frequency?: number) => {
     try {
+      // Se a capa foi trocada, a imagem antiga não serve mais para nada
+      const previousPhoto = plants.find(p => p.id === plant.id)?.photo_uri;
+      if (previousPhoto && previousPhoto !== plant.photo_uri) deleteImage(previousPhoto);
+
       await PlantDAO.updatePlant(plant);
       if (frequency && plant.id) {
           await TaskDAO.updateTaskFrequency(plant.id, 'water', frequency);
@@ -339,6 +349,8 @@ export const PlantProvider = ({ children }: { children: ReactNode }) => {
 
   const removePlantPhoto = async (photoId: number) => {
     try {
+      const result: any = await executeSql(`SELECT photo_uri FROM plant_photos WHERE id = ?`, [photoId]);
+      deleteImage(result?.rows?._array?.[0]?.photo_uri);
       await executeSql(`DELETE FROM plant_photos WHERE id = ?`, [photoId]);
     } catch (error) {
       console.error("Erro ao excluir foto", error);

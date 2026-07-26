@@ -10,7 +10,7 @@ if (Platform.OS !== 'web') {
 
 export const initDB = async () => {
   if (Platform.OS === 'web') {
-    console.log("Web environment detected: Skipping SQLite initialization.");
+    if (__DEV__) console.log("Web environment detected: Skipping SQLite initialization.");
     return;
   }
   try {
@@ -60,7 +60,7 @@ export const initDB = async () => {
       CREATE INDEX IF NOT EXISTS idx_history_task_id ON history(task_id);
       CREATE INDEX IF NOT EXISTS idx_photos_plant_id ON plant_photos(plant_id);
     `);
-    console.log("Banco de dados inicializado com sucesso!");
+    if (__DEV__) console.log("Banco de dados inicializado com sucesso!");
   } catch (error) {
     console.error("Erro ao inicializar banco de dados:", error);
     throw error;
@@ -80,7 +80,7 @@ let taskIdCounter = 1;
 
 export const executeSql = async (sql: string, params: any[] = []) => {
   if (Platform.OS === 'web') {
-    console.warn("Web environment: SQL execution simulated with in-memory store.");
+    if (__DEV__) console.warn("Web environment: SQL execution simulated with in-memory store.");
     const sqlUpper = sql.trim().toUpperCase();
 
     // Simple parser for web simulation

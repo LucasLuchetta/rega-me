@@ -22,7 +22,7 @@ export default function Profile() {
     commitment: '',
   });
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   // Load profile on mount
   useEffect(() => {

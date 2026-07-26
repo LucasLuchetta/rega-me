@@ -1,0 +1,23 @@
+{
+  "greeting": "Meu Jardim",
+  "daily_rituals": "Rituais de Hoje",
+  "rooms": "Salas",
+  "water": "Regar",
+  "fertilize": "Adubar",
+  "prune": "Podar",
+  "mist": "Borrifar",
+  "repot": "Trocar Vaso",
+  "care": "Cuidar",
+  "all_done_title": "Tudo em paz.",
+  "all_done_subtitle": "Aproveite o seu dia.",
+  "plants_count": "{{count}} plantas",
+  "water_all_title": "Cuidar de Tudo",
+  "water_all_confirm": "Deseja marcar todas as tarefas de {{room}} como concluídas?",
+  "yes_water_all": "Sim, regar tudo",
+  "cancel": "Cancelar",
+  "success_message": "Todas as plantas da {{room}} foram cuidadas! 🌱",
+  "error_message": "Não foi possível atualizar o ambiente.",
+  "weather_suggestion": "Está muito úmido hoje, deseja adiar a rega?",
+  "view_list": "Visualizar em Lista",
+  "view_gallery": "Visualizar em Galeria"
+}

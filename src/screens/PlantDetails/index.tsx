@@ -5,6 +5,7 @@ import { usePlants } from '../../contexts/PlantContext';
 import { Trash2, Plus, Camera, Droplets, Clock, CheckCircle2, Scissors, Sprout, ShieldAlert, Box, ChevronLeft, MoreHorizontal, Wind, ThermometerSun, Filter, Calendar, X } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import tw from '../../utils/tw';
+import { persistImage } from '../../utils/imageStorage';
 import EditPlantModal from './components/EditPlantModal';
 
 const CARE_TYPES = [
@@ -72,15 +73,18 @@ export default function PlantDetails() {
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
     if (!result.canceled) {
-      await addPlantPhoto(plant.id, result.assets[0].uri);
-      loadData();
+      const uri = persistImage(result.assets[0].uri);
+      if (uri) {
+        await addPlantPhoto(plant.id, uri);
+        loadData();
+      }
     }
   };
 
@@ -245,7 +249,7 @@ export default function PlantDetails() {
                                 <Text style={tw`font-bold capitalize`}>{h.type}</Text> realizado
                             </Text>
                             <Text style={tw`text-sage-400 text-xs`}>
-                                {new Date(h.date_performed).toLocaleDateString()}
+                                {new Date(h.date_performed).toLocaleDateString('pt-BR')}
                             </Text>
                         </View>
                     );

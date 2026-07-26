@@ -12,6 +12,25 @@ Notifications.setNotificationHandler({
   }),
 });
 
+// Sem um canal declarado, o Android 8+ entrega os lembretes sem som nem prioridade.
+const ANDROID_CHANNEL_ID = 'plant-care';
+
+const ensureAndroidChannel = async () => {
+  if (Platform.OS !== 'android') return;
+  try {
+    await Notifications.setNotificationChannelAsync(ANDROID_CHANNEL_ID, {
+      name: 'Cuidados com as plantas',
+      description: 'Lembretes de rega, adubo e demais cuidados do seu jardim.',
+      importance: Notifications.AndroidImportance.HIGH,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#5D8C7B',
+      sound: 'default',
+    });
+  } catch (error) {
+    if (__DEV__) console.warn('Não foi possível criar o canal de notificação:', error);
+  }
+};
+
 const getMessageForTask = (taskType: string, plantName: string) => {
     const messages = {
         water: [
@@ -62,13 +81,15 @@ export const NotificationService = {
       }
 
       if (finalStatus !== 'granted') {
-        console.log('Permissão de notificação negada!');
+        if (__DEV__) console.log('Permissão de notificação negada!');
         return false;
       }
+
+      await ensureAndroidChannel();
       return true;
     } catch (error) {
       // Silencia o erro no Expo Go para não travar o app
-      console.warn("Notificações podem não funcionar neste ambiente:", error);
+      if (__DEV__) console.warn("Notificações podem não funcionar neste ambiente:", error);
       return false;
     }
   },
@@ -87,7 +108,7 @@ export const NotificationService = {
 
           // Verifica se é passado
           if (triggerTime <= now) {
-            console.log("Ignorando notificação para data passada:", triggerInput);
+            if (__DEV__) console.log("Ignorando notificação para data passada:", triggerInput);
             return null;
           }
 
@@ -117,52 +138,25 @@ export const NotificationService = {
           body: bodyMessage,
           sound: true,
           data: { plantName, taskType },
-          // categoryIdentifier: 'PLANT_CARE', // Comentei para evitar problemas se a categoria não tiver sido criada explicitamente
           priority: Notifications.AndroidNotificationPriority.HIGH,
         },
-        trigger,
+        trigger: { ...trigger, channelId: ANDROID_CHANNEL_ID },
       });
-      
-      console.log(`Notificação agendada para ${plantName} em ${trigger.seconds} segundos.`);
+
+      if (__DEV__) console.log(`Notificação agendada para ${plantName} em ${trigger.seconds} segundos.`);
       return id;
 
     } catch (error) {
-      console.warn("Falha ao agendar notificação:", error);
+      if (__DEV__) console.warn("Falha ao agendar notificação:", error);
       return null;
     }
-  },
-
-  testNotification: async () => {
-      try {
-        const hasPermission = await NotificationService.requestPermissions();
-        if (!hasPermission) {
-            console.log("Sem permissão para testar notificação");
-            return;
-        }
-
-        await Notifications.scheduleNotificationAsync({
-            content: {
-                title: "Teste de Notificação 🔔",
-                body: "Se você está vendo isso, suas notificações estão funcionando!",
-                sound: true,
-                priority: Notifications.AndroidNotificationPriority.HIGH,
-            },
-            trigger: {
-                type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
-                seconds: 5,
-                repeats: false,
-            }
-        });
-      } catch (error) {
-          console.error("Erro ao testar notificação:", error);
-      }
   },
 
   cancelAll: async () => {
     try {
       await Notifications.cancelAllScheduledNotificationsAsync();
     } catch (error) {
-      console.warn("Erro ao cancelar notificações:", error);
+      if (__DEV__) console.warn("Erro ao cancelar notificações:", error);
     }
   }
 };
