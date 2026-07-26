@@ -8,7 +8,7 @@ const A = (f) => path.join(ROOT, 'assets', f);
 const OUT = process.argv[2] || path.join(ROOT, 'assets');
 const O = (f) => path.join(OUT, f);
 
-// Source logo geometry (docs/brand/logo-source.png, 1024x1024)
+// Source logo geometry (brand/logo-source.png, 1024x1024)
 const CX = 513, CY = 514, R = 274;
 const GREEN = { r: 83, g: 99, b: 67 };
 const CREAM = { r: 247, g: 244, b: 233 };
@@ -16,7 +16,7 @@ const CREAM = { r: 247, g: 244, b: 233 };
 // Extracts the cream artwork from inside the green circle as an alpha mask.
 // Pixels are scored on the green->cream axis so antialiased edges stay smooth.
 async function extractArtwork() {
-  const src = await Jimp.read(path.join(ROOT, 'docs', 'brand', 'logo-source.png'));
+  const src = await Jimp.read(path.join(ROOT, 'brand', 'logo-source.png'));
   const out = new Jimp(1024, 1024, 0x00000000);
   const lum = (c) => 0.299 * c.r + 0.587 * c.g + 0.114 * c.b;
   const lo = lum(GREEN), hi = lum(CREAM);
@@ -91,14 +91,18 @@ function drawDroplet() {
   const icon = compose(art, 1024, 0.66, hex(GREEN));
   await icon.writeAsync(O('icon.png'));
   // 512x512 version for the Play Store listing (uploaded by hand, not bundled).
-  await icon.clone().resize(512, 512).writeAsync(path.join(ROOT, 'docs', 'store', 'play-icon-512.png'));
+  await icon.clone().resize(512, 512).writeAsync(path.join(ROOT, 'brand', 'store', 'play-icon-512.png'));
+
+  // Favicons for the site published from docs/ (Cloudflare Pages).
+  await icon.clone().resize(180, 180).writeAsync(path.join(ROOT, 'docs', 'apple-touch-icon.png'));
+  await icon.clone().resize(32, 32).writeAsync(path.join(ROOT, 'docs', 'favicon.png'));
 
   // Notification icon: Android keeps only the alpha channel and renders it at ~24dp,
   // so the full logo turns to mush. Ship a solid water drop instead.
   await drawDroplet().writeAsync(O('notification-icon.png'));
 
   // Placeholder: the 2048x2048 / 5MB source was being decoded for every list thumbnail.
-  const ph = await Jimp.read(path.join(ROOT, 'docs', 'brand', 'plant-placeholder-source.png'));
+  const ph = await Jimp.read(path.join(ROOT, 'brand', 'plant-placeholder-source.png'));
   await ph.resize(512, 512).deflateLevel(9).writeAsync(O('plant-placeholder.png'));
 
   console.log('done');

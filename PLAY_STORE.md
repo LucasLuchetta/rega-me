@@ -4,19 +4,34 @@ Tudo nesta página é para copiar e colar no Play Console. O app é publicado **
 
 - **Package:** `com.lucasluchetta.regame`
 - **Versão inicial:** 1.0.0 (`versionCode` 1, incrementado automaticamente pelo EAS)
-- **Política de privacidade:** https://lucasluchetta.github.io/rega-me/privacy-policy.html
+- **Política de privacidade:** `https://<seu-projeto>.pages.dev/privacy-policy` (preencher depois do deploy)
 - **E-mail de contato:** lucasluchetta1997@gmail.com
 
 ---
 
-## 1. Ativar o GitHub Pages (faça isso antes de preencher a ficha)
+## 1. Publicar o site no Cloudflare Pages (antes de preencher a ficha)
 
-O Play exige que a URL da política esteja no ar antes da submissão.
+O Play exige que a URL da política esteja no ar antes da submissão. A pasta `docs/` é a
+raiz do site: `index.html` (apresentação), `privacy-policy.html`, `404.html`, `style.css`,
+favicons, `_headers` e `_redirects`.
 
-1. Suba as alterações para o `main`.
-2. No GitHub: **Settings → Pages → Source: Deploy from a branch → Branch `main` / pasta `/docs` → Save**.
-3. Aguarde ~1 minuto e confirme que a página abre:
-   `https://lucasluchetta.github.io/rega-me/privacy-policy.html`
+1. Faça o merge do PR para o `main`.
+2. No painel da Cloudflare: **Workers & Pages → Create → Pages → Connect to Git** e escolha
+   o repositório `rega-me`.
+3. Configuração do build:
+   - **Production branch:** `main`
+   - **Framework preset:** `None`
+   - **Build command:** *(deixe vazio — é HTML estático, não há build)*
+   - **Build output directory:** `docs`
+4. Deploy. A URL sai como `https://<nome-do-projeto>.pages.dev`.
+5. Confirme que estes endereços abrem:
+   - `https://<projeto>.pages.dev/` — página inicial
+   - `https://<projeto>.pages.dev/privacy-policy` — **esta é a URL que vai no Play Console**
+   - `https://<projeto>.pages.dev/privacidade` — deve redirecionar para a anterior
+6. Anote a URL final no topo deste arquivo e no campo *Política de privacidade* da ficha.
+
+Cada push no `main` republica o site automaticamente. Se depois quiser um domínio próprio,
+é em **Custom domains** no projeto do Pages — a URL `.pages.dev` continua funcionando.
 
 ---
 
@@ -66,7 +81,7 @@ Feito para quem tem uma suculenta na janela ou uma floresta na sala.
 ```
 
 **Categoria:** Estilo de vida · **Tags:** plantas, jardinagem, lembretes
-**Site:** https://lucasluchetta.github.io/rega-me/privacy-policy.html
+**Site:** `https://<projeto>.pages.dev/`
 
 > ⚠️ Não descreva a busca da enciclopédia como "identificação por foto" ou "IA": o app preenche os
 > dados a partir de uma lista local escolhida por você. Alegação enganosa é motivo de reprovação.
@@ -77,7 +92,7 @@ Feito para quem tem uma suculenta na janela ou uma floresta na sala.
 
 | Item | Requisito | Onde está |
 | --- | --- | --- |
-| Ícone | 512×512 PNG, sem transparência | `docs/store/play-icon-512.png` ✅ |
+| Ícone | 512×512 PNG, sem transparência | `brand/store/play-icon-512.png` ✅ |
 | Feature graphic | 1024×500 PNG/JPG | ⬜ a produzir |
 | Screenshots de celular | mín. 2 (recomendado 4–8), lado menor ≥ 320 px | ⬜ capturar do APK de preview |
 
