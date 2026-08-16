@@ -1,20 +1,18 @@
-# Montando a sua própria build do Rega-me
+# Montando o seu próprio APK do Rega-me
 
-Este guia leva do `git clone` até um APK instalável no seu celular — e, se você quiser,
-até uma versão publicável com o seu próprio nome. Não é preciso saber React Native para
-seguir: os comandos estão na ordem.
+Este guia leva do `git clone` até um APK instalado no seu celular. Não é preciso saber
+React Native para seguir: os comandos estão na ordem.
 
 Índice:
 
 1. [Pré-requisitos](#1-pré-requisitos)
 2. [Rodar no celular sem compilar nada](#2-rodar-no-celular-sem-compilar-nada)
 3. [Personalizar o fork](#3-personalizar-o-fork)
-4. [Build na nuvem com EAS (mais fácil)](#4-build-na-nuvem-com-eas-mais-fácil)
-5. [Build 100% local, sem conta na Expo](#5-build-100-local-sem-conta-na-expo)
-6. [Regerar ícones e splash a partir da sua arte](#6-regerar-ícones-e-splash-a-partir-da-sua-arte)
-7. [Assinatura e publicação](#7-assinatura-e-publicação)
-8. [Rodar o site de apresentação](#8-rodar-o-site-de-apresentação)
-9. [Problemas comuns](#9-problemas-comuns)
+4. [Compilar o APK](#4-compilar-o-apk)
+5. [Instalar no celular](#5-instalar-no-celular)
+6. [Assinar com a sua própria chave](#6-assinar-com-a-sua-própria-chave)
+7. [Regerar ícones e splash a partir da sua arte](#7-regerar-ícones-e-splash-a-partir-da-sua-arte)
+8. [Problemas comuns](#8-problemas-comuns)
 
 ---
 
@@ -25,9 +23,13 @@ seguir: os comandos estão na ordem.
 | Node.js | 20 ou superior | tudo |
 | pnpm | 9+ (`npm i -g pnpm`) | instalar dependências (npm também funciona) |
 | Git | qualquer | clonar |
-| Expo Go | app da loja | testar sem compilar |
-| Android Studio + JDK 17 | só para build local | seção 5 |
-| Xcode 16+ | só para iOS | macOS apenas |
+| JDK | 17 | compilar o APK |
+| Android SDK | via Android Studio | compilar o APK |
+| Expo Go | app da loja | testar sem compilar (opcional) |
+
+Depois de instalar o Android Studio, confirme que a variável `ANDROID_HOME` aponta para
+o SDK (normalmente `~/Android/Sdk`, ou `%LOCALAPPDATA%\Android\Sdk` no Windows) e que
+`java -version` responde 17.
 
 ```bash
 git clone https://github.com/LucasLuchetta/rega-me.git
@@ -43,6 +45,8 @@ edite arquivos nativos direto, porque eles são recriados.
 
 ## 2. Rodar no celular sem compilar nada
 
+Útil para experimentar o app ou desenvolver antes de gastar tempo com o build.
+
 ```bash
 pnpm start
 ```
@@ -50,23 +54,17 @@ pnpm start
 Leia o QR code com o **Expo Go**. O app carrega em segundos e recarrega sozinho a cada
 alteração de código.
 
-**O que não funciona bem no Expo Go:** notificações agendadas (o Expo Go tem limitações
+**O que não funciona bem no Expo Go:** notificações agendadas (limitação do Expo Go
 desde o SDK 53) e alguns comportamentos de câmera/arquivo. Para testar os lembretes de
-verdade, gere um *development build*:
-
-```bash
-npx eas build --platform android --profile development
-```
-
-Instale o APK gerado e rode `pnpm start` normalmente — ele vai se conectar a esse app em
-vez do Expo Go.
+verdade, você precisa do APK — próximas seções.
 
 ---
 
 ## 3. Personalizar o fork
 
-Antes de gerar qualquer build sua, troque a identidade do app. Isso é obrigatório se
-você pretende publicar: o `package` do Android é único no mundo.
+Troque a identidade do app antes de compilar. O `package` do Android é único por
+aparelho: se você mantiver o original, seu APK conflita com o app oficial na hora de
+instalar.
 
 **`app.json`**
 
@@ -74,11 +72,11 @@ você pretende publicar: o `package` do Android é único no mundo.
 {
   "expo": {
     "name": "Meu Jardim",              // nome sob o ícone
-    "slug": "meu-jardim",              // identificador do projeto na Expo
+    "slug": "meu-jardim",
     "version": "1.0.0",
     "ios":     { "bundleIdentifier": "com.seunome.meujardim" },
     "android": { "package":          "com.seunome.meujardim" },
-    "extra":   { "eas": { "projectId": "..." } }   // apague: o EAS cria um novo
+    "extra":   { "eas": { "projectId": "..." } }   // pode apagar: só serve ao EAS
   }
 }
 ```
@@ -89,12 +87,12 @@ você pretende publicar: o `package` do Android é único no mundo.
 - Cores da splash e do ícone adaptativo: `app.json` → `plugins` → `expo-splash-screen`
   e `android.adaptiveIcon.backgroundColor`.
 - Cor da notificação: `app.json` → plugin `expo-notifications` → `color`.
-- Arte-fonte: `brand/logo-source.png` (1024×1024) — veja a seção 6.
+- Arte-fonte: `brand/logo-source.png` (1024×1024) — veja a seção 7.
 
 **Textos**
 
 - Interface: `src/i18n/pt.json`. O idioma é fixado em pt-BR em `src/i18n/index.ts`;
-  para suportar outro idioma, adicione o JSON e registre em `resources`.
+  para outro idioma, adicione o JSON e registre em `resources`.
 - Textos de permissão (o que o sistema mostra ao pedir foto/localização): `app.json`,
   nos plugins `expo-image-picker` e `expo-location`.
 
@@ -102,66 +100,60 @@ você pretende publicar: o `package` do Android é único no mundo.
 
 `src/database/plants_pt.json` (e `plants_en.json`) são listas simples. Cada item tem
 nome latino, nomes populares, família, categoria, clima e faixa de temperatura. Adicione
-ou remova espécies à vontade — é só JSON, não há build step.
+ou remova espécies à vontade — é só JSON, não há etapa de build.
 
 ---
 
-## 4. Build na nuvem com EAS (mais fácil)
+## 4. Compilar o APK
 
-O EAS compila nos servidores da Expo. Tem plano gratuito com fila, e é o caminho mais
-curto para um APK — funciona igual em Windows, macOS e Linux.
+### Sem instalar nada: deixe o GitHub compilar
+
+Se você não quer JDK e Android SDK na sua máquina, o repositório já traz o workflow
+[`.github/workflows/build-apk.yml`](.github/workflows/build-apk.yml). Ele roda numa
+máquina do GitHub, que já vem com tudo instalado, e existe em qualquer fork.
+
+- **Só quero o APK agora:** aba **Actions** → *Build do APK* → **Run workflow**. Ao
+  final, o `.apk` fica anexado à execução, em *Artifacts*.
+- **Quero publicar uma versão:** empurre uma tag e o workflow cria a release com o APK
+  anexado, sozinho.
 
 ```bash
-npm install -g eas-cli
-eas login                       # crie uma conta grátis em expo.dev
-eas init                        # cria o projectId novo no seu app.json
+git tag v1.0.0
+git push origin v1.0.0
 ```
 
-Os perfis já estão prontos em `eas.json`:
+O resto desta seção é o caminho local, para quem prefere compilar na própria máquina.
 
-| Perfil | Comando | Resultado |
-| --- | --- | --- |
-| `development` | `eas build -p android --profile development` | APK com dev client, para desenvolver |
-| `preview` | `eas build -p android --profile preview` | **APK instalável** — é o que você quer para usar no dia a dia |
-| `production` | `eas build -p android --profile production` | AAB assinado, formato exigido pela Play Store |
+### Na sua máquina
+
+Dois passos: gerar o projeto Android e rodar o Gradle.
 
 ```bash
-eas build --platform android --profile preview
-```
-
-Ao final, o terminal mostra um link e um QR code. Baixe o APK no celular e instale
-(será preciso permitir "instalar de fontes desconhecidas").
-
-Para iOS, `eas build -p ios --profile preview` exige uma conta paga do Apple Developer
-para instalar em aparelho físico; sem ela, use o simulador com o perfil
-`--profile development` em um Mac.
-
----
-
-## 5. Build 100% local, sem conta na Expo
-
-Se você prefere não depender de serviço nenhum, dá para compilar na sua máquina.
-
-**Requisitos:** JDK 17, Android SDK (Android Studio), variável `ANDROID_HOME` apontando
-para o SDK.
-
-```bash
-npx expo prebuild --platform android --clean   # gera a pasta android/
+npx expo prebuild --platform android --clean
 cd android
-./gradlew assembleRelease                      # no Windows: .\gradlew.bat assembleRelease
+./gradlew assembleRelease          # no Windows: .\gradlew.bat assembleRelease
 ```
 
-O APK sai em `android/app/build/outputs/apk/release/app-release.apk`.
+O APK sai em:
 
-Sem uma keystore configurada, o Gradle assina com a chave de debug: serve para instalar
-no seu aparelho, **não** serve para publicar. Veja a seção 7 para assinar de verdade.
-
-Alternativa com o próprio EAS rodando localmente (usa o `eas.json`, mas compila na sua
-máquina, sem fila):
-
-```bash
-eas build --platform android --profile preview --local
 ```
+android/app/build/outputs/apk/release/app-release.apk
+```
+
+A primeira compilação baixa o Gradle e as dependências nativas — pode levar de 10 a 30
+minutos. As seguintes são bem mais rápidas.
+
+**Variantes úteis**
+
+| Comando | Quando usar |
+| --- | --- |
+| `./gradlew assembleRelease` | o APK que você quer: minificado, otimizado |
+| `./gradlew assembleDebug` | compila mais rápido, app maior e mais lento, com menu de debug |
+| `./gradlew clean` | quando o build começa a falhar por estado sujo |
+
+Sem uma keystore configurada, o Gradle assina o release com a chave de debug. Isso é
+suficiente para instalar no seu próprio aparelho. Para distribuir o APK para outras
+pessoas, use uma chave sua — seção 6.
 
 > A pasta `android/` está no `.gitignore` de propósito. Se editar algo nativo à mão,
 > lembre que `expo prebuild --clean` apaga tudo. O jeito certo de mudar configuração
@@ -169,7 +161,58 @@ eas build --platform android --profile preview --local
 
 ---
 
-## 6. Regerar ícones e splash a partir da sua arte
+## 5. Instalar no celular
+
+**Por cabo**, com a depuração USB ligada no aparelho:
+
+```bash
+adb install -r android/app/build/outputs/apk/release/app-release.apk
+```
+
+**Sem cabo:** copie o `.apk` para o celular (Drive, cabo, Telegram, o que preferir),
+abra o arquivo pelo gerenciador de arquivos e autorize "instalar de fontes
+desconhecidas" quando o Android pedir.
+
+Se a instalação falhar com `INSTALL_FAILED_UPDATE_INCOMPATIBLE`, é porque já existe no
+aparelho um app com o mesmo `package` assinado com outra chave. Desinstale o antigo
+primeiro — isso apaga os dados dele.
+
+**Confira o que importa depois de instalar:** cadastre uma planta com frequência de 1
+dia e veja se a notificação chega. Notificação é a parte que mais quebra em release, e
+é o motivo das regras ProGuard que estão no `app.json`.
+
+---
+
+## 6. Assinar com a sua própria chave
+
+Necessário se você vai distribuir o APK para outras pessoas, e obrigatório para
+atualizar um app já instalado sem desinstalar.
+
+```bash
+keytool -genkey -v -keystore minha-chave.keystore \
+  -alias meu-app -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Guarde o arquivo **fora do repositório** (`*.jks` e `*.keystore` já são ignorados pelo
+Git) e faça backup. Perder a chave significa não conseguir mais atualizar um app já
+distribuído — não existe recuperação.
+
+Depois do `prebuild`, declare a chave em `android/gradle.properties`:
+
+```properties
+MYAPP_UPLOAD_STORE_FILE=minha-chave.keystore
+MYAPP_UPLOAD_KEY_ALIAS=meu-app
+MYAPP_UPLOAD_STORE_PASSWORD=sua-senha
+MYAPP_UPLOAD_KEY_PASSWORD=sua-senha
+```
+
+e aponte a `signingConfigs.release` do `android/app/build.gradle` para essas variáveis.
+Como o `prebuild --clean` reescreve esses arquivos, o caminho durável é mover isso para
+um config plugin ou reaplicar a cada regeneração.
+
+---
+
+## 7. Regerar ícones e splash a partir da sua arte
 
 Todos os PNGs de `assets/` são derivados de `brand/logo-source.png` (1024×1024) pelo
 script `scripts/generate-assets.js`, que recorta a arte de dentro do círculo verde e
@@ -184,72 +227,23 @@ pnpm assets ./saida           # ou escreve numa pasta de teste
 Trocando a arte, ajuste no topo do script a geometria do círculo (`CX`, `CY`, `R`) e as
 cores `GREEN`/`CREAM`, que são usadas para separar o desenho do fundo.
 
-Se preferir ignorar o script, basta substituir manualmente os arquivos de `assets/`
-mantendo os nomes e tamanhos: `icon.png` (1024²), `adaptive-icon.png` (1024², com
-margem de segurança), `notification-icon.png` (96², branco sobre transparente),
-`splash-icon.png` e `favicon.png`.
+Se preferir ignorar o script, substitua manualmente os arquivos de `assets/` mantendo os
+nomes e tamanhos: `icon.png` (1024²), `adaptive-icon.png` (1024², com margem de
+segurança), `notification-icon.png` (96², branco sobre transparente), `splash-icon.png`
+e `favicon.png`.
 
 ---
 
-## 7. Assinatura e publicação
-
-**Com EAS (recomendado):** na primeira build de produção, o EAS pergunta se pode gerar
-a keystore. Aceite — e **faça backup imediatamente**:
-
-```bash
-eas credentials     # baixe e guarde a keystore em lugar seguro
-```
-
-Perder essa chave significa nunca mais poder atualizar o app publicado. Não existe
-recuperação.
-
-**Keystore própria, para build local:**
-
-```bash
-keytool -genkey -v -keystore minha-chave.keystore \
-  -alias meu-app -keyalg RSA -keysize 2048 -validity 10000
-```
-
-Guarde-a fora do repositório (`*.jks` e `*.keystore` já são ignorados pelo Git) e
-referencie-a em `android/gradle.properties` após o prebuild.
-
-**Enviar para a Play Store:**
-
-```bash
-eas build  --platform android --profile production
-eas submit --platform android --profile production
-```
-
-O perfil de submit espera uma chave de service account em `play-store-key.json` na raiz
-(ignorada pelo Git). O passo a passo completo — ficha da loja, formulário de Data
-Safety, classificação de conteúdo e a regra dos 12 testers por 14 dias — está em
-[PLAY_STORE.md](PLAY_STORE.md).
-
-> ⚖️ Ao publicar um fork, use nome e ícone próprios. A licença MIT cobre o código, não a
-> marca "Rega-me" nem a arte de `brand/`.
-
----
-
-## 8. Rodar o site de apresentação
-
-O site é HTML estático em `docs/`, sem build step, servido pelo runtime de assets da
-Cloudflare (configuração em `wrangler.jsonc`).
-
-```bash
-pnpm site:dev        # http://localhost:8787
-pnpm deploy          # publica (precisa de conta Cloudflare + wrangler login)
-```
-
----
-
-## 9. Problemas comuns
+## 8. Problemas comuns
 
 | Sintoma | Causa e solução |
 | --- | --- |
-| `packages field missing or empty` no build da Cloudflare | O pnpm recriou `pnpm-workspace.yaml`. Apague-o; os build scripts permitidos ficam em `package.json` → `pnpm.onlyBuiltDependencies`. |
 | Nenhuma notificação chega no APK de release | São as regras ProGuard do `expo-notifications` em `app.json`. Não as remova — sem elas o R8 quebra a serialização dos lembretes. |
+| `SDK location not found` | Falta `ANDROID_HOME`, ou crie `android/local.properties` com `sdk.dir=/caminho/para/Android/Sdk`. |
+| Gradle falha com erro de versão de Java | Use JDK 17. Versões mais novas ainda quebram com o React Native 0.81. |
+| `INSTALL_FAILED_UPDATE_INCOMPATIBLE` | Já existe um app com o mesmo `package` assinado com outra chave. Desinstale o antigo. |
 | Metro com erro estranho depois de mexer em dependências | `npx expo start --clear` e, se persistir, apague `node_modules` e reinstale. |
 | `expo prebuild` sobrescreveu meu código nativo | Esperado. Configuração nativa vai em `app.json` ou num config plugin. |
-| Erros de TypeScript em `Orakul` e `Profile` | Pré-existentes, não bloqueiam a execução. PRs corrigindo são bem-vindos. |
-| Build iOS falha em máquina Windows/Linux | iOS só compila em macOS (ou no EAS, que roda em Mac na nuvem). |
+| Build trava ou estoura memória | `cd android && ./gradlew clean`, e aumente `org.gradle.jvmargs=-Xmx4g` em `android/gradle.properties`. |
+| Erros de TypeScript em `Orakul` e `Profile` | Pré-existentes, não bloqueiam a execução nem o build. PRs corrigindo são bem-vindos. |
 | Clima não aparece | Permissão de localização negada ou sem internet. A API (Open-Meteo) é aberta e não pede chave. |

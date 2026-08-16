@@ -15,7 +15,7 @@ Sem conta, sem anúncios, sem servidor: tudo fica guardado no seu próprio celul
 [![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-5D8C7B)](LICENSE)
 [![Offline first](https://img.shields.io/badge/offline-first-536343)](#-privacidade-por-construção)
 
-[A ideia](#-a-ideia) · [Recursos](#-o-que-o-app-faz) · [Rodar localmente](#-rodando-em-5-minutos) · [Build própria](BUILD.md) · [Contribuir](CONTRIBUTING.md)
+[A ideia](#-a-ideia) · [Recursos](#-o-que-o-app-faz) · [Rodar localmente](#-rodando-em-5-minutos) · [Gerar o APK](BUILD.md) · [Contribuir](CONTRIBUTING.md)
 
 </div>
 
@@ -75,7 +75,6 @@ App.js ──> AppNavigator ──> telas (Dashboard, AddPlant, PlantDetails, Ro
 | Estilo | `twrnc` (Tailwind no React Native) + paleta própria em `tailwind.config.js` |
 | Dados | `expo-sqlite` — 4 tabelas: `plants`, `tasks`, `history`, `plant_photos` |
 | Ícones | `lucide-react-native`, importados um a um para não inflar o bundle |
-| Site | HTML estático em `docs/`, servido pela Cloudflare (`wrangler.jsonc`) |
 
 ### Estrutura de pastas
 
@@ -90,13 +89,9 @@ src/
   services/      NotificationService, WeatherService
   utils/         tw.ts, imageStorage.ts, shape.ts
 assets/          ícones e splash gerados a partir de brand/
-brand/           arte-fonte 1024×1024 e material de loja
-docs/            site estático publicado (apresentação + política de privacidade)
+brand/           arte-fonte 1024×1024
 scripts/         generate-assets.js — regera os ícones a partir da arte-fonte
 ```
-
-> A pasta `docs/` **não** é documentação: é o site que vai ao ar na Cloudflare.
-> A documentação do projeto são estes arquivos markdown na raiz.
 
 ## 🚀 Rodando em 5 minutos
 
@@ -115,23 +110,37 @@ gere um build de desenvolvimento (veja o [guia de build](BUILD.md)).
 ```bash
 pnpm android        # abre no emulador/aparelho Android
 pnpm ios            # abre no simulador iOS (macOS)
-pnpm site:dev       # sobe o site de docs/ localmente
 npx tsc --noEmit    # checagem de tipos
 ```
 
-## 🔨 Quero a minha própria build
+## 📲 Baixar o APK pronto
 
-O projeto foi pensado para ser forkado. O **[BUILD.md](BUILD.md)** ensina o caminho
-completo: o que trocar no fork (nome, ícone, package), como gerar APK na nuvem com EAS,
-como compilar 100% local sem conta na Expo, como regerar os assets a partir da sua arte
-e como assinar para publicar numa loja.
+O APK de cada versão é compilado automaticamente e publicado em
+**[Releases](https://github.com/LucasLuchetta/rega-me/releases)**. Baixe o `.apk` no
+celular, abra pelo gerenciador de arquivos e autorize a instalação de fontes
+desconhecidas quando o Android pedir.
 
-Caminho mais curto, um APK instalável em ~15 minutos:
+Quem forkar o projeto ganha o mesmo: o workflow
+[`build-apk.yml`](.github/workflows/build-apk.yml) compila e publica a release sozinho a
+cada tag `v*`, sem precisar de nada instalado na sua máquina.
 
 ```bash
-npm install -g eas-cli
-eas login
-eas build --platform android --profile preview
+git tag v1.0.0 && git push origin v1.0.0
+```
+
+## 🔨 Gerando o seu APK
+
+O projeto foi pensado para ser forkado e compilado. O **[BUILD.md](BUILD.md)** ensina o
+caminho completo até um APK instalável: o que trocar no fork (nome, ícone, package),
+como compilar na sua própria máquina com o Gradle e como regerar os assets a partir da
+sua arte.
+
+Caminho curto, compilando localmente:
+
+```bash
+npx expo prebuild --platform android --clean
+cd android && ./gradlew assembleRelease
+# APK em android/app/build/outputs/apk/release/app-release.apk
 ```
 
 ## 🔒 Privacidade por construção
@@ -143,14 +152,7 @@ eas build --platform android --profile preview
 - Permissão de localização em segundo plano, escrita externa e reconhecimento de
   atividade são **bloqueadas** explicitamente em `app.json`.
 
-Texto completo: [`docs/privacy-policy.html`](docs/privacy-policy.html).
-
-## 📦 Site e publicação
-
-- O site (apresentação + política de privacidade) mora em `docs/` e sobe na Cloudflare
-  a cada push no `main`. Configuração em `wrangler.jsonc`.
-- O passo a passo de publicação na Google Play — ficha da loja, formulário de Data
-  Safety, assets e sequência de envio — está em [PLAY_STORE.md](PLAY_STORE.md).
+Não há servidor para vazar dados porque não há servidor.
 
 ## 🤝 Contribuindo
 
@@ -160,10 +162,11 @@ de abrir um PR.
 
 ## 📄 Licença
 
-[MIT](LICENSE) © Lucas Luchetta.
+[MIT](LICENSE) © 2026 Lucas Luchetta. Open source de verdade: use, modifique, forke e
+redistribua à vontade, inclusive comercialmente — basta manter o aviso de copyright.
 
-O código é livre. A marca "Rega-me", o logotipo e a arte em `brand/` não estão incluídos
-na licença — se for publicar seu fork numa loja, use um nome e um ícone próprios.
+A marca "Rega-me", o logotipo e a arte em `brand/` não estão incluídos na licença — se
+for publicar seu fork, use um nome e um ícone próprios.
 
 <div align="center">
 
