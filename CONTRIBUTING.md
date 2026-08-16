@@ -69,6 +69,4 @@ opcional, explícita e documentada.
 
 ## Licença
 
-Ao contribuir, você concorda em licenciar sua contribuição sob a
-[PolyForm Noncommercial 1.0.0](LICENSE) — livre para uso não comercial, uso comercial
-sob acordo com o autor.
+Ao contribuir, você concorda em licenciar sua contribuição sob a [MIT](LICENSE).

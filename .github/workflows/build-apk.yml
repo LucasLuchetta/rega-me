@@ -1,0 +1,75 @@
+name: Build do APK
+
+# Dispara ao publicar uma tag (v1.0.0, v1.1.0...) e também manualmente,
+# pelo botao "Run workflow" na aba Actions.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write        # necessario para criar a release e anexar o APK
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: Gerar o projeto Android
+        run: npx expo prebuild --platform android --clean
+
+      - name: Compilar o APK de release
+        run: ./gradlew assembleRelease --no-daemon
+        working-directory: android
+
+      - name: Renomear o APK
+        run: mv android/app/build/outputs/apk/release/app-release.apk rega-me-${{ github.ref_type == 'tag' && github.ref_name || github.sha }}.apk
+
+      # Fica disponivel para download na propria execucao, mesmo sem tag
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: rega-me-*.apk
+
+      - name: Escrever as notas da release
+        if: github.ref_type == 'tag'
+        run: |
+          {
+            echo "APK do Rega-me pronto para instalar em Android."
+            echo
+            echo "Baixe o arquivo \`.apk\` abaixo, abra no celular e autorize a instalação"
+            echo "de fontes desconhecidas quando o Android pedir."
+            echo
+            echo "> Este APK é assinado com a chave de debug do Android: serve para"
+            echo "> instalar e usar, mas não substitui uma build assinada com chave"
+            echo "> própria para distribuição ampla. Veja o [BUILD.md](BUILD.md)."
+          } > notas-release.md
+
+      - name: Publicar a release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" rega-me-*.apk \
+            --title "Rega-me $GITHUB_REF_NAME" \
+            --notes-file notas-release.md

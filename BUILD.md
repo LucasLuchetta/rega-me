@@ -106,6 +106,26 @@ ou remova espécies à vontade — é só JSON, não há etapa de build.
 
 ## 4. Compilar o APK
 
+### Sem instalar nada: deixe o GitHub compilar
+
+Se você não quer JDK e Android SDK na sua máquina, o repositório já traz o workflow
+[`.github/workflows/build-apk.yml`](.github/workflows/build-apk.yml). Ele roda numa
+máquina do GitHub, que já vem com tudo instalado, e existe em qualquer fork.
+
+- **Só quero o APK agora:** aba **Actions** → *Build do APK* → **Run workflow**. Ao
+  final, o `.apk` fica anexado à execução, em *Artifacts*.
+- **Quero publicar uma versão:** empurre uma tag e o workflow cria a release com o APK
+  anexado, sozinho.
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+O resto desta seção é o caminho local, para quem prefere compilar na própria máquina.
+
+### Na sua máquina
+
 Dois passos: gerar o projeto Android e rodar o Gradle.
 
 ```bash

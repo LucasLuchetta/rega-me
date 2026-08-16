@@ -2,7 +2,7 @@
 
 <img src="brand/store/play-icon-512.png" alt="Rega-me" width="120">
 
-# Rega-me
+# Rega-me — app de cuidado de plantas
 
 **O caderninho de cuidados do seu jardim.**
 
@@ -12,7 +12,7 @@ Sem conta, sem anúncios, sem servidor: tudo fica guardado no seu próprio celul
 [![Expo SDK 54](https://img.shields.io/badge/Expo-SDK%2054-000?logo=expo&logoColor=white)](https://expo.dev)
 [![React Native 0.81](https://img.shields.io/badge/React%20Native-0.81-61DAFB?logo=react&logoColor=white)](https://reactnative.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Licença PolyForm Noncommercial](https://img.shields.io/badge/licen%C3%A7a-PolyForm%20Noncommercial-5D8C7B)](LICENSE)
+[![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-5D8C7B)](LICENSE)
 [![Offline first](https://img.shields.io/badge/offline-first-536343)](#-privacidade-por-construção)
 
 [A ideia](#-a-ideia) · [Recursos](#-o-que-o-app-faz) · [Rodar localmente](#-rodando-em-5-minutos) · [Gerar o APK](BUILD.md) · [Contribuir](CONTRIBUTING.md)
@@ -113,6 +113,21 @@ pnpm ios            # abre no simulador iOS (macOS)
 npx tsc --noEmit    # checagem de tipos
 ```
 
+## 📲 Baixar o APK pronto
+
+O APK de cada versão é compilado automaticamente e publicado em
+**[Releases](https://github.com/LucasLuchetta/rega-me/releases)**. Baixe o `.apk` no
+celular, abra pelo gerenciador de arquivos e autorize a instalação de fontes
+desconhecidas quando o Android pedir.
+
+Quem forkar o projeto ganha o mesmo: o workflow
+[`build-apk.yml`](.github/workflows/build-apk.yml) compila e publica a release sozinho a
+cada tag `v*`, sem precisar de nada instalado na sua máquina.
+
+```bash
+git tag v1.0.0 && git push origin v1.0.0
+```
+
 ## 🔨 Gerando o seu APK
 
 O projeto foi pensado para ser forkado e compilado. O **[BUILD.md](BUILD.md)** ensina o
@@ -147,23 +162,8 @@ de abrir um PR.
 
 ## 📄 Licença
 
-[PolyForm Noncommercial 1.0.0](LICENSE) © 2026 Lucas Luchetta.
-
-Em português claro:
-
-- ✅ **Pode** usar, estudar, modificar, forkar e redistribuir **para qualquer finalidade
-  não comercial** — uso pessoal, hobby, aprendizado, pesquisa, trabalho de faculdade.
-- ✅ **Pode** ser usado por organizações sem fins lucrativos, escolas, instituições de
-  pesquisa e órgãos públicos.
-- ❌ **Não pode** usar comercialmente: vender o app ou um derivado, publicá-lo numa loja
-  com anúncios ou compras, ou embutir o código num produto ou serviço pago.
-- 📌 Ao redistribuir, mantenha junto o texto da licença e o aviso de copyright.
-
-Quer usar comercialmente? [Fale comigo](mailto:lucasluchetta1997@gmail.com) — licença
-comercial é negociável.
-
-> Isto é *source available*, não open source no sentido da OSI: a restrição comercial faz
-> o GitHub exibir a licença como "não reconhecida". É intencional.
+[MIT](LICENSE) © 2026 Lucas Luchetta. Open source de verdade: use, modifique, forke e
+redistribua à vontade, inclusive comercialmente — basta manter o aviso de copyright.
 
 A marca "Rega-me", o logotipo e a arte em `brand/` não estão incluídos na licença — se
 for publicar seu fork, use um nome e um ícone próprios.
