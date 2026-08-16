@@ -64,10 +64,11 @@ idempotente para quem já tem dados — quebrar o banco de um usuário não é u
 - Qualquer coisa que exija conta, login ou servidor.
 - Envio de fotos ou dados de plantas para fora do aparelho.
 
-Isso não é rigidez à toa: é a promessa que o app faz na loja e na política de
-privacidade. Se uma funcionalidade precisar quebrar essa promessa, ela precisa ser
+Isso não é rigidez à toa: é a promessa central do app. Se uma funcionalidade precisar quebrar essa promessa, ela precisa ser
 opcional, explícita e documentada.
 
 ## Licença
 
-Ao contribuir, você concorda em licenciar sua contribuição sob a [MIT](LICENSE).
+Ao contribuir, você concorda em licenciar sua contribuição sob a
+[PolyForm Noncommercial 1.0.0](LICENSE) — livre para uso não comercial, uso comercial
+sob acordo com o autor.

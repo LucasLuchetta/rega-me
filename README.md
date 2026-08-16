@@ -12,10 +12,10 @@ Sem conta, sem anúncios, sem servidor: tudo fica guardado no seu próprio celul
 [![Expo SDK 54](https://img.shields.io/badge/Expo-SDK%2054-000?logo=expo&logoColor=white)](https://expo.dev)
 [![React Native 0.81](https://img.shields.io/badge/React%20Native-0.81-61DAFB?logo=react&logoColor=white)](https://reactnative.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-5D8C7B)](LICENSE)
+[![Licença PolyForm Noncommercial](https://img.shields.io/badge/licen%C3%A7a-PolyForm%20Noncommercial-5D8C7B)](LICENSE)
 [![Offline first](https://img.shields.io/badge/offline-first-536343)](#-privacidade-por-construção)
 
-[A ideia](#-a-ideia) · [Recursos](#-o-que-o-app-faz) · [Rodar localmente](#-rodando-em-5-minutos) · [Build própria](BUILD.md) · [Contribuir](CONTRIBUTING.md)
+[A ideia](#-a-ideia) · [Recursos](#-o-que-o-app-faz) · [Rodar localmente](#-rodando-em-5-minutos) · [Gerar o APK](BUILD.md) · [Contribuir](CONTRIBUTING.md)
 
 </div>
 
@@ -75,7 +75,6 @@ App.js ──> AppNavigator ──> telas (Dashboard, AddPlant, PlantDetails, Ro
 | Estilo | `twrnc` (Tailwind no React Native) + paleta própria em `tailwind.config.js` |
 | Dados | `expo-sqlite` — 4 tabelas: `plants`, `tasks`, `history`, `plant_photos` |
 | Ícones | `lucide-react-native`, importados um a um para não inflar o bundle |
-| Site | HTML estático em `docs/`, servido pela Cloudflare (`wrangler.jsonc`) |
 
 ### Estrutura de pastas
 
@@ -90,13 +89,9 @@ src/
   services/      NotificationService, WeatherService
   utils/         tw.ts, imageStorage.ts, shape.ts
 assets/          ícones e splash gerados a partir de brand/
-brand/           arte-fonte 1024×1024 e material de loja
-docs/            site estático publicado (apresentação + política de privacidade)
+brand/           arte-fonte 1024×1024
 scripts/         generate-assets.js — regera os ícones a partir da arte-fonte
 ```
-
-> A pasta `docs/` **não** é documentação: é o site que vai ao ar na Cloudflare.
-> A documentação do projeto são estes arquivos markdown na raiz.
 
 ## 🚀 Rodando em 5 minutos
 
@@ -115,23 +110,22 @@ gere um build de desenvolvimento (veja o [guia de build](BUILD.md)).
 ```bash
 pnpm android        # abre no emulador/aparelho Android
 pnpm ios            # abre no simulador iOS (macOS)
-pnpm site:dev       # sobe o site de docs/ localmente
 npx tsc --noEmit    # checagem de tipos
 ```
 
-## 🔨 Quero a minha própria build
+## 🔨 Gerando o seu APK
 
-O projeto foi pensado para ser forkado. O **[BUILD.md](BUILD.md)** ensina o caminho
-completo: o que trocar no fork (nome, ícone, package), como gerar APK na nuvem com EAS,
-como compilar 100% local sem conta na Expo, como regerar os assets a partir da sua arte
-e como assinar para publicar numa loja.
+O projeto foi pensado para ser forkado e compilado. O **[BUILD.md](BUILD.md)** ensina o
+caminho completo até um APK instalável: o que trocar no fork (nome, ícone, package),
+como compilar na sua própria máquina com o Gradle e como regerar os assets a partir da
+sua arte.
 
-Caminho mais curto, um APK instalável em ~15 minutos:
+Caminho curto, compilando localmente:
 
 ```bash
-npm install -g eas-cli
-eas login
-eas build --platform android --profile preview
+npx expo prebuild --platform android --clean
+cd android && ./gradlew assembleRelease
+# APK em android/app/build/outputs/apk/release/app-release.apk
 ```
 
 ## 🔒 Privacidade por construção
@@ -143,14 +137,7 @@ eas build --platform android --profile preview
 - Permissão de localização em segundo plano, escrita externa e reconhecimento de
   atividade são **bloqueadas** explicitamente em `app.json`.
 
-Texto completo: [`docs/privacy-policy.html`](docs/privacy-policy.html).
-
-## 📦 Site e publicação
-
-- O site (apresentação + política de privacidade) mora em `docs/` e sobe na Cloudflare
-  a cada push no `main`. Configuração em `wrangler.jsonc`.
-- O passo a passo de publicação na Google Play — ficha da loja, formulário de Data
-  Safety, assets e sequência de envio — está em [PLAY_STORE.md](PLAY_STORE.md).
+Não há servidor para vazar dados porque não há servidor.
 
 ## 🤝 Contribuindo
 
@@ -160,10 +147,26 @@ de abrir um PR.
 
 ## 📄 Licença
 
-[MIT](LICENSE) © Lucas Luchetta.
+[PolyForm Noncommercial 1.0.0](LICENSE) © 2026 Lucas Luchetta.
 
-O código é livre. A marca "Rega-me", o logotipo e a arte em `brand/` não estão incluídos
-na licença — se for publicar seu fork numa loja, use um nome e um ícone próprios.
+Em português claro:
+
+- ✅ **Pode** usar, estudar, modificar, forkar e redistribuir **para qualquer finalidade
+  não comercial** — uso pessoal, hobby, aprendizado, pesquisa, trabalho de faculdade.
+- ✅ **Pode** ser usado por organizações sem fins lucrativos, escolas, instituições de
+  pesquisa e órgãos públicos.
+- ❌ **Não pode** usar comercialmente: vender o app ou um derivado, publicá-lo numa loja
+  com anúncios ou compras, ou embutir o código num produto ou serviço pago.
+- 📌 Ao redistribuir, mantenha junto o texto da licença e o aviso de copyright.
+
+Quer usar comercialmente? [Fale comigo](mailto:lucasluchetta1997@gmail.com) — licença
+comercial é negociável.
+
+> Isto é *source available*, não open source no sentido da OSI: a restrição comercial faz
+> o GitHub exibir a licença como "não reconhecida". É intencional.
+
+A marca "Rega-me", o logotipo e a arte em `brand/` não estão incluídos na licença — se
+for publicar seu fork, use um nome e um ícone próprios.
 
 <div align="center">
 
