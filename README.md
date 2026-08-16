@@ -2,7 +2,7 @@
 
 <img src="brand/store/play-icon-512.png" alt="Rega-me" width="120">
 
-# Rega-me — app de cuidado de plantas
+# Rega-me
 
 **O caderninho de cuidados do seu jardim.**
 
