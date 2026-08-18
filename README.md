@@ -15,7 +15,9 @@ Sem conta, sem anúncios, sem servidor: tudo fica guardado no seu próprio celul
 [![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-5D8C7B)](LICENSE)
 [![Offline first](https://img.shields.io/badge/offline-first-536343)](#-privacidade-por-construção)
 
-[A ideia](#-a-ideia) · [Recursos](#-o-que-o-app-faz) · [Rodar localmente](#-rodando-em-5-minutos) · [Gerar o APK](BUILD.md) · [Contribuir](CONTRIBUTING.md)
+### [📲 Baixe aqui o app](https://github.com/LucasLuchetta/rega-me/releases/latest)
+
+[A ideia](#-a-ideia) · [Recursos](#-o-que-o-app-faz) · [Contribuir](CONTRIBUTING.md)
 
 </div>
 
@@ -93,55 +95,15 @@ brand/           arte-fonte 1024×1024
 scripts/         generate-assets.js — regera os ícones a partir da arte-fonte
 ```
 
-## 🚀 Rodando em 5 minutos
-
-Você precisa de **Node 20+**, **pnpm** (ou npm) e o app **Expo Go** no celular.
-
-```bash
-git clone https://github.com/LucasLuchetta/rega-me.git
-cd rega-me
-pnpm install
-pnpm start          # leia o QR code com o Expo Go
-```
-
-Notificações e câmera funcionam parcialmente no Expo Go; para o comportamento real,
-gere um build de desenvolvimento (veja o [guia de build](BUILD.md)).
-
-```bash
-pnpm android        # abre no emulador/aparelho Android
-pnpm ios            # abre no simulador iOS (macOS)
-npx tsc --noEmit    # checagem de tipos
-```
-
 ## 📲 Baixar o APK pronto
 
 O APK de cada versão é compilado automaticamente e publicado em
-**[Releases](https://github.com/LucasLuchetta/rega-me/releases)**. Baixe o `.apk` no
+**[Releases](https://github.com/LucasLuchetta/rega-me/releases/latest)**. Baixe o `.apk` no
 celular, abra pelo gerenciador de arquivos e autorize a instalação de fontes
 desconhecidas quando o Android pedir.
 
-Quem forkar o projeto ganha o mesmo: o workflow
-[`build-apk.yml`](.github/workflows/build-apk.yml) compila e publica a release sozinho a
-cada tag `v*`, sem precisar de nada instalado na sua máquina.
-
-```bash
-git tag v1.0.0 && git push origin v1.0.0
-```
-
-## 🔨 Gerando o seu APK
-
-O projeto foi pensado para ser forkado e compilado. O **[BUILD.md](BUILD.md)** ensina o
-caminho completo até um APK instalável: o que trocar no fork (nome, ícone, package),
-como compilar na sua própria máquina com o Gradle e como regerar os assets a partir da
-sua arte.
-
-Caminho curto, compilando localmente:
-
-```bash
-npx expo prebuild --platform android --clean
-cd android && ./gradlew assembleRelease
-# APK em android/app/build/outputs/apk/release/app-release.apk
-```
+Quer rodar o projeto localmente ou gerar seu próprio APK a partir de um fork? O guia
+completo está no **[BUILD.md](BUILD.md)**.
 
 ## 🔒 Privacidade por construção
 
