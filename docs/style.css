@@ -286,6 +286,11 @@ body.home { overflow-x: hidden; }
   gap: .9rem;
   margin-top: 1.75rem;
 }
+.hero-note {
+  margin-top: .75rem;
+  font-size: .85rem;
+  color: var(--ink-soft);
+}
 .btn {
   display: inline-flex;
   align-items: center;
